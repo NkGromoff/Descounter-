@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Header from "./component/Header/Header";
+import Footer from "./component/Footer/Footer";
+import TopGames from "./component/Main/TopGames/TopGames";
+import Agree from "./component/Main/Agree/Agree";
+import About from "./component/Main/About/About";
+import GamePage from "./component/Main/GamePage/GamePage";
+import AllGames from "./component/Main/AllGames/AllGames";
+import { BrowserRouter, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <>
+        <Header />
+        <Route exact path="/" render={() => <TopGames />} />
+        <Route path="/GamePage" render={() => <GamePage />} />
+        <Route path="/AllGames" render={() => <AllGames />} />
+        <Route path="/Agree" render={() => <Agree />} />
+        <Route path="/About" render={() => <About />} />
+        <Footer />
+      </>
+    </BrowserRouter>
   );
 }
 
