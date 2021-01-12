@@ -1,6 +1,6 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
+import image from "../../../image/banner-img.jpg";
 
 function Banners(props) {
   return (
@@ -15,7 +15,7 @@ function Banners(props) {
               <SwiperSlide>
                 <a href="#" className="banners__innerItem">
                   <img
-                    src="image/banner-img.jpg"
+                    src={image}
                     alt="Изображение слайдера"
                     className="banners__img"
                   />
@@ -28,7 +28,7 @@ function Banners(props) {
               <SwiperSlide>
                 <a href="#" className="banners__innerItem">
                   <img
-                    src="image/banner-img.jpg"
+                    src={image}
                     alt="Изображение слайдера"
                     className="banners__img"
                   />
@@ -41,7 +41,7 @@ function Banners(props) {
               <SwiperSlide>
                 <a href="#" className="banners__innerItem">
                   <img
-                    src="image/banner-img.jpg"
+                    src={image}
                     alt="Изображение слайдера"
                     className="banners__img"
                   />
@@ -54,7 +54,7 @@ function Banners(props) {
               <SwiperSlide>
                 <a href="#" className="banners__innerItem">
                   <img
-                    src="image/banner-img.jpg"
+                    src={image}
                     alt="Изображение слайдера"
                     className="banners__img"
                   />
@@ -67,7 +67,7 @@ function Banners(props) {
               <SwiperSlide>
                 <a href="#" className="banners__innerItem">
                   <img
-                    src="image/banner-img.jpg"
+                    src={image}
                     alt="Изображение слайдера"
                     className="banners__img"
                   />
@@ -80,7 +80,7 @@ function Banners(props) {
               <SwiperSlide>
                 <a href="#" className="banners__innerItem">
                   <img
-                    src="image/banner-img.jpg"
+                    src={image}
                     alt="Изображение слайдера"
                     className="banners__img"
                   />

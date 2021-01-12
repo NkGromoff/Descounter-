@@ -1,4 +1,5 @@
 import React from "react";
+import icon from "../../image/search-icon.svg";
 
 const Header = (props) => {
   return (
@@ -40,7 +41,7 @@ const Header = (props) => {
                 placeholder="Поиск"
               />
               <button className="header__search-button">
-                <img src="image/search-icon.svg" alt="Кнопка" />
+                <img src={icon} alt="Кнопка" />
               </button>
             </div>
             <div className="header__profile-wrapper">

@@ -9,7 +9,9 @@ function Genre(props) {
         <section className="topGenre">
           <h2 className="topGenre__tittle genreTittle">{props.name}</h2>
           <ul className="topGenre__listWrapper">
-            <GameCart />
+            <li className="topGenre__listItem">
+              <GameCart />
+            </li>
           </ul>
           <div className="topGenre__linkWrapper">
             <NavLink to="/AllGames" className="topGenre__link linkAllGames">
