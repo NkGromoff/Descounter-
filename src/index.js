@@ -9,12 +9,15 @@ import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { QueryParamProvider } from "use-query-params";
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <QueryParamProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </QueryParamProvider>
   </BrowserRouter>,
   document.getElementById("root")
 );

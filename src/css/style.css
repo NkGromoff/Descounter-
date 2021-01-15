@@ -2,7 +2,7 @@
 *::after,
 *::before {
   box-sizing: border-box;
-  transition: 0.3s;
+  transition: 0.2s;
   scroll-behavior: smooth;
 }
 
@@ -15,7 +15,7 @@ body {
   color: #4c4c96;
   background-color: #05051d;
   background-image: url(../image/noize.png);
-  background-size: cover;
+  background-size: 100%;
   background-repeat: repeat-y;
 }
 
@@ -34,6 +34,26 @@ ul {
   padding: 0;
 }
 
+input::-webkit-input-placeholder {
+  color: #2c2c6c;
+}
+
+input::-moz-placeholder {
+  color: #2c2c6c;
+}
+
+input:-ms-input-placeholder {
+  color: #2c2c6c;
+}
+
+input::-ms-input-placeholder {
+  color: #2c2c6c;
+}
+
+input::placeholder {
+  color: #2c2c6c;
+}
+
 h1,
 h2,
 h3,
@@ -50,6 +70,15 @@ p {
 .container {
   max-width: 1620px;
   margin: auto;
+}
+
+.notFound {
+  height: 60vh;
+}
+.notFound__text {
+  font-size: 40px;
+  margin-top: 80px;
+  line-height: 30px;
 }
 
 .logo {
@@ -72,46 +101,6 @@ p {
   justify-content: space-between;
   margin-top: 50px;
   align-items: center;
-}
-
-.header__search {
-  width: 100%;
-  border-radius: 20px;
-  background: #05051d;
-  border: 0;
-  outline: none;
-  height: 33px;
-  padding: 20px;
-  color: #4c4c96;
-  box-shadow: 0px 0px 25px -2px rgba(76, 76, 150, 0.4);
-}
-.header__search:hover {
-  box-shadow: 0px 0px 25px -2px rgba(76, 76, 150, 0.5);
-}
-.header__search:focus {
-  box-shadow: 0px 0px 25px -2px rgba(76, 76, 150, 0.5);
-}
-
-.header__search-Wrapper {
-  position: relative;
-  max-width: 748px;
-  text-align: left;
-  width: 100%;
-}
-
-.header__search-button {
-  position: absolute;
-  background: #05051d;
-  border: none;
-  outline: none;
-  height: 100%;
-  right: 0px;
-  width: 60px;
-  cursor: pointer;
-  border-radius: 20px;
-}
-.header__search-button img {
-  margin-top: calc(50% - 20px);
 }
 
 .header__profile-wrapper {
@@ -226,6 +215,101 @@ p {
 .swiper-slide-active .banners__textWrapper {
   transform: translateY(0);
   box-shadow: 0px 0px 10px #4c4c96;
+}
+
+.loginOrReg__wrapper {
+  margin: auto;
+  margin-top: 15vh;
+  max-width: 380px;
+}
+
+.loginOrReg__title {
+  font-size: 30px;
+  line-height: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.loginOrReg__item {
+  margin-bottom: 30px;
+}
+.loginOrReg__item:last-child {
+  margin-bottom: 0;
+}
+
+.loginOrReg__upperText {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.loginOrReg__inp {
+  background-color: #05051d;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.3);
+  color: #4c4c96;
+  padding: 7px 15px;
+  width: 100%;
+}
+
+.loginOrReg__inp--error {
+  box-shadow: 0px 0px 25px rgba(147, 15, 31, 0.3);
+}
+.loginOrReg__inp:hover,
+.loginOrReg__inp:focus {
+  box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.5);
+}
+.loginOrReg__inp--error:hover,
+.loginOrReg__inp--error:focus {
+  box-shadow: 0px 0px 25px rgba(147, 15, 31, 0.5);
+}
+
+.loginOrReg__btn {
+  outline: none;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  background-color: #05051d;
+  padding: 8px 15px;
+  color: #4c4c96;
+  border: none;
+  font-size: 24px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.3);
+  margin-bottom: 50px;
+  position: relative;
+}
+.loginOrReg__btn--disable {
+  color: #2c2c6c;
+}
+
+.loginOrReg__btn:hover,
+.loginOrReg__btn:focus {
+  box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.5);
+}
+
+.loginOrReg__quickWrapper {
+  max-width: 280px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+}
+
+.loginOrReg__quickLink {
+  width: 48px;
+}
+
+.loginOrReg__quickImg {
+  width: 100%;
+}
+.loginOrReg__error {
+  width: 100%;
+  font-size: 18px;
+  color: #930f1f;
+  margin-top: 10px;
 }
 
 .linkAllGames {
@@ -504,6 +588,7 @@ p {
 }
 .game__optionsWrapper {
   margin-top: 20px;
+  flex-basis: 100%;
 }
 .game__slice {
   max-width: 160px;
@@ -536,6 +621,7 @@ p {
   max-width: 390px;
   width: 100%;
   max-height: 80px;
+  height: 80px;
   overflow: hidden;
   border-radius: 5px;
   display: flex;
@@ -544,6 +630,7 @@ p {
   background-color: #05051d;
   box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.3);
 }
+
 .game__shopCart:hover {
   box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.8);
 }
@@ -562,7 +649,7 @@ p {
   display: block;
 }
 .game__priceWrapper {
-  margin-left: 30px;
+  margin-left: 50px;
   text-align: center;
 }
 .game__pricePrev {
@@ -638,26 +725,30 @@ p {
   font-weight: 600;
 }
 .allGames__genre {
-  padding: 15px 20px;
-  border-radius: 5px;
   cursor: pointer;
+  max-width: 297px;
   background-color: #05051d;
   box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.3);
   position: relative;
+
   z-index: 2;
 }
 .allGames__genreHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 12px 20px;
   z-index: 2;
 }
 .allGames__genreItem {
-  margin-top: 30px;
+  margin-top: 23px;
   display: flex;
   justify-content: space-between;
   transition: 0.3s ease-in-out 0.01s;
   opacity: 0;
+  visibility: hidden;
 }
 .allGames__genreItem:first-child {
   margin-top: 20px;
@@ -665,7 +756,7 @@ p {
 .allGames__genreBody {
   position: absolute;
   background-color: #05051d;
-  top: 37px;
+  top: 43px;
   left: 0;
   width: 100%;
   height: 0;
@@ -679,9 +770,10 @@ p {
 }
 .allGames__genreBody--active {
   transform: translateY(0%);
-  height: 240px;
+  height: 500px;
 }
 .allGames__genreBody--active > .allGames__genreItem {
+  visibility: visible;
   opacity: 1;
 }
 .allGames__genre:hover {
@@ -690,6 +782,12 @@ p {
 
 .allGames__genreSpan {
   font-size: 18px;
+  width: 100%;
+  padding: 3px 0;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .allGames__triggle {
@@ -720,7 +818,11 @@ p {
 .allGames__descSpan {
   margin-left: 10px;
   font-size: 24px;
+  cursor: pointer;
   color: #2c2c6c;
+}
+.allGames__descSpan--active {
+  color: #4c4c96;
 }
 
 .allGames__input {
@@ -756,23 +858,51 @@ p {
   color: #2c2c6c;
   position: relative;
 }
-/* .allGames__buttonSpan::after {
-  content: "";
-  position: absolute;
-  top: 12px;
-  right: -12px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 3.5px 0 3.5px;
-  border-color: #2c2c6c transparent transparent transparent;
-} */
 .allGames__buttonSpan--active {
   color: #4c4c96;
 }
+.allGames__search {
+  width: 100%;
+  border-radius: 5px;
+  font-size: 18px;
+  background: #05051d;
+  border: 0;
+  outline: none;
+  height: 44px;
+  padding: 15px 20px;
+  color: #4c4c96;
+  box-shadow: 0px 0px 25px -2px rgba(76, 76, 150, 0.3);
+}
+.allGames__search:hover {
+  box-shadow: 0px 0px 25px -2px rgba(76, 76, 150, 0.5);
+}
+.allGames__search:focus {
+  box-shadow: 0px 0px 25px -2px rgba(76, 76, 150, 0.5);
+}
 
+.allGames__search-Wrapper {
+  position: relative;
+  max-width: 900px;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.allGames__search-button {
+  position: absolute;
+  background: #05051d;
+  border: none;
+  outline: none;
+  height: 100%;
+  right: 0px;
+  width: 60px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.allGames__search-button img {
+  margin-top: calc(50% - 20px);
+}
 .allGames__wrapperRight {
-  padding: 10px 0;
   margin-left: 50px;
   flex-grow: 6;
 }
@@ -926,9 +1056,16 @@ p {
   .allGames__wrapperRight {
     margin-left: 0;
   }
+  .allGames__search-Wrapper {
+    margin-top: 40px;
+  }
   .allGames__itemLink {
     margin: auto;
     margin-bottom: 25px;
+  }
+  .allGames__genre {
+    max-width: 100%;
+    max-width: inherit;
   }
 }
 
@@ -1003,6 +1140,9 @@ p {
   .gameItem__itemTittle {
     line-height: 30px;
     margin-bottom: 20px;
+    overflow: inherit;
+    text-overflow: inherit;
+    white-space: inherit;
   }
   .gameItem__textWrapper {
     padding: 20px;
@@ -1010,6 +1150,9 @@ p {
     flex-direction: column;
     justify-content: inherit;
     text-align: center;
+  }
+  .gameItem__date {
+    display: none;
   }
   .gameItem__genre {
     line-height: 30px;
@@ -1103,6 +1246,16 @@ p {
   }
   .logo {
     max-width: 500px;
+  }
+  .notFound {
+    height: 30vh;
+  }
+  .notFound__text {
+    font-size: 30px;
+    margin: auto;
+    text-align: center;
+    margin-top: 80px;
+    line-height: 30px;
   }
   .header__wrapper {
     text-align: center;

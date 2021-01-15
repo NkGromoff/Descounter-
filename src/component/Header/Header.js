@@ -1,5 +1,5 @@
 import React from "react";
-import icon from "../../image/search-icon.svg";
+import { NavLink } from "react-router-dom";
 
 const Header = (props) => {
   return (
@@ -7,7 +7,7 @@ const Header = (props) => {
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
-            <a href="/" className="logo header__logo">
+            <NavLink to="/" className="logo header__logo">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 279.76 146.67"
@@ -33,17 +33,8 @@ const Header = (props) => {
                   </g>
                 </g>
               </svg>
-            </a>
-            <div className="header__search-Wrapper">
-              <input
-                type="text"
-                className="header__search"
-                placeholder="Поиск"
-              />
-              <button className="header__search-button">
-                <img src={icon} alt="Кнопка" />
-              </button>
-            </div>
+            </NavLink>
+
             <div className="header__profile-wrapper">
               <div className="header__profile-imgInner"></div>
               <img
@@ -53,12 +44,12 @@ const Header = (props) => {
               />
             </div>
             <div className="header__textWrapper">
-              <a href="#" className="header__login">
+              <NavLink to="/Login" className="header__login">
                 Вход
-              </a>
-              <a href="#" className="header__reg">
+              </NavLink>
+              <NavLink to="/Registration" className="header__reg">
                 Регистрация
-              </a>
+              </NavLink>
             </div>
           </div>
         </div>

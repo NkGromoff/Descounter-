@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
+import notImg from "../../../image/notImg.jpg";
 
 function GameCart(props) {
   let date;
@@ -22,11 +23,20 @@ function GameCart(props) {
     <>
       <NavLink to={"/GamePage/" + props.id} className="gameItem__link">
         <div className="gameItem__imgWrapper">
-          <img
-            src={props.img}
-            alt="Изображение игры"
-            className="gameItem__img"
-          />
+          {props.img != "None" ? (
+            <img
+              src={props.img}
+              alt="Изображение игры"
+              className="gameItem__img"
+            />
+          ) : (
+            <img
+              src={notImg}
+              alt="Изображение игры"
+              className="gameItem__img"
+            />
+          )}
+
           {props.amountDisc != 0 ? (
             <span className="gameItem__descNumber">{props.amountDisc}%</span>
           ) : (
