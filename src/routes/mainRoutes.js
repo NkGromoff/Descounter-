@@ -5,6 +5,7 @@ import About from "../component/Main/About/About";
 import Agree from "../component/Main/Agree/Agree";
 import AllGamesContainer from "../component/Main/AllGames/AllGamesContainer";
 import GamePageContainer from "../component/Main/GamePage/GamePageContainer";
+import Profile from "../component/Main/profile/Profile";
 import TopGames from "../component/Main/TopGames/TopGames";
 import NotFound from "../component/NotFound/NotFound";
 
@@ -18,6 +19,7 @@ function mainRoutes() {
         <Route path="/AllGames" render={() => <AllGamesContainer />} />
         <Route path="/Agree" render={() => <Agree />} />
         <Route path="/About" render={() => <About />} />
+        <Route path="/profile" render={() => <Profile />} />
         <Route path="*" render={() => <NotFound />} />
       </Switch>
       <Footer />

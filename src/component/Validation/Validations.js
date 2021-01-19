@@ -1,19 +1,7 @@
 import React from "react";
 
-export const allInputs = (values) => {
+export const passwordVaild = (values) => {
   const errors = {};
-  if (!values.email) {
-    errors.email = "Введите почту";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-    errors.email = "Вы ввели не правильную почту";
-  }
-  if (!values.login) {
-    errors.login = "Введите логин";
-  } else if (!/^[a-z0-9]+$/i.test(values.login)) {
-    errors.login = "Ник должен состоять из латиницы";
-  } else if (values.login.length < 6) {
-    errors.login = "Ник должен иметь не мнее 6 символов";
-  }
   if (!values.password) {
     errors.password = "Введите пароль";
   } else if (values.password.length < 10) {
@@ -24,5 +12,52 @@ export const allInputs = (values) => {
   } else if (values.passwordTwo !== values.password) {
     errors.passwordTwo = "Пароль не совпадает";
   }
+
   return errors;
+};
+
+export const emailValid = (value) => {
+  let error;
+  if (!value) {
+    error = "Введите почту";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+    error = "Вы ввели не правильную почту";
+  }
+  return error;
+};
+
+export const loginRegValid = (value) => {
+  let error;
+  if (!value) {
+    error = "Введите логин";
+  } else if (!/^[a-z0-9]+$/i.test(value)) {
+    error = "Ник должен состоять из латиницы";
+  } else if (value.length < 4) {
+    error = "Ник должен иметь не мнее 4 символов";
+  }
+  return error;
+};
+
+export const termValid = (value) => {
+  let error;
+  if (!value) {
+    error = "Введите поиск";
+  }
+  return error;
+};
+
+export const onePasswordVaild = (value) => {
+  let error;
+  if (!value) {
+    error = "Введите пароль";
+    return error;
+  }
+};
+
+export const loginLogValid = (value) => {
+  let error;
+  if (!value) {
+    error = "Введите логин";
+    return error;
+  }
 };

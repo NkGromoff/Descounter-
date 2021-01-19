@@ -3,19 +3,38 @@ import google from "../../../image/google.png";
 import faceBook from "../../../image/faceBook.png";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
-import { allInputs } from "../../Validation/Validations";
+import {
+  emailValid,
+  loginRegValid,
+  loginValid,
+  passwordVaild,
+} from "../../Validation/Validations";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../../redux/UserReduser";
+import { Redirect } from "react-router-dom";
 
 function Registration() {
+  const dispatch = useDispatch();
+
+  const isAuth = useSelector((state) => state.UserReduser.isAuth);
+
+  if (isAuth) return <Redirect to="/" />;
   return (
     <>
       <Formik
         initialValues={{ login: "", email: "", password: "", passwordTwo: "" }}
-        validate={allInputs}
+        validate={passwordVaild}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+          console.log("object");
+          dispatch(
+            setUser(
+              values.login,
+              values.email,
+              values.password,
+              values.passwordTwo
+            )
+          );
+          setSubmitting(false);
         }}
       >
         {({ isSubmitting, errors, touched }) => (
@@ -29,6 +48,7 @@ function Registration() {
                     <Field
                       type="text"
                       name="login"
+                      validate={loginRegValid}
                       className={
                         errors.login && touched.login
                           ? "loginOrReg__inp loginOrReg__inp--error"
@@ -46,6 +66,7 @@ function Registration() {
                     <Field
                       type="text"
                       name="email"
+                      validate={emailValid}
                       className={
                         errors.email && touched.email
                           ? "loginOrReg__inp loginOrReg__inp--error"

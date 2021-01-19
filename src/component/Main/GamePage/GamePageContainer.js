@@ -7,6 +7,7 @@ import { ClearOneGameReduser, getGame } from "../../../redux/GamePageReduser";
 const GamePageContainer = (props) => {
   useEffect(() => {
     props.getGame(props.match.params.id);
+    window.scrollTo(0, 0);
     return () => {
       props.ClearOneGameReduser();
     };

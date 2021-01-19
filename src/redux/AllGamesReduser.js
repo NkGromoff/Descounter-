@@ -16,6 +16,7 @@ let initialState = {
     genre: null,
     isDesc: null,
     count: null,
+    term: null,
   },
 };
 
@@ -57,7 +58,8 @@ export const SetGamesFilter = (
   dateRange,
   genre,
   isDesc,
-  count
+  count,
+  term
 ) => ({
   type: Get_Games_Filter,
   filter: {
@@ -68,6 +70,7 @@ export const SetGamesFilter = (
     genre,
     isDesc,
     count,
+    term,
   },
 });
 
@@ -78,7 +81,8 @@ export const getGames = (
   dateRange,
   genre,
   isDesc,
-  games
+  games,
+  term
 ) => async (dispatch) => {
   try {
     let response = await gamesAPI.getGames(
@@ -88,7 +92,8 @@ export const getGames = (
       dateRange,
       genre,
       isDesc,
-      games
+      games,
+      term
     );
     dispatch(GetGamesReduserCreator(response.data));
     response = await gamesAPI.getCountGames(
@@ -98,7 +103,8 @@ export const getGames = (
       dateRange,
       genre,
       isDesc,
-      games
+      games,
+      term
     );
     dispatch(
       SetGamesFilter(
@@ -108,7 +114,8 @@ export const getGames = (
         dateRange,
         genre,
         isDesc,
-        ...response.data
+        ...response.data,
+        term
       )
     );
   } catch (err) {}
@@ -122,11 +129,12 @@ export const getGamesMoreList = (
   genre,
   isDesc,
   games,
-  count
+  count,
+  term
 ) => async (dispatch) => {
   try {
     dispatch(
-      SetGamesFilter(price, date, prices, dateRange, genre, isDesc, count)
+      SetGamesFilter(price, date, prices, dateRange, genre, isDesc, count, term)
     );
     let response = await gamesAPI.getGames(
       price,
@@ -135,7 +143,8 @@ export const getGamesMoreList = (
       dateRange,
       genre,
       isDesc,
-      games
+      games,
+      term
     );
 
     dispatch(GetGamesMoreReduserCreator(response.data));

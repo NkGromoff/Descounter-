@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import photoImg from "../../image/profileImg.png";
+import { setIsAuthAndUser, setLogout } from "../../redux/UserReduser";
 
 const Header = (props) => {
+  const [isDown, setIsDown] = useState(false);
+
+  const dispatch = useDispatch();
+
+  let setDropDowm = () => {
+    if (isDown) setIsDown(false);
+    else setIsDown(true);
+  };
+
+  let logOut = () => {
+    localStorage.removeItem("token");
+    dispatch(setLogout());
+  };
+
+  const isAuth = useSelector((state) => state.UserReduser.isAuth);
   return (
     <>
       <header className="header">
@@ -34,23 +52,38 @@ const Header = (props) => {
                 </g>
               </svg>
             </NavLink>
-
-            <div className="header__profile-wrapper">
-              <div className="header__profile-imgInner"></div>
-              <img
-                src="image/triggle.svg"
-                alt="Вниз"
-                className="header__triggle"
-              />
-            </div>
-            <div className="header__textWrapper">
-              <NavLink to="/Login" className="header__login">
-                Вход
-              </NavLink>
-              <NavLink to="/Registration" className="header__reg">
-                Регистрация
-              </NavLink>
-            </div>
+            {isAuth ? (
+              <button onClick={setDropDowm} className="header__profile-wrapper">
+                <div className="header__profile-imgInner">
+                  <img src={photoImg} alt="Изображение профиля" />
+                </div>
+                <div
+                  className={`header__dropDownWrapper ${
+                    isDown ? `header__dropDownWrapper--active` : ``
+                  }`}
+                >
+                  <NavLink to="/profile" className="header__dropDownItem">
+                    Профиль
+                  </NavLink>
+                  <NavLink
+                    onClick={logOut}
+                    to="/"
+                    className="header__dropDownItem"
+                  >
+                    Выход
+                  </NavLink>
+                </div>
+              </button>
+            ) : (
+              <div className="header__textWrapper">
+                <NavLink to="/Login" className="header__login">
+                  Вход
+                </NavLink>
+                <NavLink to="/Registration" className="header__reg">
+                  Регистрация
+                </NavLink>
+              </div>
+            )}
           </div>
         </div>
       </header>
