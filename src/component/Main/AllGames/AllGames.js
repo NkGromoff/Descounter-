@@ -17,16 +17,7 @@ function AllGames(props) {
     term: null,
   });
 
-  const childProps = (
-    years,
-    prices,
-    filterPrice,
-    filterNewDate,
-    isDesc,
-    genre,
-    isGamesMore,
-    term
-  ) => {
+  const childProps = (years, prices, filterPrice, filterNewDate, isDesc, genre, isGamesMore, term) => {
     setState({
       years: years,
       prices: prices,
@@ -41,19 +32,6 @@ function AllGames(props) {
 
   useEffect(() => {
     props.getGames(
-      props.filter.filterPrice,
-      props.filter.filterNewDate,
-      props.filter.prices,
-      props.filter.year,
-      props.filter.genre,
-      props.filter.isDesc,
-      null,
-      props.filter.term
-    );
-  }, []);
-
-  useEffect(() => {
-    props.getGames(
       state.filterPrice,
       state.filterNewDate,
       state.prices,
@@ -63,25 +41,12 @@ function AllGames(props) {
       null,
       state.term
     );
-  }, [
-    state.filterPrice,
-    state.filterNewDate,
-    state.genre,
-    state.isDesc,
-    state.years,
-    state.prices,
-    state.term,
-  ]);
+  }, [state.filterPrice, state.filterNewDate, state.genre, state.isDesc, state.years, state.prices, state.term]);
 
   useEffect(() => {
     let gameslength = props.games.length;
     let count = props.filter.count;
-    if (
-      state.isGamesMore == true &&
-      count &&
-      gameslength &&
-      gameslength < count.count
-    ) {
+    if (state.isGamesMore == true && count && gameslength && gameslength < count.count) {
       props.getGamesMore(
         state.filterPrice,
         state.filterNewDate,

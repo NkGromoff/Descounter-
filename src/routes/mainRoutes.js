@@ -8,6 +8,7 @@ import GamePageContainer from "../component/Main/GamePage/GamePageContainer";
 import Profile from "../component/Main/profile/Profile";
 import TopGames from "../component/Main/TopGames/TopGames";
 import NotFound from "../component/NotFound/NotFound";
+import Congratulations from "../component/shared/Congratulations";
 
 function mainRoutes() {
   return (
@@ -20,6 +21,7 @@ function mainRoutes() {
         <Route path="/Agree" render={() => <Agree />} />
         <Route path="/About" render={() => <About />} />
         <Route path="/profile" render={() => <Profile />} />
+        <Route path="/Congratulations" render={() => <Congratulations />} />
         <Route path="*" render={() => <NotFound />} />
       </Switch>
       <Footer />

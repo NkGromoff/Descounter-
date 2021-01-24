@@ -7,6 +7,7 @@ import { Field, FieldArray, Form, Formik } from "formik";
 import { allInputs } from "../Validation/Validations";
 import { useDispatch, useSelector } from "react-redux";
 import { getGameGenre } from "../../redux/AllGamesReduser";
+import { getGames } from "../../redux/UserReduser";
 const GamesDisplay = (props) => {
   const secRef = useRef(null);
 
@@ -15,6 +16,12 @@ const GamesDisplay = (props) => {
   let gameEl = null;
 
   let genreItem = null;
+
+  const user = useSelector((state) => state.UserReduser.user);
+
+  const isAuth = useSelector((state) => state.UserReduser.isAuth);
+
+  const userGames = useSelector((state) => state.UserReduser.games);
 
   const allGamesGenre = useSelector((state) => state.AllGamesReduser.genre);
 
@@ -130,8 +137,7 @@ const GamesDisplay = (props) => {
   let onScrollList = () => {
     let scrollBottom;
     if (secRef.current !== null) {
-      scrollBottom =
-        secRef.current.clientHeight <= window.pageYOffset + window.innerHeight;
+      scrollBottom = secRef.current.clientHeight <= window.pageYOffset + window.innerHeight;
     }
 
     if (scrollBottom) {
@@ -153,6 +159,10 @@ const GamesDisplay = (props) => {
     }
   };
 
+  let termChange = (value) => {
+    setTerm(value);
+  };
+
   if (props.games) {
     gameEl = props.games.map((g) => (
       <GameCart
@@ -166,18 +176,15 @@ const GamesDisplay = (props) => {
         tag={g.tag_game}
         year={g.year_release}
         platformId={g.platform_id}
+        isAuth={isAuth}
+        userGames={userGames}
+        user={user}
       />
     ));
   }
   if (allGamesGenre) {
     genreItem = allGamesGenre.map((i) => (
-      <ItemGenre
-        key={i.id}
-        id={i.id}
-        name={i.name}
-        genreFilter={genreFilter}
-        gnere={genre}
-      />
+      <ItemGenre key={i.id} id={i.id} name={i.name} genreFilter={genreFilter} gnere={genre} />
     ));
   }
   useEffect(() => {
@@ -188,31 +195,12 @@ const GamesDisplay = (props) => {
   }, []);
 
   useEffect(() => {
-    props.childProps(
-      years,
-      prices,
-      filterPrice,
-      filterNewDate,
-      isDesc,
-      genre,
-      isGamesMore,
-      term
-    );
+    props.childProps(years, prices, filterPrice, filterNewDate, isDesc, genre, isGamesMore, term);
     setIsGamesMore(false);
-  }, [
-    years,
-    prices,
-    filterPrice,
-    filterNewDate,
-    isDesc,
-    genre,
-    isGamesMore,
-    term,
-  ]);
+  }, [years, prices, filterPrice, filterNewDate, isDesc, genre, isGamesMore, term]);
 
   useEffect(() => {
-    if (secRef.current.clientHeight !== null)
-      window.addEventListener("scroll", onScrollList);
+    if (secRef.current.clientHeight !== null) window.addEventListener("scroll", onScrollList);
   }, [props.games]);
 
   return (
@@ -224,37 +212,21 @@ const GamesDisplay = (props) => {
               <div className="allGames__genre">
                 <div className="allGames__genreHeader" onClick={dropDownShow}>
                   {genre && genre.length != 0 ? (
-                    <span className="allGames__genreSpan">
-                      Жанры:{genre.join(",")}
-                    </span>
+                    <span className="allGames__genreSpan">Жанры:{genre.join(",")}</span>
                   ) : (
                     <span className="allGames__genreSpan">Жанры</span>
                   )}
                   {isDropDown ? (
-                    <svg
-                      width="11"
-                      height="7"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="allGames__triggle"
-                    >
+                    <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" className="allGames__triggle">
                       <path d="M0 5.16016H7.93L5.94825 2.58016L3.9655 0.000156403L1.98275 2.58016L0 5.16016Z" />
                     </svg>
                   ) : (
-                    <svg
-                      width="11"
-                      height="7"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="allGames__triggle"
-                    >
+                    <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" className="allGames__triggle">
                       <path d="M1.656 1h7.931L7.605 3.58 5.622 6.16 3.639 3.58 1.656 1z" />
                     </svg>
                   )}
                 </div>
-                <div
-                  className={`allGames__genreBody ${
-                    isDropDown ? "allGames__genreBody--active" : ""
-                  }`}
-                >
+                <div className={`allGames__genreBody ${isDropDown ? "allGames__genreBody--active" : ""}`}>
                   {genreItem}
                 </div>
               </div>
@@ -341,17 +313,8 @@ const GamesDisplay = (props) => {
                 {({ isSubmitting }) => (
                   <Form>
                     <div className="allGames__search-Wrapper">
-                      <Field
-                        type="text"
-                        name="term"
-                        className="allGames__search"
-                        placeholder="Поиск"
-                      />
-                      <button
-                        className="allGames__search-button"
-                        type="submit"
-                        disabled={isSubmitting}
-                      >
+                      <Field type="text" name="term" className="allGames__search" placeholder="Поиск" />
+                      <button className="allGames__search-button" type="submit" disabled={isSubmitting}>
                         <img src={icon} alt="Кнопка" />
                       </button>
                     </div>
@@ -361,15 +324,10 @@ const GamesDisplay = (props) => {
               <div className="allGames__filterWrapperTwo">
                 <span className="allGames__sort">Сортировать по:</span>
                 <div className="allGames__sortItem allGames__sortPrice">
-                  <button
-                    onClick={clickFilterPrice}
-                    className="allGames__button allGames__priceButton"
-                  >
+                  <button onClick={clickFilterPrice} className="allGames__button allGames__priceButton">
                     <span
                       className={`allGames__buttonSpan ${
-                        filterPrice == "priceDown" || filterPrice == "priceUp"
-                          ? "allGames__buttonSpan--active"
-                          : ""
+                        filterPrice == "priceDown" || filterPrice == "priceUp" ? "allGames__buttonSpan--active" : ""
                       }`}
                     >
                       Цене
@@ -380,9 +338,7 @@ const GamesDisplay = (props) => {
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
                         className={`allGames__triggle ${
-                          filterPrice == "priceDown" || filterPrice == "priceUp"
-                            ? "allGames__triggle--active"
-                            : ""
+                          filterPrice == "priceDown" || filterPrice == "priceUp" ? "allGames__triggle--active" : ""
                         }`}
                       >
                         <path d="M0 5.16016H7.93L5.94825 2.58016L3.9655 0.000156403L1.98275 2.58016L0 5.16016Z" />
@@ -393,9 +349,7 @@ const GamesDisplay = (props) => {
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
                         className={`allGames__triggle ${
-                          filterPrice == "priceDown" || filterPrice == "priceUp"
-                            ? "allGames__triggle--active"
-                            : ""
+                          filterPrice == "priceDown" || filterPrice == "priceUp" ? "allGames__triggle--active" : ""
                         }`}
                       >
                         <path d="M1.656 1h7.931L7.605 3.58 5.622 6.16 3.639 3.58 1.656 1z" />
@@ -404,15 +358,10 @@ const GamesDisplay = (props) => {
                   </button>
                 </div>
                 <div className="allGames__sortItem allGames__sortNew">
-                  <button
-                    onClick={clickFilterNewDate}
-                    className="allGames__button allGames__priceButton"
-                  >
+                  <button onClick={clickFilterNewDate} className="allGames__button allGames__priceButton">
                     <span
                       className={`allGames__buttonSpan ${
-                        filterNewDate == "dateDown" || filterNewDate == "dateUp"
-                          ? "allGames__buttonSpan--active"
-                          : ""
+                        filterNewDate == "dateDown" || filterNewDate == "dateUp" ? "allGames__buttonSpan--active" : ""
                       }`}
                     >
                       Новизне
@@ -423,10 +372,7 @@ const GamesDisplay = (props) => {
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
                         className={`allGames__triggle ${
-                          filterNewDate == "dateDown" ||
-                          filterNewDate == "dateUp"
-                            ? "allGames__triggle--active"
-                            : ""
+                          filterNewDate == "dateDown" || filterNewDate == "dateUp" ? "allGames__triggle--active" : ""
                         }`}
                       >
                         <path d="M0 5.16016H7.93L5.94825 2.58016L3.9655 0.000156403L1.98275 2.58016L0 5.16016Z" />
@@ -437,10 +383,7 @@ const GamesDisplay = (props) => {
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
                         className={`allGames__triggle ${
-                          filterNewDate == "dateDown" ||
-                          filterNewDate == "dateUp"
-                            ? "allGames__triggle--active"
-                            : ""
+                          filterNewDate == "dateDown" || filterNewDate == "dateUp" ? "allGames__triggle--active" : ""
                         }`}
                       >
                         <path d="M1.656 1h7.931L7.605 3.58 5.622 6.16 3.639 3.58 1.656 1z" />
@@ -460,22 +403,10 @@ const GamesDisplay = (props) => {
                       checked
                     />
                   ) : (
-                    <input
-                      id="desc"
-                      type="checkbox"
-                      className="allGames__genreCheck"
-                      name="two"
-                      value="Инди"
-                      onChange={descChange}
-                    />
+                    <input id="desc" type="checkbox" className="allGames__genreCheck" onChange={descChange} />
                   )}
 
-                  <label
-                    htmlFor="desc"
-                    className={`allGames__descSpan ${
-                      isDesc ? "allGames__descSpan--active" : ""
-                    }`}
-                  >
+                  <label htmlFor="desc" className={`allGames__descSpan ${isDesc ? "allGames__descSpan--active" : ""}`}>
                     Только со скидкой
                   </label>
                 </div>
@@ -504,6 +435,7 @@ function ItemGenre(props) {
           value={props.name}
           onChange={props.genreFilter}
         />
+        <span className="checkBox"></span>
       </div>
     </>
   );

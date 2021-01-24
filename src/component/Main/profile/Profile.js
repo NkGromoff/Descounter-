@@ -47,19 +47,6 @@ const Profile = (props) => {
     });
   };
 
-  // useEffect(() => {
-  //   props.getGames(
-  //     props.filter.filterPrice,
-  //     props.filter.filterNewDate,
-  //     props.filter.prices,
-  //     props.filter.year,
-  //     props.filter.genre,
-  //     props.filter.isDesc,
-  //     null,
-  //     props.filter.term
-  //   );
-  // }, []);
-
   useEffect(() => {
     dispatch(
       getGames(

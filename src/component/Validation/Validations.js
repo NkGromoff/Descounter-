@@ -4,8 +4,8 @@ export const passwordVaild = (values) => {
   const errors = {};
   if (!values.password) {
     errors.password = "Введите пароль";
-  } else if (values.password.length < 10) {
-    errors.password = "Пароль должен иметь не мнее 10 символов";
+  } else if (values.password.length < 4) {
+    errors.password = "Пароль должен иметь не мнее 4 символов";
   }
   if (!values.passwordTwo) {
     errors.passwordTwo = "Введите пароль";
@@ -30,10 +30,8 @@ export const loginRegValid = (value) => {
   let error;
   if (!value) {
     error = "Введите логин";
-  } else if (!/^[a-z0-9]+$/i.test(value)) {
-    error = "Ник должен состоять из латиницы";
-  } else if (value.length < 4) {
-    error = "Ник должен иметь не мнее 4 символов";
+  } else if (value.length < 4 || value.length > 10) {
+    error = "Ник должен иметь не мнее 4 символов и не более 10";
   }
   return error;
 };

@@ -22,6 +22,4 @@ const mapStateToProps = (state) => ({
 
 let GamePageContainerRouter = withRouter(GamePageContainer);
 
-export default connect(mapStateToProps, { ClearOneGameReduser, getGame })(
-  GamePageContainerRouter
-);
+export default connect(mapStateToProps, { ClearOneGameReduser, getGame })(GamePageContainerRouter);
