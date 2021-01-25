@@ -128,6 +128,7 @@ p {
   margin-top: 50px;
   align-items: center;
   position: relative;
+  z-index: 10;
 }
 
 .header__profile-wrapper {
@@ -808,7 +809,7 @@ p {
   margin-top: 10px;
 }
 .game__right {
-  padding-top: 20px;
+  padding-top: 10px;
   width: 100%;
 }
 .game__tittle {
@@ -1132,6 +1133,10 @@ p {
   align-items: center;
   cursor: pointer;
 }
+
+.allGames__buttonFilterMobile {
+  display: none;
+}
 .allGames__button svg {
   margin-left: 5px;
 }
@@ -1238,6 +1243,9 @@ p {
     font-size: 26px;
     line-height: 30px;
   }
+  .topGenre__tittle {
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -1257,7 +1265,7 @@ p {
     max-width: 900px;
   }
   .allGames__wrapper {
-    padding: 50px 0;
+    padding: 25px 0;
   }
   .allGames__filterWrapperTwo {
     margin-bottom: 35px;
@@ -1276,6 +1284,35 @@ p {
   .allGames__genre {
     max-width: 100%;
     max-width: inherit;
+  }
+  .allGames__buttonFilterMobile {
+    display: block;
+    width: 100%;
+    outline: none;
+    border: none;
+    color: #4c4c96;
+    font-size: 18px;
+    background-color: #05051d;
+    padding: 12px 20px;
+    margin-top: 40px;
+    box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.3);
+  }
+  .allGames__filterWrapper {
+    transform: translateY(-100%);
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    transition: 0.5s;
+  }
+  .allGames__filterWrapper--visible {
+    height: 100%;
+    visibility: visible;
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  .allGames__buttonFilterMobile:hover,
+  :focus {
+    box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.5);
   }
 }
 
@@ -1491,6 +1528,27 @@ p {
     flex-wrap: wrap;
     justify-content: space-between;
   }
+  .allGames__filterWrapperTwo {
+    flex-direction: column;
+    margin-bottom: 40px;
+    margin-top: 20px;
+  }
+  .allGames__sort {
+    font-size: 20px;
+  }
+  .allGames__button {
+    margin-left: inherit;
+  }
+  .allGames__buttonSpan {
+    font-size: 20px;
+  }
+  .allGames__descSpan {
+    margin-left: inherit;
+    font-size: 20px;
+  }
+  .allGames__sortItem {
+    margin: 10px 0 0 0;
+  }
 }
 
 @media (max-width: 576px) {
@@ -1585,16 +1643,6 @@ p {
   }
   .game__systemTittle {
     line-height: 30px;
-  }
-  .allGames__filterWrapperTwo {
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
-  .allGames__filterWrapperTwo {
-    flex-direction: column;
-  }
-  .allGames__sortItem {
-    margin: 10px 0 0 0;
   }
 
   .allGames__filterItem {

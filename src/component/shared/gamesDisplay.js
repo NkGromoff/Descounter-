@@ -41,6 +41,8 @@ const GamesDisplay = (props) => {
 
   const [isDesc, setIsDesc] = useState(false);
 
+  const [filterIsVisible, setFilterIsVisible] = useState(false);
+
   const [genre, setGenre] = useState([]);
 
   const [isGamesMore, setIsGamesMore] = useState(false);
@@ -145,6 +147,10 @@ const GamesDisplay = (props) => {
     }
   };
 
+  let filterVisible = (e) => {
+    setFilterIsVisible((prev) => !prev);
+  };
+
   let genreFilter = (e) => {
     let a = genre.find((i) => {
       if (i === e.currentTarget.value) {
@@ -208,7 +214,7 @@ const GamesDisplay = (props) => {
       <section ref={secRef} className="allGames">
         <div className="container">
           <div className="allGames__wrapper">
-            <div className="allGames__filterWrapper">
+            <div className={`allGames__filterWrapper ${filterIsVisible ? `allGames__filterWrapper--visible` : ""}`}>
               <div className="allGames__genre">
                 <div className="allGames__genreHeader" onClick={dropDownShow}>
                   {genre && genre.length != 0 ? (
@@ -302,6 +308,9 @@ const GamesDisplay = (props) => {
                 </div>
               </div>
             </div>
+            <button onClick={filterVisible} className="allGames__buttonFilterMobile">
+              {filterIsVisible ? "Скрыть фильтры" : "Показать фильтры"}
+            </button>
             <div className="allGames__wrapperRight">
               <Formik
                 initialValues={{ term: "" }}
