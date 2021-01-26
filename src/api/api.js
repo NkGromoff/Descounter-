@@ -141,4 +141,7 @@ export const mainPageAPI = {
   getGames() {
     return instance.get("games/MainPage");
   },
+  getGamesGenre(genre) {
+    return instance.get(`games/GenreMainPage?genre=${genre}`);
+  },
 };

@@ -1,24 +1,34 @@
-import React from "react";
-import GameCart from "../GameCart/GameCart";
-import { NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function Genre(props) {
+  let mainCartEl = [];
+  let gamesGenre = useSelector((state) => state.MainPageReduser.genreGames);
+  if (gamesGenre) {
+    gamesGenre[0].gamesForMainPage.forEach((value, key) => {
+      if (key % 2 == 0 && key < gamesGenre[0].gamesForMainPage.length) {
+        mainCartEl.push(
+          <MainCarts
+            key={value.id}
+            id={value.id}
+            img={value.img_url}
+            price={value.price}
+            platform_id={value.platform_id}
+            amountDesc={value.amount_discount}
+            imgBack={gamesGenre[0].gamesForMainPage[key + 1].img_url}
+            amountDescBack={gamesGenre[0].gamesForMainPage[key + 1].amount_discount}
+            priceBack={gamesGenre[0].gamesForMainPage[key + 1].price}
+            idBack={gamesGenre[0].gamesForMainPage[key + 1].id}
+            gamesArray={gamesGenre[0].gamesForMainPage}
+          />
+        );
+      }
+    });
+  }
   return (
     <>
       <div className="container">
-        <section className="topGenre">
-          <h2 className="topGenre__tittle genreTittle">{props.name}</h2>
-          <ul className="topGenre__listWrapper">
-            <li className="topGenre__listItem">
-              <GameCart />
-            </li>
-          </ul>
-          <div className="topGenre__linkWrapper">
-            <NavLink to="/AllGames" className="topGenre__link linkAllGames">
-              Больше
-            </NavLink>
-          </div>
-        </section>
+        <section className="gameGallery">{/* <div className="gameGallery__wrapper">{mainCartEl}</div> */}</section>
       </div>
     </>
   );
