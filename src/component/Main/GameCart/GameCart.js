@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import { debounce } from "lodash";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import notImg from "../../../image/notImg.jpg";
@@ -11,6 +12,11 @@ function GameCart(props) {
   const dispatch = useDispatch();
 
   const history = useHistory();
+
+  const trottleAddGame = useCallback(
+    debounce(() => dispatch(setGamesForUser(props.user.id, props.id)), 500),
+    []
+  );
 
   if (props) date = props.year;
 
@@ -27,7 +33,7 @@ function GameCart(props) {
   let gameAddOrDel = (e) => {
     e.preventDefault();
     if (!props.isAuth) return history.push("/Login");
-    dispatch(setGamesForUser(props.user.id, props.id));
+    trottleAddGame();
   };
 
   return (

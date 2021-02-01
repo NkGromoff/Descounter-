@@ -125,7 +125,8 @@ export const auth = () => async (dispatch) => {
       localStorage.removeItem("token");
     }
   } catch (err) {
-    localStorage.removeItem("token");
+    console.log(err);
+    //localStorage.removeItem("token");
   }
 };
 
@@ -137,6 +138,19 @@ export const getGames = (price, date, prices, dateRange, genre, isDesc, games, t
     response = await userAPI.getCountGames(price, date, prices, dateRange, genre, isDesc, games, term, id);
     dispatch(Set_Profile_Games_Filter(price, date, prices, dateRange, genre, isDesc, ...response.data, term));
   } catch (err) {}
+};
+
+export const uploadAvatar = (file) => async (dispatch) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    console.log(formData);
+    let response = await userAPI.setAvatarForUser(formData);
+    console.log(response.data);
+    dispatch(setIsAuthAndUser(response.data[0], true));
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const setGamesForUser = (userId, gameId) => async (dispatch) => {

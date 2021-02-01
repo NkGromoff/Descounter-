@@ -130,6 +130,11 @@ export const userAPI = {
       userId: userId,
     });
   },
+  async setAvatarForUser(file) {
+    return instance.post("auth/avatar", file, {
+      headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+  },
 
   async getCountGames(price, date, priceRange, dateRange, genre, isDesc, games, term, id) {
     let ss = gamesCountReqCreator("auth/games/count", id);

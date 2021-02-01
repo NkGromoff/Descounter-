@@ -27,7 +27,7 @@ function Banners(props) {
           let newState = arr[Math.floor(Math.random() * arr.length)];
           setIdForFlip([...idForFlip, newState]);
         }
-      }, 5000);
+      }, 4000);
       return () => clearInterval(interval);
     }
   }, [arr]);
@@ -57,11 +57,9 @@ function Banners(props) {
 
   return (
     <>
-      <div className="container">
-        <section className="gameGallery">
-          <div className="gameGallery__wrapper">{mainCartEl}</div>
-        </section>
-      </div>
+      <section className="gameGallery">
+        <div className="gameGallery__wrapper">{mainCartEl}</div>
+      </section>
     </>
   );
 }

@@ -4,10 +4,11 @@ import GameCart from "../Main/GameCart/GameCart";
 import Nouislider from "nouislider-react";
 import { debounce } from "lodash";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { allInputs } from "../Validation/Validations";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getGameGenre } from "../../redux/AllGamesReduser";
-import { getGames } from "../../redux/UserReduser";
+import { useQueryParams, StringParam, NumberParam, ArrayParam, withDefault, BooleanParam } from "use-query-params";
+
 const GamesDisplay = (props) => {
   const secRef = useRef(null);
 
@@ -25,47 +26,43 @@ const GamesDisplay = (props) => {
 
   const allGamesGenre = useSelector((state) => state.AllGamesReduser.genre);
 
-  const [prices, setPrices] = useState([0, 9999]);
-
   const [pricesForInp, setPricesForInp] = useState([0, 9999]);
-
-  const [years, setYears] = useState([1997, 2021]);
 
   const [yearsForInp, setYearsForInp] = useState([1997, 2021]);
 
-  const [filterPrice, setFilterPrice] = useState("none");
-
-  const [filterNewDate, setfilterNewDate] = useState("none");
-
   const [isDropDown, setIsDropDown] = useState(false);
-
-  const [isDesc, setIsDesc] = useState(false);
 
   const [filterIsVisible, setFilterIsVisible] = useState(false);
 
-  const [genre, setGenre] = useState([]);
-
   const [isGamesMore, setIsGamesMore] = useState(false);
 
-  const [term, setTerm] = useState("");
+  const [query, setQuery] = useQueryParams({
+    isDesc: withDefault(BooleanParam, false),
+    newGamesDate: withDefault(StringParam, "none"),
+    filterPrice: withDefault(StringParam, "none"),
+    term: withDefault(StringParam, ""),
+    prices: withDefault(ArrayParam, [0, 9999]),
+    years: withDefault(ArrayParam, [1997, 2021]),
+    genre: withDefault(ArrayParam, []),
+  });
 
   const trottleDateOne = useCallback(
-    debounce((target) => setYears((oldArray) => [target, oldArray[1]]), 500),
+    debounce((target) => setQuery((old) => ({ years: [old.years[0], target] })), 500),
     []
   );
 
   const trottleDateTwo = useCallback(
-    debounce((target) => setYears((oldArray) => [oldArray[0], target]), 500),
+    debounce((target) => setQuery((old) => ({ years: [old.years[1], target] })), 500),
     []
   );
 
   const trottlePriceOne = useCallback(
-    debounce((target) => setPrices((oldArray) => [target, oldArray[1]]), 500),
+    debounce((target) => setQuery((old) => ({ prices: [target, old.prices[1]] })), 500),
     []
   );
 
   const trottlePriceTwo = useCallback(
-    debounce((target) => setPrices((oldArray) => [oldArray[0], target]), 500),
+    debounce((target) => setQuery((old) => ({ prices: [old.prices[0], target] })), 500),
     []
   );
 
@@ -75,12 +72,11 @@ const GamesDisplay = (props) => {
   );
 
   let priceSlider = (values, handle) => {
-    setPricesForInp((oldArray) => [Math.round(values[0]), oldArray[1]]);
-    setPricesForInp((oldArray) => [oldArray[0], Math.round(values[1])]);
     trottlePriceOne(Math.round(values[0]));
     trottlePriceTwo(Math.round(values[1]));
+    setPricesForInp((oldArray) => [Math.round(values[0]), oldArray[1]]);
+    setPricesForInp((oldArray) => [oldArray[0], Math.round(values[1])]);
   };
-
   let changePrice = (e) => {
     let target = e.currentTarget.value;
     trottlePriceOne(target);
@@ -94,10 +90,10 @@ const GamesDisplay = (props) => {
   };
 
   let yearSlider = (values, handle) => {
-    setYearsForInp((oldArray) => [Math.round(values[0]), oldArray[1]]);
-    setYearsForInp((oldArray) => [oldArray[0], Math.round(values[1])]);
     trottleDateOne(Math.round(values[0]));
     trottleDateTwo(Math.round(values[1]));
+    setYearsForInp((oldArray) => [Math.round(values[0]), oldArray[1]]);
+    setYearsForInp((oldArray) => [oldArray[0], Math.round(values[1])]);
   };
 
   let changeYear = (e) => {
@@ -113,17 +109,25 @@ const GamesDisplay = (props) => {
   };
 
   let clickFilterPrice = () => {
-    setfilterNewDate("none");
-    if (filterPrice == "priceUp") setFilterPrice("none");
-    else if (filterPrice == "priceDown") setFilterPrice("priceUp");
-    else if (filterPrice == "none") setFilterPrice("priceDown");
+    setQuery({ newGamesDate: undefined });
+    if (query.filterPrice == "priceUp") {
+      setQuery((old) => ({ filterPrice: undefined }));
+    } else if (query.filterPrice == "priceDown") {
+      setQuery((old) => ({ filterPrice: "priceUp" }));
+    } else if (query.filterPrice == "none") {
+      setQuery((old) => ({ filterPrice: "priceDown" }));
+    }
   };
 
   let clickFilterNewDate = () => {
-    setFilterPrice("none");
-    if (filterNewDate == "dateUp") setfilterNewDate("none");
-    else if (filterNewDate == "dateDown") setfilterNewDate("dateUp");
-    else if (filterNewDate == "none") setfilterNewDate("dateDown");
+    setQuery({ filterPrice: undefined });
+    if (query.newGamesDate == "dateUp") {
+      setQuery({ newGamesDate: undefined });
+    } else if (query.newGamesDate == "dateDown") {
+      setQuery({ newGamesDate: "dateUp" });
+    } else if (query.newGamesDate == "none") {
+      setQuery({ newGamesDate: "dateDown" });
+    }
   };
 
   let dropDownShow = () => {
@@ -132,8 +136,11 @@ const GamesDisplay = (props) => {
   };
 
   let descChange = () => {
-    if (!isDesc) setIsDesc(true);
-    else setIsDesc(false);
+    if (!query.isDesc) {
+      setQuery({ isDesc: true });
+    } else {
+      setQuery({ isDesc: false });
+    }
   };
 
   let onScrollList = () => {
@@ -152,22 +159,19 @@ const GamesDisplay = (props) => {
   };
 
   let genreFilter = (e) => {
-    let a = genre.find((i) => {
+    let a = query.genre.find((i) => {
       if (i === e.currentTarget.value) {
         return i;
       }
     });
     if (a) {
-      setGenre(genre.filter((e) => e !== a));
+      setQuery({ genre: query.genre.filter((e) => e !== a) });
     } else {
       let newState = e.currentTarget.value;
-      setGenre((oldArray) => [...oldArray, newState]);
+      setQuery((old) => ({ genre: [...old.genre, newState] }));
     }
   };
-
-  let termChange = (value) => {
-    setTerm(value);
-  };
+  let termChange = (value) => {};
 
   if (props.games) {
     gameEl = props.games.map((g) => (
@@ -190,7 +194,7 @@ const GamesDisplay = (props) => {
   }
   if (allGamesGenre) {
     genreItem = allGamesGenre.map((i) => (
-      <ItemGenre key={i.id} id={i.id} name={i.name} genreFilter={genreFilter} gnere={genre} />
+      <ItemGenre key={i.id} id={i.id} name={i.name} genreFilter={genreFilter} genre={query.genre} />
     ));
   }
   useEffect(() => {
@@ -201,9 +205,22 @@ const GamesDisplay = (props) => {
   }, []);
 
   useEffect(() => {
-    props.childProps(years, prices, filterPrice, filterNewDate, isDesc, genre, isGamesMore, term);
+    setPricesForInp((oldArray) => [query.prices[0], oldArray[1]]);
+    setPricesForInp((oldArray) => [oldArray[0], query.prices[1]]);
+    setYearsForInp((oldArray) => [query.years[0], oldArray[1]]);
+    setYearsForInp((oldArray) => [oldArray[0], query.years[1]]);
+    props.childProps(
+      query.years,
+      query.prices,
+      query.filterPrice,
+      query.newGamesDate,
+      query.isDesc,
+      query.genre,
+      isGamesMore,
+      query.term
+    );
     setIsGamesMore(false);
-  }, [years, prices, filterPrice, filterNewDate, isDesc, genre, isGamesMore, term]);
+  }, [query, isGamesMore, setQuery]);
 
   useEffect(() => {
     if (secRef.current.clientHeight !== null) window.addEventListener("scroll", onScrollList);
@@ -217,8 +234,8 @@ const GamesDisplay = (props) => {
             <div className={`allGames__filterWrapper ${filterIsVisible ? `allGames__filterWrapper--visible` : ""}`}>
               <div className="allGames__genre">
                 <div className="allGames__genreHeader" onClick={dropDownShow}>
-                  {genre && genre.length != 0 ? (
-                    <span className="allGames__genreSpan">Жанры:{genre.join(",")}</span>
+                  {query.genre && query.genre.length != 0 ? (
+                    <span className="allGames__genreSpan">Жанры:{query.genre.join(",")}</span>
                   ) : (
                     <span className="allGames__genreSpan">Жанры</span>
                   )}
@@ -242,7 +259,7 @@ const GamesDisplay = (props) => {
                   <Nouislider
                     connect
                     onChange={priceSlider}
-                    start={[prices[0], prices[1]]}
+                    start={[pricesForInp[0], pricesForInp[1]]}
                     range={{ min: 0, max: 9999 }}
                     step={100}
                   />
@@ -313,9 +330,11 @@ const GamesDisplay = (props) => {
             </button>
             <div className="allGames__wrapperRight">
               <Formik
-                initialValues={{ term: "" }}
+                enableReinitialize
+                initialValues={{ term: query.term }}
                 onSubmit={(values, { setSubmitting }) => {
-                  setTerm(JSON.stringify(values.term));
+                  if (values.term === "") setQuery({ term: undefined });
+                  setQuery({ term: values.term });
                   setSubmitting(false);
                 }}
               >
@@ -336,18 +355,22 @@ const GamesDisplay = (props) => {
                   <button onClick={clickFilterPrice} className="allGames__button allGames__priceButton">
                     <span
                       className={`allGames__buttonSpan ${
-                        filterPrice == "priceDown" || filterPrice == "priceUp" ? "allGames__buttonSpan--active" : ""
+                        query.filterPrice == "priceDown" || query.filterPrice == "priceUp"
+                          ? "allGames__buttonSpan--active"
+                          : ""
                       }`}
                     >
                       Цене
                     </span>
-                    {filterPrice == "priceUp" ? (
+                    {query.filterPrice == "priceUp" ? (
                       <svg
                         width="11"
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
                         className={`allGames__triggle ${
-                          filterPrice == "priceDown" || filterPrice == "priceUp" ? "allGames__triggle--active" : ""
+                          query.filterPrice == "priceDown" || query.filterPrice == "priceUp"
+                            ? "allGames__triggle--active"
+                            : ""
                         }`}
                       >
                         <path d="M0 5.16016H7.93L5.94825 2.58016L3.9655 0.000156403L1.98275 2.58016L0 5.16016Z" />
@@ -358,7 +381,9 @@ const GamesDisplay = (props) => {
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
                         className={`allGames__triggle ${
-                          filterPrice == "priceDown" || filterPrice == "priceUp" ? "allGames__triggle--active" : ""
+                          query.filterPrice == "priceDown" || query.filterPrice == "priceUp"
+                            ? "allGames__triggle--active"
+                            : ""
                         }`}
                       >
                         <path d="M1.656 1h7.931L7.605 3.58 5.622 6.16 3.639 3.58 1.656 1z" />
@@ -370,18 +395,22 @@ const GamesDisplay = (props) => {
                   <button onClick={clickFilterNewDate} className="allGames__button allGames__priceButton">
                     <span
                       className={`allGames__buttonSpan ${
-                        filterNewDate == "dateDown" || filterNewDate == "dateUp" ? "allGames__buttonSpan--active" : ""
+                        query.newGamesDate == "dateDown" || query.newGamesDate == "dateUp"
+                          ? "allGames__buttonSpan--active"
+                          : ""
                       }`}
                     >
                       Новизне
                     </span>
-                    {filterNewDate == "dateUp" ? (
+                    {query.newGamesDate == "dateUp" ? (
                       <svg
                         width="11"
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
                         className={`allGames__triggle ${
-                          filterNewDate == "dateDown" || filterNewDate == "dateUp" ? "allGames__triggle--active" : ""
+                          query.newGamesDate == "dateDown" || query.newGamesDate == "dateUp"
+                            ? "allGames__triggle--active"
+                            : ""
                         }`}
                       >
                         <path d="M0 5.16016H7.93L5.94825 2.58016L3.9655 0.000156403L1.98275 2.58016L0 5.16016Z" />
@@ -392,7 +421,9 @@ const GamesDisplay = (props) => {
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
                         className={`allGames__triggle ${
-                          filterNewDate == "dateDown" || filterNewDate == "dateUp" ? "allGames__triggle--active" : ""
+                          query.newGamesDate == "dateDown" || query.newGamesDate == "dateUp"
+                            ? "allGames__triggle--active"
+                            : ""
                         }`}
                       >
                         <path d="M1.656 1h7.931L7.605 3.58 5.622 6.16 3.639 3.58 1.656 1z" />
@@ -401,21 +432,12 @@ const GamesDisplay = (props) => {
                   </button>
                 </div>
                 <div className="allGames__sortItem allGames__descountWrapper">
-                  {isDesc == true ? (
-                    <input
-                      id="desc"
-                      type="checkbox"
-                      className="allGames__genreCheck"
-                      name="two"
-                      value="Инди"
-                      onChange={descChange}
-                      checked
-                    />
-                  ) : (
-                    <input id="desc" type="checkbox" className="allGames__genreCheck" onChange={descChange} />
-                  )}
+                  <input id="desc" type="checkbox" className="allGames__genreCheck" onChange={descChange} />
 
-                  <label htmlFor="desc" className={`allGames__descSpan ${isDesc ? "allGames__descSpan--active" : ""}`}>
+                  <label
+                    htmlFor="desc"
+                    className={`allGames__descSpan ${query.isDesc ? "allGames__descSpan--active" : ""}`}
+                  >
                     Только со скидкой
                   </label>
                 </div>
@@ -430,21 +452,34 @@ const GamesDisplay = (props) => {
 };
 
 function ItemGenre(props) {
+  const [check, setCheck] = useState(false);
+  const find = (e) => e == props.name;
+  const checkUpd = (e) => {
+    props.genreFilter(e);
+    setCheck((prev) => !prev);
+  };
+  useEffect(() => {
+    if (props.genre)
+      if (props.genre.some(find)) {
+        setCheck(true);
+      }
+  }, [props.genre[0]]);
   return (
     <>
       <div className="allGames__genreItem">
         <label htmlFor={props.id} className="allGames__genreSpan">
           {props.name}
-        </label>
 
-        <input
-          id={props.id}
-          type="checkbox"
-          className="allGames__genreCheck"
-          value={props.name}
-          onChange={props.genreFilter}
-        />
-        <span className="checkBox"></span>
+          <input
+            id={props.id}
+            type="checkbox"
+            className="allGames__genreCheck"
+            value={props.name}
+            onChange={checkUpd}
+            checked={check}
+          />
+          <span className="checkBox"></span>
+        </label>
       </div>
     </>
   );

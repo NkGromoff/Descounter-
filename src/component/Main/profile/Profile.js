@@ -3,7 +3,7 @@ import GamesDisplay from "../../shared/gamesDisplay";
 import photoImg from "../../../image/profileImg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { getGames } from "../../../redux/UserReduser";
+import { getGames, uploadAvatar } from "../../../redux/UserReduser";
 
 const Profile = (props) => {
   const dispatch = useDispatch();
@@ -13,6 +13,8 @@ const Profile = (props) => {
   const user = useSelector((state) => state.UserReduser.user);
 
   const games = useSelector((state) => state.UserReduser.games);
+
+  const avatarImg = user.avatar ? "http://localhost:4000/" + user.avatar : photoImg;
 
   const [state, setState] = useState({
     years: "",
@@ -25,16 +27,12 @@ const Profile = (props) => {
     term: null,
   });
 
-  const childProps = (
-    years,
-    prices,
-    filterPrice,
-    filterNewDate,
-    isDesc,
-    genre,
-    isGamesMore,
-    term
-  ) => {
+  const uploadAvatarEvent = (e) => {
+    const file = e.target.files[0];
+    dispatch(uploadAvatar(file));
+  };
+
+  const childProps = (years, prices, filterPrice, filterNewDate, isDesc, genre, isGamesMore, term) => {
     setState({
       years: years,
       prices: prices,
@@ -80,28 +78,20 @@ const Profile = (props) => {
           <div className="profile__wrapper">
             <div className="profile__wrapperTop">
               <div className="profile__imgWraper">
-                <img
-                  src={photoImg}
-                  alt="Изображение профиля"
-                  className="profile__image"
-                />
+                <img src={avatarImg} alt="Изображение профиля" className="profile__image" />
+                <label onChange={uploadAvatarEvent} className="profile__fileuploadWrapper">
+                  <input accept="image/*" className="profile__fileupload" type="file" name="file" id="" />
+                  <span className="profile__fileText">Изменить</span>
+                </label>
               </div>
               <div className="profile__textInfoAllWrapper">
                 <label className="profile__textInfoWrapper">
                   <span className="profile__textInfoSpan">Ваш логин:</span>
-                  <input
-                    type="text"
-                    className="profile__input"
-                    value={user.login}
-                  />
+                  <input type="text" className="profile__input" value={user.login} />
                 </label>
                 <label className="profile__textInfoWrapper">
                   <span className="profile__textInfoSpan">Ваша почта:</span>
-                  <input
-                    type="text"
-                    className="profile__input"
-                    value={user.email}
-                  />
+                  <input type="text" className="profile__input" value={user.email} />
                 </label>
                 <label className="profile__textInfoWrapper">
                   <span className="profile__textInfoSpan">Ваш пароль:</span>

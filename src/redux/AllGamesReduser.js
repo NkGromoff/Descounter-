@@ -51,16 +51,7 @@ export const SetGenreGames = (data) => ({
   data: data,
 });
 
-export const SetGamesFilter = (
-  price,
-  date,
-  prices,
-  dateRange,
-  genre,
-  isDesc,
-  count,
-  term
-) => ({
+export const SetGamesFilter = (price, date, prices, dateRange, genre, isDesc, count, term) => ({
   type: Get_Games_Filter,
   filter: {
     price,
@@ -74,78 +65,21 @@ export const SetGamesFilter = (
   },
 });
 
-export const getGames = (
-  price,
-  date,
-  prices,
-  dateRange,
-  genre,
-  isDesc,
-  games,
-  term
-) => async (dispatch) => {
+export const getGames = (price, date, prices, dateRange, genre, isDesc, games, term) => async (dispatch) => {
   try {
-    let response = await gamesAPI.getGames(
-      price,
-      date,
-      prices,
-      dateRange,
-      genre,
-      isDesc,
-      games,
-      term
-    );
+    let response = await gamesAPI.getGames(price, date, prices, dateRange, genre, isDesc, games, term);
     dispatch(GetGamesReduserCreator(response.data));
-    response = await gamesAPI.getCountGames(
-      price,
-      date,
-      prices,
-      dateRange,
-      genre,
-      isDesc,
-      games,
-      term
-    );
-    dispatch(
-      SetGamesFilter(
-        price,
-        date,
-        prices,
-        dateRange,
-        genre,
-        isDesc,
-        ...response.data,
-        term
-      )
-    );
+    response = await gamesAPI.getCountGames(price, date, prices, dateRange, genre, isDesc, games, term);
+    dispatch(SetGamesFilter(price, date, prices, dateRange, genre, isDesc, ...response.data, term));
   } catch (err) {}
 };
 
-export const getGamesMoreList = (
-  price,
-  date,
-  prices,
-  dateRange,
-  genre,
-  isDesc,
-  games,
-  count,
-  term
-) => async (dispatch) => {
+export const getGamesMoreList = (price, date, prices, dateRange, genre, isDesc, games, count, term) => async (
+  dispatch
+) => {
   try {
-    dispatch(
-      SetGamesFilter(price, date, prices, dateRange, genre, isDesc, count, term)
-    );
-    let response = await gamesAPI.getGames(
-      price,
-      date,
-      prices,
-      dateRange,
-      genre,
-      isDesc,
-      games,
-      term
-    );
+    dispatch(SetGamesFilter(price, date, prices, dateRange, genre, isDesc, count, term));
+    let response = await gamesAPI.getGames(price, date, prices, dateRange, genre, isDesc, games, term);
 
     dispatch(GetGamesMoreReduserCreator(response.data));
   } catch (err) {}

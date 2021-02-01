@@ -3,6 +3,7 @@ import AllGamesReduser from "./AllGamesReduser";
 import GamePageReduser from "./GamePageReduser";
 import UserReduser from "./UserReduser";
 import MainPageReduser from "./MainPageReduser";
+import AppReduser from "./AppReduser";
 import thunkMiddleware from "redux-thunk";
 
 let redusers = combineReducers({
@@ -10,6 +11,7 @@ let redusers = combineReducers({
   GamePageReduser,
   UserReduser,
   MainPageReduser,
+  AppReduser,
 });
 
 let store = createStore(redusers, applyMiddleware(thunkMiddleware));

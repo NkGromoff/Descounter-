@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { debounce } from "lodash";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { setGamesForUser } from "../../../redux/UserReduser";
@@ -28,6 +29,11 @@ function GamePage(props) {
 
   const [systemRec, setSystemRec] = useState(false);
 
+  // const trottleAddGame = useCallback(
+  //   debounce(() => dispatch(setGamesForUser(user.id, props[0].game_id)), 500),
+  //   []
+  // );
+
   let gameShop = null;
 
   useEffect(() => {
@@ -40,6 +46,7 @@ function GamePage(props) {
 
   let gameAddOrDel = () => {
     if (!isAuth) return history.push("/Login");
+
     dispatch(setGamesForUser(user.id, props[0].game_id));
   };
 

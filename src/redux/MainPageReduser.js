@@ -82,11 +82,10 @@ export const getGamesGenre = (genre) => async (dispatch) => {
         i.gamesForMainPage.map((a, key) => {
           if (key % 2 == 0) arr.push(a.id);
         });
-        obj = [...obj, { genre: i.genre, idArr: arr }];
-        arr = [];
       });
     }
-    dispatch(SetMainPageGamesGenreIdReduserCreator(response.data));
+    dispatch(SetMainPageGamesGenreIdReduserCreator(arr));
+    dispatch(SetMainPageGamesGenreReduserCreator(response.data));
   } catch (err) {
     console.log(err);
   }

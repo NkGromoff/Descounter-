@@ -14,6 +14,8 @@ const Header = (props) => {
 
   const user = useSelector((state) => state.UserReduser.user);
 
+  const avatarImg = user.avatar ? "http://localhost:4000/" + user.avatar : photoImg;
+
   const dispatch = useDispatch();
 
   let setDropDowm = () => {
@@ -66,9 +68,9 @@ const Header = (props) => {
                 onClick={setDropDowm}
                 className={`header__profile-wrapper ${isDown ? "header__profile-wrapper--active" : ""}`}
               >
-                <span className="header__profileName">{user.login}</span>
+                <span className="header__profileName">{user.username}</span>
                 <div className="header__profile-imgInner">
-                  <img src={photoImg} alt="Изображение профиля" />
+                  <img src={avatarImg} alt="Изображение профиля" />
                 </div>
                 {isDown == true ? (
                   <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" className={`header__profileTriggle`}>
