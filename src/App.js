@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
-import mainRoutes from "./routes/mainRoutes";
-import loginOrRegRoutes from "./routes/loginOrRegRoutes";
+import MainRoutes from "./routes/mainRoutes";
+import LoginOrRegRoutes from "./routes/loginOrRegRoutes";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, getGames } from "./redux/UserReduser";
 import { setInitialazed } from "./redux/AppReduser";
@@ -25,8 +25,8 @@ function App() {
   return (
     <>
       <Switch>
-        <Route path="/(Login|Registration)" component={loginOrRegRoutes} />
-        <Route component={mainRoutes} />
+        <Route path="/(Login|Registration)" component={LoginOrRegRoutes} />
+        <Route component={MainRoutes} />
       </Switch>
     </>
   );

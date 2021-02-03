@@ -90,7 +90,18 @@ export const gamesAPI = {
   getAllGenre() {
     return instance.get("games/allGenre");
   },
-
+  updateGame(id, name, desc, date) {
+    return instance.put(
+      "games/adminChange",
+      {
+        id,
+        name,
+        desc,
+        date,
+      },
+      { headers: { authorization: `Bearer ${localStorage.getItem("token")}` } }
+    );
+  },
   async getCountGames(price, date, priceRange, dateRange, genre, isDesc, games, term) {
     let ss = gamesCountReqCreator("games/count", null);
     return await ss(price, date, priceRange, dateRange, genre, isDesc, games, term);

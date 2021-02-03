@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import Footer from "../component/Footer/Footer";
 import Header from "../component/Header/Header";
@@ -10,23 +11,23 @@ import TopGames from "../component/Main/TopGames/TopGames";
 import NotFound from "../component/NotFound/NotFound";
 import Congratulations from "../component/shared/Congratulations";
 
-function mainRoutes() {
+function MainRoutes() {
   return (
     <>
       <Header />
       <Switch>
-        <Route exact path="/" render={() => <TopGames />} />
-        <Route path="/GamePage/:id" render={() => <GamePageContainer />} />
-        <Route path="/AllGames" render={() => <AllGamesContainer />} />
-        <Route path="/Agree" render={() => <Agree />} />
-        <Route path="/About" render={() => <About />} />
-        <Route path="/profile" render={() => <Profile />} />
-        <Route path="/Congratulations" render={() => <Congratulations />} />
-        <Route path="*" render={() => <NotFound />} />
+        <Route exact path="/" component={TopGames} />
+        <Route path="/GamePage/:id" component={GamePageContainer} />
+        <Route path="/AllGames" component={AllGamesContainer} />
+        <Route path="/Agree" component={Agree} />
+        <Route path="/About" component={About} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/Congratulations" component={Congratulations} />
+        <Route path="*" component={NotFound} />
       </Switch>
       <Footer />
     </>
   );
 }
 
-export default mainRoutes;
+export default MainRoutes;

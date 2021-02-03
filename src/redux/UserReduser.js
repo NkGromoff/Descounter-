@@ -1,5 +1,5 @@
 import { userAPI } from "../api/api";
-import { Redirect, useHistory } from "react-router-dom";
+
 const Set_Is_Auth_And_User = "Set_Is_Auth_And_User";
 const Set_Logout = "Set_Logout";
 

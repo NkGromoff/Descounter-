@@ -1,11 +1,14 @@
+import { Field, Form, Formik } from "formik";
 import { debounce } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
+import { updGame } from "../../../redux/GamePageReduser";
 import { setGamesForUser } from "../../../redux/UserReduser";
 import { findGame, formatDate } from "../../shared/generalDataForGame";
 
 import ShopCart from "./ShopCart";
+import { SystemRec } from "./SystemRec";
 
 function GamePage(props) {
   let date;
@@ -27,7 +30,7 @@ function GamePage(props) {
 
   const [isMyGame, setIsMyGame] = useState(true);
 
-  const [systemRec, setSystemRec] = useState(false);
+  const [isDropDownSetting, setIsDropDownSetting] = useState(false);
 
   // const trottleAddGame = useCallback(
   //   debounce(() => dispatch(setGamesForUser(user.id, props[0].game_id)), 500),
@@ -50,14 +53,8 @@ function GamePage(props) {
     dispatch(setGamesForUser(user.id, props[0].game_id));
   };
 
-  if (!props[0] && props.oneGameShop !== null) {
-    return <div className="container loading">Загрузка...</div>;
-  }
-
-  let onClickSetSystemRec = (e) => {
-    if (e.target.classList.contains("game__buttonSystem--active")) return;
-    if (systemRec) setSystemRec(false);
-    else setSystemRec(true);
+  const dropDownSettingChange = () => {
+    setIsDropDownSetting((prev) => !prev);
   };
 
   gameShop = props.oneGameShop.map((s) => (
@@ -71,6 +68,10 @@ function GamePage(props) {
     />
   ));
 
+  if (!props[0] && props.oneGameShop !== null) {
+    return <div className="container loading">Загрузка...</div>;
+  }
+
   return (
     <>
       <div className="container">
@@ -82,143 +83,7 @@ function GamePage(props) {
                 <h2 className="game__dateTittle">Дата выхода:</h2>
                 <span className="game__dateText">{formatDate(new Date(date))}</span>
               </div>
-              <h2 className="game__systemTittle">Системные требования</h2>
-              <div className="game__buttonWrapper">
-                <button
-                  onClick={onClickSetSystemRec}
-                  className={`game__buttonSystem buttonSystem ${!systemRec ? "game__buttonSystem--active" : ""}`}
-                  data-system="min"
-                >
-                  Минимальные
-                </button>
-                {props[1].os === "None" &&
-                props[1].directx === "None" &&
-                props[1].cpu === "None" &&
-                props[1].videocard === "None" &&
-                props[1].ram === "None" &&
-                props[1].freespace === "None" ? (
-                  ``
-                ) : (
-                  <button
-                    onClick={onClickSetSystemRec}
-                    className={`game__buttonSystem buttonSystem ${systemRec ? "game__buttonSystem--active" : ""}`}
-                    data-system="rec"
-                  >
-                    Рекомендуемые
-                  </button>
-                )}
-              </div>
-              {systemRec == false ? (
-                <div className="game__systemWrapper">
-                  <div className="game__secondWrapper">
-                    <div className="game__optionsWrapper game__slice">
-                      <h3 className="game__sysTittle">DirectX</h3>
-                      {props[0].directx == "None" ? (
-                        <span className="game__sysDesc">Данные остутсвуют</span>
-                      ) : (
-                        <span className="game__sysDesc">{props[0].directx}</span>
-                      )}
-                    </div>
-                    <div className="game__optionsWrapper game__slice">
-                      <h3 className="game__sysTittle">ОС</h3>
-                      {props[0].os == "None" ? (
-                        <span className="game__sysDesc">Данные остутсвуют</span>
-                      ) : (
-                        <span className="game__sysDesc">{props[0].os}</span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="game__optionsWrapper">
-                    <h3 className="game__sysTittle">Процессор</h3>
-                    {props[0].cpu == "None" ? (
-                      <span className="game__sysDesc">Данные остутсвуют</span>
-                    ) : (
-                      <span className="game__sysDesc">{props[0].cpu}</span>
-                    )}
-                  </div>
-                  <div className="game__optionsWrapper">
-                    <h3 className="game__sysTittle">Видеокарта</h3>
-                    {props[0].videocard == "None" ? (
-                      <span className="game__sysDesc">Данные остутсвуют</span>
-                    ) : (
-                      <span className="game__sysDesc">{props[0].videocard}</span>
-                    )}
-                  </div>
-                  <div className="game__secondWrapper">
-                    <div className="game__optionsWrapper game__slice">
-                      <h3 className="game__sysTittle">Память</h3>
-                      {props[0].ram == "None" ? (
-                        <span className="game__sysDesc">Данные остутсвуют</span>
-                      ) : (
-                        <span className="game__sysDesc">{props[0].ram}</span>
-                      )}
-                    </div>
-                    <div className="game__optionsWrapper game__slice">
-                      <h3 className="game__sysTittle">Место на диске</h3>
-                      {props[0].freespace == "None" ? (
-                        <span className="game__sysDesc">Данные остутсвуют</span>
-                      ) : (
-                        <span className="game__sysDesc">{props[0].freespace}</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="game__systemWrapper">
-                  <div className="game__secondWrapper">
-                    <div className="game__optionsWrapper game__slice">
-                      <h3 className="game__sysTittle">DirectX</h3>
-                      {props[1].directx == "None" ? (
-                        <span className="game__sysDesc">Данные остутсвуют</span>
-                      ) : (
-                        <span className="game__sysDesc">{props[1].directx}</span>
-                      )}
-                    </div>
-                    <div className="game__optionsWrapper game__slice">
-                      <h3 className="game__sysTittle">ОС</h3>
-                      {props[1].os == "None" ? (
-                        <span className="game__sysDesc">Данные остутсвуют</span>
-                      ) : (
-                        <span className="game__sysDesc">{props[1].os}</span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="game__optionsWrapper">
-                    <h3 className="game__sysTittle">Процессор</h3>
-                    {props[1].cpu == "None" ? (
-                      <span className="game__sysDesc">Данные остутсвуют</span>
-                    ) : (
-                      <span className="game__sysDesc">{props[1].cpu}</span>
-                    )}
-                  </div>
-                  <div className="game__optionsWrapper">
-                    <h3 className="game__sysTittle">Видеокарта</h3>
-                    {props[1].videocard == "None" ? (
-                      <span className="game__sysDesc">Данные остутсвуют</span>
-                    ) : (
-                      <span className="game__sysDesc">{props[1].videocard}</span>
-                    )}
-                  </div>
-                  <div className="game__secondWrapper">
-                    <div className="game__optionsWrapper game__slice">
-                      <h3 className="game__sysTittle">Память</h3>
-                      {props[1].ram == "None" ? (
-                        <span className="game__sysDesc">Данные остутсвуют</span>
-                      ) : (
-                        <span className="game__sysDesc">{props[1].ram}</span>
-                      )}
-                    </div>
-                    <div className="game__optionsWrapper game__slice">
-                      <h3 className="game__sysTittle">Место на диске</h3>
-                      {props[1].freespace == "None" ? (
-                        <span className="game__sysDesc">Данные остутсвуют</span>
-                      ) : (
-                        <span className="game__sysDesc">{props[1].freespace}</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
+              <SystemRec {...props} />
             </div>
             <div className="game__right">
               <h1 className="game__tittle">
@@ -261,6 +126,13 @@ function GamePage(props) {
                   </svg>
                 )}
               </h1>
+              {user.admin && (
+                <button onClick={dropDownSettingChange} className="game__changeAdmin">
+                  <svg viewBox="0 0 24 24" className="game__changeAdminIcon">
+                    <path d="m22.683 9.394-1.88-.239c-.155-.477-.346-.937-.569-1.374l1.161-1.495c.47-.605.415-1.459-.122-1.979l-1.575-1.575c-.525-.542-1.379-.596-1.985-.127l-1.493 1.161c-.437-.223-.897-.414-1.375-.569l-.239-1.877c-.09-.753-.729-1.32-1.486-1.32h-2.24c-.757 0-1.396.567-1.486 1.317l-.239 1.88c-.478.155-.938.345-1.375.569l-1.494-1.161c-.604-.469-1.458-.415-1.979.122l-1.575 1.574c-.542.526-.597 1.38-.127 1.986l1.161 1.494c-.224.437-.414.897-.569 1.374l-1.877.239c-.753.09-1.32.729-1.32 1.486v2.24c0 .757.567 1.396 1.317 1.486l1.88.239c.155.477.346.937.569 1.374l-1.161 1.495c-.47.605-.415 1.459.122 1.979l1.575 1.575c.526.541 1.379.595 1.985.126l1.494-1.161c.437.224.897.415 1.374.569l.239 1.876c.09.755.729 1.322 1.486 1.322h2.24c.757 0 1.396-.567 1.486-1.317l.239-1.88c.477-.155.937-.346 1.374-.569l1.495 1.161c.605.47 1.459.415 1.979-.122l1.575-1.575c.542-.526.597-1.379.127-1.985l-1.161-1.494c.224-.437.415-.897.569-1.374l1.876-.239c.753-.09 1.32-.729 1.32-1.486v-2.24c.001-.757-.566-1.396-1.316-1.486zm-10.683 7.606c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z" />
+                  </svg>
+                </button>
+              )}
               <img src={props[0].img_url} alt="Изображение игры" className="game__gameImgTwo" />
               <div className="game__wrapperShop">{gameShop}</div>
               <div className="game__textWrapper">
@@ -268,6 +140,57 @@ function GamePage(props) {
                 <p className="game__descText">{props[0].description}</p>
               </div>
             </div>
+          </div>
+          <div className={`game__modalChange ${isDropDownSetting ? "game__modalChange--active" : ""}`}>
+            <Formik
+              initialValues={{
+                name: props[0].title,
+                date: formatDate(new Date(date)),
+                description: props[0].description,
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                dispatch(updGame(props[0].game_id, values.name, values.description, values.date));
+                setSubmitting(false);
+              }}
+            >
+              {({ isSubmitting, errors, touched }) => (
+                <Form>
+                  <div className="game__modalChangeWrapper">
+                    <div className="game__modalChangeHeader">
+                      <h2 className="game__modalChangeTittle">Настройки</h2>
+                      <span onClick={dropDownSettingChange} className="game__modalChangeExit">
+                        X
+                      </span>
+                    </div>
+                    <div className="game__modalChangeBody">
+                      <div className="game__modalChangeItem">
+                        <span className="game__modalChangeSubTitle">Название</span>
+                        <Field name="name" type="text" className="game__modalChangeInput" />
+                      </div>
+                      <div className="game__modalChangeItem">
+                        <span className="game__modalChangeSubTitle">Дата выхода</span>
+                        <Field name="date" type="date" className="game__modalChangeInput" />
+                      </div>
+                      <div className="game__modalChangeItem">
+                        <span className="game__modalChangeSubTitle">Описание</span>
+                        <Field
+                          as="textarea"
+                          name="description"
+                          className="game__modalChangeInput game__modalChangeInputTextArea"
+                        />
+                      </div>
+                      <div className="game__modalChangeItem">
+                        <span className="game__modalChangeSubTitle">Изображение</span>
+                        <input accept="image/*" type="file" className="game__modalChangeInput" />
+                      </div>
+                      <button disabled={isSubmitting} className="game__modalChangeButton">
+                        Изменить
+                      </button>
+                    </div>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </section>
       </div>

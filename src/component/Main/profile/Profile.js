@@ -87,7 +87,7 @@ const Profile = (props) => {
               <div className="profile__textInfoAllWrapper">
                 <label className="profile__textInfoWrapper">
                   <span className="profile__textInfoSpan">Ваш логин:</span>
-                  <input type="text" className="profile__input" value={user.login} />
+                  <input type="text" className="profile__input" value={user.username} />
                 </label>
                 <label className="profile__textInfoWrapper">
                   <span className="profile__textInfoSpan">Ваша почта:</span>

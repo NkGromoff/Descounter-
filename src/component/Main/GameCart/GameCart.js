@@ -1,6 +1,6 @@
 import { debounce } from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import notImg from "../../../image/notImg.jpg";
 import { setGamesForUser } from "../../../redux/UserReduser";
@@ -10,6 +10,8 @@ function GameCart(props) {
   let date;
 
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.UserReduser.user);
 
   const history = useHistory();
 

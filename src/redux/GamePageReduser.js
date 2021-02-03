@@ -45,4 +45,11 @@ export const getGame = (id) => async (dispatch) => {
   } catch (err) {}
 };
 
+export const updGame = (id, name, desc, date) => async (dispatch) => {
+  try {
+    let response = await gamesAPI.updateGame(id, name, desc, date);
+    dispatch(GetOneGameReduserCreator(response.data));
+  } catch (err) {}
+};
+
 export default GamePageReduser;

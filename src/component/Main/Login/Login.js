@@ -25,6 +25,7 @@ function Login() {
       dispatch(SetNullErrorLohReduserCreator());
     };
   }, []);
+
   if (isAuth) return <Redirect to="/" />;
   return (
     <>
