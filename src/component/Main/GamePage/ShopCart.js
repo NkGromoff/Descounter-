@@ -25,11 +25,7 @@ function ShopCart(props) {
   if (props.prevPrice === 0) {
     return (
       <a className="game__shopCart" href={props.url}>
-        <img
-          src={logoImg}
-          alt="Изображение магазина"
-          className="game__shopImg"
-        />
+        <img src={logoImg} alt="Изображение магазина" className="game__shopImg" />
         <div className="game__priceWrapper">
           {props.price != 0 ? (
             <span className="game__priceNow">{props.price} ₽</span>
@@ -43,16 +39,14 @@ function ShopCart(props) {
   if (!props.prevPrice == 0) {
     return (
       <a className="game__shopCart" href={props.url}>
-        <img
-          src={logoImg}
-          alt="Изображение магазина"
-          className="game__shopImg"
-        />
+        <img src={logoImg} alt="Изображение магазина" className="game__shopImg" />
         <div className="game__priceWrapper">
-          <span className="game__pricePrev">{props.prevPrice} ₽</span>
-          <span className="game__priceNow">{props.price} ₽</span>
+          <div className="game__priceInnerUnDesc ">
+            <span className="game__pricePrev">{props.prevPrice} ₽</span>
+            <span className="game__priceNow">{props.price} ₽</span>
+          </div>
+          <span className="game__numDesc">{props.amountDisc}%</span>
         </div>
-        <span className="game__numDesc">{props.amountDisc}%</span>
       </a>
     );
   }

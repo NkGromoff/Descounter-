@@ -30,9 +30,9 @@ function Login() {
   return (
     <>
       <Formik
-        initialValues={{ login: "", password: "" }}
+        initialValues={{ login: "", password: "", checkBox: false }}
         onSubmit={(values, { setSubmitting }) => {
-          dispatch(login(values.login, values.password));
+          dispatch(login(values.login, values.password, values.checkBox));
           setSubmitting(false);
         }}
       >
@@ -68,6 +68,11 @@ function Login() {
                     />
                     <ErrorMessage name="password" className="loginOrReg__error" component="div" />
                   </div>
+                  <label className="loginOrReg__rememberInner">
+                    <Field type="checkbox" name="checkBox" className="loginOrReg__rememberCheck" />
+                    <span className="checkBox loginOrReg__rememberCheckBox"></span>
+                    <span className="loginOrReg__rememberText">Запомнить меня</span>
+                  </label>
                   <button
                     className={isSubmitting ? "loginOrReg__btn" : "loginOrReg__btn loginOrReg__btn--disable"}
                     type="submit"
@@ -96,7 +101,6 @@ function Login() {
           </Form>
         )}
       </Formik>
-      <div className="container"></div>
     </>
   );
 }

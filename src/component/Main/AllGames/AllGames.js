@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { GetGamesReduserCreator, toggleFetching } from "../../../redux/AllGamesReduser";
 
 import GamesDisplay from "../../shared/gamesDisplay";
 
 function AllGames(props) {
   const games = useSelector((state) => state.AllGamesReduser.games);
+
+  const dispatch = useDispatch();
 
   const [state, setState] = useState({
     years: "",
@@ -46,7 +49,7 @@ function AllGames(props) {
   useEffect(() => {
     let gameslength = props.games.length;
     let count = props.filter.count;
-    if (state.isGamesMore == true && count && gameslength && gameslength < count.count) {
+    if (state.isGamesMore == true && count && gameslength && gameslength < +count) {
       props.getGamesMore(
         state.filterPrice,
         state.filterNewDate,

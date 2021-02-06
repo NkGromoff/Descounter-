@@ -1,7 +1,4 @@
-import { userAPI } from "../api/api";
-import { Redirect, useHistory } from "react-router-dom";
-import { auth, getGames } from "./UserReduser";
-import { useSelector } from "react-redux";
+import { auth } from "./UserReduser";
 
 const Set_Initialazed_App = "Set_Initialazed_App";
 

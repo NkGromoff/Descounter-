@@ -6,6 +6,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { updGame } from "../../../redux/GamePageReduser";
 import { setGamesForUser } from "../../../redux/UserReduser";
 import { findGame, formatDate } from "../../shared/generalDataForGame";
+import { Preloader } from "../../shared/Preloader";
 
 import ShopCart from "./ShopCart";
 import { SystemRec } from "./SystemRec";
@@ -69,7 +70,11 @@ function GamePage(props) {
   ));
 
   if (!props[0] && props.oneGameShop !== null) {
-    return <div className="container loading">Загрузка...</div>;
+    return (
+      <div className="container loading">
+        <Preloader />
+      </div>
+    );
   }
 
   return (

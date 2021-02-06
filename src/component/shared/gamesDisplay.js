@@ -8,6 +8,7 @@ import { Field, FieldArray, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { getGameGenre } from "../../redux/AllGamesReduser";
 import { useQueryParams, StringParam, NumberParam, ArrayParam, withDefault, BooleanParam } from "use-query-params";
+import { Preloader } from "./Preloader";
 
 const GamesDisplay = (props) => {
   const secRef = useRef(null);
@@ -17,6 +18,8 @@ const GamesDisplay = (props) => {
   let gameEl = null;
 
   let genreItem = null;
+
+  const isFetching = useSelector((state) => state.AllGamesReduser.isFetching);
 
   const user = useSelector((state) => state.UserReduser.user);
 
@@ -443,6 +446,7 @@ const GamesDisplay = (props) => {
                 </div>
               </div>
               <div className="allGames__itemWrapper">{gameEl}</div>
+              {isFetching && <Preloader />}
             </div>
           </div>
         </div>

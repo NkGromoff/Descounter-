@@ -3,7 +3,7 @@ import GamesDisplay from "../../shared/gamesDisplay";
 import photoImg from "../../../image/profileImg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { getGames, uploadAvatar } from "../../../redux/UserReduser";
+import { getGames, getGamesUserMore, uploadAvatar } from "../../../redux/UserReduser";
 
 const Profile = (props) => {
   const dispatch = useDispatch();
@@ -11,6 +11,8 @@ const Profile = (props) => {
   const isAuth = useSelector((state) => state.UserReduser.isAuth);
 
   const user = useSelector((state) => state.UserReduser.user);
+
+  const filter = useSelector((state) => state.UserReduser.filter);
 
   const games = useSelector((state) => state.UserReduser.games);
 
@@ -44,6 +46,7 @@ const Profile = (props) => {
       term: term,
     });
   };
+  console.log(isAuth);
 
   useEffect(() => {
     dispatch(
@@ -69,6 +72,27 @@ const Profile = (props) => {
     state.term,
     user.id,
   ]);
+
+  useEffect(() => {
+    let gameslength = games.length;
+    let count = filter.count;
+    if (state.isGamesMore == true && count && gameslength && gameslength < count) {
+      dispatch(
+        getGamesUserMore(
+          state.filterPrice,
+          state.filterNewDate,
+          state.prices,
+          state.years,
+          state.genre,
+          state.isDesc,
+          gameslength,
+          count,
+          state.term,
+          user.id
+        )
+      );
+    }
+  }, [state.isGamesMore, filter.count]);
 
   if (!isAuth) return <Redirect to="/Login" />;
   return (

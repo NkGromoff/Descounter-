@@ -1,4 +1,5 @@
 import { userAPI } from "../api/api";
+import { toggleFetching } from "./AllGamesReduser";
 
 const Set_Is_Auth_And_User = "Set_Is_Auth_And_User";
 const Set_Logout = "Set_Logout";
@@ -8,10 +9,11 @@ const Set_Profile_Games_Filter = "Set_Profile_Games_Filter";
 const Set_Reg_Error_Reduser = "Set_Reg_Error_Reduser";
 const Set_Null_Error_Reduser = "Set_Null_Error_Reduser";
 const Set_Login_Error_Reduser = "Set_Login_Error_Reduser";
+const Get_Users_Games_More = "Get_Users_Games_More";
 
 let initialState = {
   user: {},
-  games: null,
+  games: [],
   isAuth: false,
   errorLogReg: null,
   errorLogLogin: null,
@@ -43,6 +45,8 @@ const UserReduser = (state = initialState, action) => {
       return { ...state, errorLogLogin: action.error };
     case Set_Null_Error_Reduser:
       return { ...state, errorLogLogin: null, errorLogReg: null };
+    case Get_Users_Games_More:
+      return { ...state, games: [...state.games, ...action.data] };
     default:
       return state;
   }
@@ -91,6 +95,11 @@ export const SetLoginProfileGamesFilter = (price, date, prices, dateRange, genre
   },
 });
 
+export const GetGamesMoreAC = (data) => ({
+  type: Get_Users_Games_More,
+  data: data,
+});
+
 export const setUser = (login, email, password, passwordTwo) => async (dispatch) => {
   try {
     let response = await userAPI.setUser(login, email, password, passwordTwo);
@@ -101,9 +110,9 @@ export const setUser = (login, email, password, passwordTwo) => async (dispatch)
   }
 };
 
-export const login = (login, password) => async (dispatch) => {
+export const login = (login, password, isRemember) => async (dispatch) => {
   try {
-    let response = await userAPI.login(login, password);
+    let response = await userAPI.login(login, password, isRemember);
     if (response.status == 200) {
       localStorage.setItem("token", response.data.token);
       dispatch(setIsAuthAndUser(response.data.user, true));
@@ -126,17 +135,28 @@ export const auth = () => async (dispatch) => {
     }
   } catch (err) {
     console.log(err);
-    //localStorage.removeItem("token");
   }
 };
 
 export const getGames = (price, date, prices, dateRange, genre, isDesc, games, term, id) => async (dispatch) => {
   try {
+    dispatch(toggleFetching(true));
     let response = await userAPI.getGames(price, date, prices, dateRange, genre, isDesc, games, term, id);
-    dispatch(GetProfileGamesReduserCreator(response.data));
+    dispatch(GetProfileGamesReduserCreator(response.data.games));
+    dispatch(SetLoginProfileGamesFilter(price, date, prices, dateRange, genre, isDesc, response.data.gamesCount, term));
+    dispatch(toggleFetching(false));
+  } catch (err) {}
+};
 
-    response = await userAPI.getCountGames(price, date, prices, dateRange, genre, isDesc, games, term, id);
-    dispatch(Set_Profile_Games_Filter(price, date, prices, dateRange, genre, isDesc, ...response.data, term));
+export const getGamesUserMore = (price, date, prices, dateRange, genre, isDesc, games, count, term, id) => async (
+  dispatch
+) => {
+  try {
+    dispatch(toggleFetching(true));
+    let response = await userAPI.getGames(price, date, prices, dateRange, genre, isDesc, games, term, id);
+    dispatch(GetGamesMoreAC(response.data.games));
+    dispatch(SetLoginProfileGamesFilter(price, date, prices, dateRange, genre, isDesc, count, term));
+    dispatch(toggleFetching(false));
   } catch (err) {}
 };
 
@@ -144,9 +164,7 @@ export const uploadAvatar = (file) => async (dispatch) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
-    console.log(formData);
     let response = await userAPI.setAvatarForUser(formData);
-    console.log(response.data);
     dispatch(setIsAuthAndUser(response.data[0], true));
   } catch (err) {
     console.log(err);

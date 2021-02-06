@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import Footer from "../component/Footer/Footer";
 import Header from "../component/Header/Header";
@@ -25,6 +24,7 @@ function MainRoutes() {
         <Route path="/Congratulations" component={Congratulations} />
         <Route path="*" component={NotFound} />
       </Switch>
+
       <Footer />
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import photoImg from "../../image/profileImg.png";
@@ -7,6 +7,8 @@ import Login from "../Main/Login/Login";
 
 const Header = (props) => {
   const [isDown, setIsDown] = useState(false);
+
+  const wrapperRef = useRef(null);
 
   const [burgerMenu, setBurgerMenu] = useState(false);
 
@@ -18,7 +20,7 @@ const Header = (props) => {
 
   const dispatch = useDispatch();
 
-  let setDropDowm = () => {
+  let setDropDown = () => {
     if (isDown) setIsDown(false);
     else setIsDown(true);
   };
@@ -31,6 +33,19 @@ const Header = (props) => {
   let onClickBurger = () => {
     setBurgerMenu((prev) => !prev);
   };
+
+  let handleClickOutside = (event) => {
+    if (!event.path.includes(wrapperRef.current)) {
+      setIsDown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   useEffect(() => {
     if (isAuth) {
       setBurgerMenu(false);
@@ -65,7 +80,8 @@ const Header = (props) => {
             </NavLink>
             {isAuth ? (
               <button
-                onClick={setDropDowm}
+                ref={wrapperRef}
+                onClick={setDropDown}
                 className={`header__profile-wrapper ${isDown ? "header__profile-wrapper--active" : ""}`}
               >
                 <span className="header__profileName">{user.username}</span>

@@ -102,10 +102,6 @@ export const gamesAPI = {
       { headers: { authorization: `Bearer ${localStorage.getItem("token")}` } }
     );
   },
-  async getCountGames(price, date, priceRange, dateRange, genre, isDesc, games, term) {
-    let ss = gamesCountReqCreator("games/count", null);
-    return await ss(price, date, priceRange, dateRange, genre, isDesc, games, term);
-  },
 };
 
 export const userAPI = {
@@ -118,10 +114,11 @@ export const userAPI = {
     });
   },
 
-  login(login, password) {
+  login(login, password, isRemember) {
     return instance.post("auth/login", {
       login: login,
       password: password,
+      isRemember: isRemember,
     });
   },
 
@@ -145,11 +142,6 @@ export const userAPI = {
     return instance.post("auth/avatar", file, {
       headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
     });
-  },
-
-  async getCountGames(price, date, priceRange, dateRange, genre, isDesc, games, term, id) {
-    let ss = gamesCountReqCreator("auth/games/count", id);
-    return await ss(price, date, priceRange, dateRange, genre, isDesc, games, term);
   },
 };
 

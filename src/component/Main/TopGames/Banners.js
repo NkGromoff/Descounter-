@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { getGames, SetMainPageGamesIdNullReduserCreator } from "../../../redux/MainPageReduser";
 import MainCarts from "./mainCarts";
 
@@ -59,6 +60,11 @@ function Banners(props) {
     <>
       <section className="gameGallery">
         <div className="gameGallery__wrapper">{mainCartEl}</div>
+        <div className="gameGallery__linkWrapper">
+          <NavLink to={`/allGames`} className="gameGallery__link">
+            Больше
+          </NavLink>
+        </div>
       </section>
     </>
   );
