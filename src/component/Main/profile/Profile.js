@@ -3,7 +3,7 @@ import GamesDisplay from "../../shared/gamesDisplay";
 import photoImg from "../../../image/profileImg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { getGames, getGamesUserMore, uploadAvatar } from "../../../redux/UserReduser";
+import { getGames, getGamesUserMore, SetUsersMainGenre, uploadAvatar } from "../../../redux/UserReduser";
 
 const Profile = (props) => {
   const dispatch = useDispatch();
@@ -14,12 +14,16 @@ const Profile = (props) => {
 
   const filter = useSelector((state) => state.UserReduser.filter);
 
+  const allCount = useSelector((state) => state.UserReduser.allCount);
+
+  const mainGenre = useSelector((state) => state.UserReduser.mainGenre);
+
   const games = useSelector((state) => state.UserReduser.games);
 
   const avatarImg = user.avatar ? "http://localhost:4000/" + user.avatar : photoImg;
 
   const [state, setState] = useState({
-    years: "",
+    years: 0,
     prices: "",
     filterPrice: "",
     filterNewDate: "",
@@ -46,22 +50,47 @@ const Profile = (props) => {
       term: term,
     });
   };
-  console.log(isAuth);
+
+  const favGenre = () => {
+    let genreObj = {};
+    let mainGnere;
+    let max = 0;
+    if (games.length !== 0) {
+      games.map((e) => {
+        if (e.tag_game in genreObj) {
+          genreObj[e.tag_game]++;
+        } else {
+          genreObj[e.tag_game] = 1;
+        }
+      });
+      for (let key in genreObj) {
+        console.log(key);
+        console.log(genreObj);
+        max = Math.max(genreObj[key], max);
+        console.log(max);
+        mainGnere = Object.keys(genreObj).filter((v) => genreObj[v] === max);
+      }
+      dispatch(SetUsersMainGenre(mainGnere));
+    } else if (games.length === 0) {
+      dispatch(SetUsersMainGenre("Отсутствует"));
+    }
+  };
 
   useEffect(() => {
-    dispatch(
-      getGames(
-        state.filterPrice,
-        state.filterNewDate,
-        state.prices,
-        state.years,
-        state.genre,
-        state.isDesc,
-        null,
-        state.term,
-        user.id
-      )
-    );
+    if (state.years !== 0)
+      dispatch(
+        getGames(
+          state.filterPrice,
+          state.filterNewDate,
+          state.prices,
+          state.years,
+          state.genre,
+          state.isDesc,
+          null,
+          state.term,
+          user.id
+        )
+      );
   }, [
     state.filterPrice,
     state.filterNewDate,
@@ -93,6 +122,9 @@ const Profile = (props) => {
       );
     }
   }, [state.isGamesMore, filter.count]);
+  useEffect(() => {
+    favGenre();
+  }, []);
 
   if (!isAuth) return <Redirect to="/Login" />;
   return (
@@ -109,18 +141,17 @@ const Profile = (props) => {
                 </label>
               </div>
               <div className="profile__textInfoAllWrapper">
-                <label className="profile__textInfoWrapper">
-                  <span className="profile__textInfoSpan">Ваш логин:</span>
-                  <input type="text" className="profile__input" value={user.username} />
-                </label>
-                <label className="profile__textInfoWrapper">
-                  <span className="profile__textInfoSpan">Ваша почта:</span>
-                  <input type="text" className="profile__input" value={user.email} />
-                </label>
-                <label className="profile__textInfoWrapper">
-                  <span className="profile__textInfoSpan">Ваш пароль:</span>
-                  <input type="text" className="profile__input" />
-                </label>
+                <div className="profile__textInfoWrapper">
+                  <h2 className="profile__tittle">{user.username}</h2>
+                </div>
+                <div className="profile__textInfoWrapper">
+                  <span className="profile__textInfoSpan">Всего игр:</span>
+                  <span className="profile__textInfoSpanDark">{allCount}</span>
+                </div>
+                <div className="profile__textInfoWrapper">
+                  <span className="profile__textInfoSpan">Любимый жанр:</span>
+                  <span className="profile__textInfoSpanDark">{mainGenre}</span>
+                </div>
               </div>
             </div>
             <div className="profile__dateRegWrapper">

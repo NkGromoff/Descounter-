@@ -3,7 +3,7 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import MainRoutes from "./routes/mainRoutes";
 import LoginOrRegRoutes from "./routes/loginOrRegRoutes";
 import { useDispatch, useSelector } from "react-redux";
-import { auth, getGames } from "./redux/UserReduser";
+import { auth, getGames, SetUsersMainGenre } from "./redux/UserReduser";
 import { setInitialazed } from "./redux/AppReduser";
 import { Preloader } from "./component/shared/Preloader";
 
@@ -12,6 +12,7 @@ function App() {
   const isAuth = useSelector((state) => state.UserReduser.isAuth);
   const user = useSelector((state) => state.UserReduser.user);
   const init = useSelector((state) => state.AppReduser.init);
+  const games = useSelector((state) => state.UserReduser.games);
 
   useEffect(() => {
     dispatch(setInitialazed());
@@ -31,7 +32,8 @@ function App() {
   return (
     <>
       <Switch>
-        <Route path="/(Login|Registration)" component={LoginOrRegRoutes} />
+        <Route path="/Login" component={LoginOrRegRoutes} />
+        <Route path="/Registration" component={LoginOrRegRoutes} />
         <Route component={MainRoutes} />
       </Switch>
     </>

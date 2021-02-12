@@ -59,7 +59,9 @@ function Banners(props) {
   return (
     <>
       <section className="gameGallery">
+        <h1 className="gameGallery__tittle genreTittle">Снижение цен</h1>
         <div className="gameGallery__wrapper">{mainCartEl}</div>
+
         <div className="gameGallery__linkWrapper">
           <NavLink to={`/allGames`} className="gameGallery__link">
             Больше

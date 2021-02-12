@@ -74,6 +74,18 @@ const GamesDisplay = (props) => {
     []
   );
 
+  const trottleTerm = useCallback(
+    debounce((values) => {
+      if (values === "") setQuery({ term: undefined });
+      else setQuery({ term: values });
+    }, 500),
+    []
+  );
+
+  const termChange = (value) => {
+    trottleTerm(value);
+  };
+
   let priceSlider = (values, handle) => {
     trottlePriceOne(Math.round(values[0]));
     trottlePriceTwo(Math.round(values[1]));
@@ -174,7 +186,6 @@ const GamesDisplay = (props) => {
       setQuery((old) => ({ genre: [...old.genre, newState] }));
     }
   };
-  let termChange = (value) => {};
 
   if (props.games) {
     gameEl = props.games.map((g) => (
@@ -231,34 +242,36 @@ const GamesDisplay = (props) => {
 
   return (
     <>
-      <section ref={secRef} className="allGames">
+      <section ref={secRef} className="gamesDisplay">
         <div className="container">
-          <div className="allGames__wrapper">
-            <div className={`allGames__filterWrapper ${filterIsVisible ? `allGames__filterWrapper--visible` : ""}`}>
-              <div className="allGames__genre">
-                <div className="allGames__genreHeader" onClick={dropDownShow}>
+          <div className="gamesDisplay__wrapper">
+            <div
+              className={`gamesDisplay__filterWrapper ${filterIsVisible ? `gamesDisplay__filterWrapper--visible` : ""}`}
+            >
+              <div className="gamesDisplay__genre">
+                <div className="gamesDisplay__genreHeader" onClick={dropDownShow}>
                   {query.genre && query.genre.length != 0 ? (
-                    <span className="allGames__genreSpan">Жанры:{query.genre.join(",")}</span>
+                    <span className="gamesDisplay__genreSpan">Жанры:{query.genre.join(",")}</span>
                   ) : (
-                    <span className="allGames__genreSpan">Жанры</span>
+                    <span className="gamesDisplay__genreSpan">Жанры</span>
                   )}
                   {isDropDown ? (
-                    <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" className="allGames__triggle">
+                    <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" className="gamesDisplay__triggle">
                       <path d="M0 5.16016H7.93L5.94825 2.58016L3.9655 0.000156403L1.98275 2.58016L0 5.16016Z" />
                     </svg>
                   ) : (
-                    <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" className="allGames__triggle">
+                    <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" className="gamesDisplay__triggle">
                       <path d="M1.656 1h7.931L7.605 3.58 5.622 6.16 3.639 3.58 1.656 1z" />
                     </svg>
                   )}
                 </div>
-                <div className={`allGames__genreBody ${isDropDown ? "allGames__genreBody--active" : ""}`}>
+                <div className={`gamesDisplay__genreBody ${isDropDown ? "gamesDisplay__genreBody--active" : ""}`}>
                   {genreItem}
                 </div>
               </div>
-              <div className="allGames__filterItem allGames__filterPrice">
-                <h2 className="allGames__subTittle">Цена</h2>
-                <div className="allGames__sliderPrice">
+              <div className="gamesDisplay__filterItem gamesDisplay__filterPrice">
+                <h2 className="gamesDisplay__subTittle">Цена</h2>
+                <div className="gamesDisplay__sliderPrice">
                   <Nouislider
                     connect
                     onChange={priceSlider}
@@ -267,34 +280,34 @@ const GamesDisplay = (props) => {
                     step={100}
                   />
                 </div>
-                <div className="allGames__inputWrapper">
-                  <div className="allGames__inputWrapperTwo">
-                    <span className="allGames__inputSpan">От</span>
+                <div className="gamesDisplay__inputWrapper">
+                  <div className="gamesDisplay__inputWrapperTwo">
+                    <span className="gamesDisplay__inputSpan">От</span>
                     <input
                       type="number"
                       min="0"
                       max="9999"
                       onChange={changePrice}
                       value={pricesForInp[0]}
-                      className="allGames__input allGames__priceMin"
+                      className="gamesDisplay__input gamesDisplay__priceMin"
                     />
                   </div>
-                  <div className="allGames__inputWrapperTwo">
-                    <span className="allGames__inputSpan">До</span>
+                  <div className="gamesDisplay__inputWrapperTwo">
+                    <span className="gamesDisplay__inputSpan">До</span>
                     <input
                       type="number"
                       min="0"
                       max="9999"
                       onChange={changePriceTwo}
                       value={pricesForInp[1]}
-                      className="allGames__input allGames__priceMax"
+                      className="gamesDisplay__input gamesDisplay__priceMax"
                     />
                   </div>
                 </div>
               </div>
-              <div className="allGames__filterItem allGames__filterYear">
-                <h2 className="allGames__subTittle">Год</h2>
-                <div className="allGames__sliderYear">
+              <div className="gamesDisplay__filterItem gamesDisplay__filterYear">
+                <h2 className="gamesDisplay__subTittle">Год</h2>
+                <div className="gamesDisplay__sliderYear">
                   <Nouislider
                     connect
                     onChange={yearSlider}
@@ -302,64 +315,70 @@ const GamesDisplay = (props) => {
                     start={[yearsForInp[0], yearsForInp[1]]}
                   />
                 </div>
-                <div className="allGames__inputWrapper">
-                  <div className="allGames__inputWrapperTwo">
-                    <span className="allGames__inputSpan">От</span>
+                <div className="gamesDisplay__inputWrapper">
+                  <div className="gamesDisplay__inputWrapperTwo">
+                    <span className="gamesDisplay__inputSpan">От</span>
                     <input
                       type="number"
                       min="1980"
                       max="2021"
                       onChange={changeYear}
                       value={yearsForInp[0]}
-                      className="allGames__input allGames__yearMin"
+                      className="gamesDisplay__input gamesDisplay__yearMin"
                     />
                   </div>
-                  <div className="allGames__inputWrapperTwo">
-                    <span className="allGames__inputSpan">До</span>
+                  <div className="gamesDisplay__inputWrapperTwo">
+                    <span className="gamesDisplay__inputSpan">До</span>
                     <input
                       type="number"
                       min="1980"
                       max="2021"
                       onChange={changeYearTwo}
                       value={yearsForInp[1]}
-                      className="allGames__input allGames__yearMax"
+                      className="gamesDisplay__input gamesDisplay__yearMax"
                     />
                   </div>
                 </div>
               </div>
             </div>
-            <button onClick={filterVisible} className="allGames__buttonFilterMobile">
+            <button onClick={filterVisible} className="gamesDisplay__buttonFilterMobile">
               {filterIsVisible ? "Скрыть фильтры" : "Показать фильтры"}
             </button>
-            <div className="allGames__wrapperRight">
+            <div className="gamesDisplay__wrapperRight">
               <Formik
                 enableReinitialize
                 initialValues={{ term: query.term }}
                 onSubmit={(values, { setSubmitting }) => {
                   if (values.term === "") setQuery({ term: undefined });
-                  setQuery({ term: values.term });
+                  else setQuery({ term: values.term });
                   setSubmitting(false);
                 }}
               >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, values }) => (
                   <Form>
-                    <div className="allGames__search-Wrapper">
-                      <Field type="text" name="term" className="allGames__search" placeholder="Поиск" />
-                      <button className="allGames__search-button" type="submit" disabled={isSubmitting}>
+                    <div className="gamesDisplay__search-Wrapper">
+                      <Field
+                        onKeyDown={termChange(values.term)}
+                        type="text"
+                        name="term"
+                        className="gamesDisplay__search"
+                        placeholder="Поиск"
+                      />
+                      <button className="gamesDisplay__search-button" type="submit" disabled={isSubmitting}>
                         <img src={icon} alt="Кнопка" />
                       </button>
                     </div>
                   </Form>
                 )}
               </Formik>
-              <div className="allGames__filterWrapperTwo">
-                <span className="allGames__sort">Сортировать по:</span>
-                <div className="allGames__sortItem allGames__sortPrice">
-                  <button onClick={clickFilterPrice} className="allGames__button allGames__priceButton">
+              <div className="gamesDisplay__filterWrapperTwo">
+                <span className="gamesDisplay__sort">Сортировать по:</span>
+                <div className="gamesDisplay__sortItem gamesDisplay__sortPrice">
+                  <button onClick={clickFilterPrice} className="gamesDisplay__button gamesDisplay__priceButton">
                     <span
-                      className={`allGames__buttonSpan ${
+                      className={`gamesDisplay__buttonSpan ${
                         query.filterPrice == "priceDown" || query.filterPrice == "priceUp"
-                          ? "allGames__buttonSpan--active"
+                          ? "gamesDisplay__buttonSpan--active"
                           : ""
                       }`}
                     >
@@ -370,9 +389,9 @@ const GamesDisplay = (props) => {
                         width="11"
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
-                        className={`allGames__triggle ${
+                        className={`gamesDisplay__triggle ${
                           query.filterPrice == "priceDown" || query.filterPrice == "priceUp"
-                            ? "allGames__triggle--active"
+                            ? "gamesDisplay__triggle--active"
                             : ""
                         }`}
                       >
@@ -383,9 +402,9 @@ const GamesDisplay = (props) => {
                         width="11"
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
-                        className={`allGames__triggle ${
+                        className={`gamesDisplay__triggle ${
                           query.filterPrice == "priceDown" || query.filterPrice == "priceUp"
-                            ? "allGames__triggle--active"
+                            ? "gamesDisplay__triggle--active"
                             : ""
                         }`}
                       >
@@ -394,12 +413,12 @@ const GamesDisplay = (props) => {
                     )}
                   </button>
                 </div>
-                <div className="allGames__sortItem allGames__sortNew">
-                  <button onClick={clickFilterNewDate} className="allGames__button allGames__priceButton">
+                <div className="gamesDisplay__sortItem gamesDisplay__sortNew">
+                  <button onClick={clickFilterNewDate} className="gamesDisplay__button gamesDisplay__priceButton">
                     <span
-                      className={`allGames__buttonSpan ${
+                      className={`gamesDisplay__buttonSpan ${
                         query.newGamesDate == "dateDown" || query.newGamesDate == "dateUp"
-                          ? "allGames__buttonSpan--active"
+                          ? "gamesDisplay__buttonSpan--active"
                           : ""
                       }`}
                     >
@@ -410,9 +429,9 @@ const GamesDisplay = (props) => {
                         width="11"
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
-                        className={`allGames__triggle ${
+                        className={`gamesDisplay__triggle ${
                           query.newGamesDate == "dateDown" || query.newGamesDate == "dateUp"
-                            ? "allGames__triggle--active"
+                            ? "gamesDisplay__triggle--active"
                             : ""
                         }`}
                       >
@@ -423,9 +442,9 @@ const GamesDisplay = (props) => {
                         width="11"
                         height="7"
                         xmlns="http://www.w3.org/2000/svg"
-                        className={`allGames__triggle ${
+                        className={`gamesDisplay__triggle ${
                           query.newGamesDate == "dateDown" || query.newGamesDate == "dateUp"
-                            ? "allGames__triggle--active"
+                            ? "gamesDisplay__triggle--active"
                             : ""
                         }`}
                       >
@@ -434,18 +453,22 @@ const GamesDisplay = (props) => {
                     )}
                   </button>
                 </div>
-                <div className="allGames__sortItem allGames__descountWrapper">
-                  <input id="desc" type="checkbox" className="allGames__genreCheck" onChange={descChange} />
+                <div className="gamesDisplay__sortItem gamesDisplay__descountWrapper">
+                  <input id="desc" type="checkbox" className="gamesDisplay__genreCheck" onChange={descChange} />
 
                   <label
                     htmlFor="desc"
-                    className={`allGames__descSpan ${query.isDesc ? "allGames__descSpan--active" : ""}`}
+                    className={`gamesDisplay__descSpan ${query.isDesc ? "gamesDisplay__descSpan--active" : ""}`}
                   >
                     Только со скидкой
                   </label>
                 </div>
               </div>
-              <div className="allGames__itemWrapper">{gameEl}</div>
+              {props.games.length !== 0 ? (
+                <div className="gamesDisplay__itemWrapper">{gameEl}</div>
+              ) : (
+                isFetching == false && <span className="gamesDisplay__emptyAlert">Список пуст</span>
+              )}
               {isFetching && <Preloader />}
             </div>
           </div>
@@ -470,14 +493,14 @@ function ItemGenre(props) {
   }, [props.genre[0]]);
   return (
     <>
-      <div className="allGames__genreItem">
-        <label htmlFor={props.id} className="allGames__genreSpan">
+      <div className="gamesDisplay__genreItem">
+        <label htmlFor={props.id} className="gamesDisplay__genreSpan">
           {props.name}
 
           <input
             id={props.id}
             type="checkbox"
-            className="allGames__genreCheck"
+            className="gamesDisplay__genreCheck"
             value={props.name}
             onChange={checkUpd}
             checked={check}

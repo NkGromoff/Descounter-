@@ -10,11 +10,15 @@ const Set_Reg_Error_Reduser = "Set_Reg_Error_Reduser";
 const Set_Null_Error_Reduser = "Set_Null_Error_Reduser";
 const Set_Login_Error_Reduser = "Set_Login_Error_Reduser";
 const Get_Users_Games_More = "Get_Users_Games_More";
+const Set_Users_Main_Genre = "Set_Users_Main_Genre";
+const Set_Users_All_Count = "Set_Users_All_Count";
 
 let initialState = {
   user: {},
   games: [],
   isAuth: false,
+  mainGenre: "Отсутствует",
+  allCount: null,
   errorLogReg: null,
   errorLogLogin: null,
   filter: {
@@ -47,6 +51,10 @@ const UserReduser = (state = initialState, action) => {
       return { ...state, errorLogLogin: null, errorLogReg: null };
     case Get_Users_Games_More:
       return { ...state, games: [...state.games, ...action.data] };
+    case Set_Users_Main_Genre:
+      return { ...state, mainGenre: action.data };
+    case Set_Users_All_Count:
+      return { ...state, allCount: action.data };
     default:
       return state;
   }
@@ -79,6 +87,15 @@ export const SetLoginErrorReduserCreator = (error) => ({
 
 export const SetNullErrorLohReduserCreator = () => ({
   type: Set_Null_Error_Reduser,
+});
+
+export const SetUsersMainGenre = (data) => ({
+  type: Set_Users_Main_Genre,
+  data: data,
+});
+export const SetUsersAllCount = (data) => ({
+  type: Set_Users_All_Count,
+  data: data,
 });
 
 export const SetLoginProfileGamesFilter = (price, date, prices, dateRange, genre, isDesc, count, term) => ({
@@ -128,8 +145,8 @@ export const auth = () => async (dispatch) => {
   try {
     let response = await userAPI.auth();
     if (response.status == 200) {
-      localStorage.setItem("token", response.data.token);
       dispatch(setIsAuthAndUser(response.data.user, true));
+      localStorage.setItem("token", response.data.token);
     } else {
       localStorage.removeItem("token");
     }
@@ -143,7 +160,11 @@ export const getGames = (price, date, prices, dateRange, genre, isDesc, games, t
     dispatch(toggleFetching(true));
     let response = await userAPI.getGames(price, date, prices, dateRange, genre, isDesc, games, term, id);
     dispatch(GetProfileGamesReduserCreator(response.data.games));
-    dispatch(SetLoginProfileGamesFilter(price, date, prices, dateRange, genre, isDesc, response.data.gamesCount, term));
+    console.log(response.data);
+    dispatch(SetUsersAllCount(response.data.allGamesCount));
+    dispatch(
+      SetLoginProfileGamesFilter(price, date, prices, dateRange, genre, isDesc, response.data.gamesCountFilter, term)
+    );
     dispatch(toggleFetching(false));
   } catch (err) {}
 };

@@ -1,9 +1,8 @@
 import { Field, Form, Formik } from "formik";
-import { debounce } from "lodash";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
-import { updGame } from "../../../redux/GamePageReduser";
+import { useHistory } from "react-router-dom";
+import { ClearOneGameReduser, getGame, updGame } from "../../../redux/GamePageReduser";
 import { setGamesForUser } from "../../../redux/UserReduser";
 import { findGame, formatDate } from "../../shared/generalDataForGame";
 import { Preloader } from "../../shared/Preloader";
@@ -13,11 +12,8 @@ import { SystemRec } from "./SystemRec";
 
 function GamePage(props) {
   let date;
+
   let gameid;
-  if (props[0]) {
-    date = props[0].year_release;
-    gameid = props[0].game_id;
-  }
 
   const dispatch = useDispatch();
 
@@ -29,14 +25,13 @@ function GamePage(props) {
 
   const userGames = useSelector((state) => state.UserReduser.games);
 
+  const oneGame = useSelector((state) => state.GamePageReduser.oneGame);
+
+  const oneGameShop = useSelector((state) => state.GamePageReduser.oneGameShop);
+
   const [isMyGame, setIsMyGame] = useState(true);
 
   const [isDropDownSetting, setIsDropDownSetting] = useState(false);
-
-  // const trottleAddGame = useCallback(
-  //   debounce(() => dispatch(setGamesForUser(user.id, props[0].game_id)), 500),
-  //   []
-  // );
 
   let gameShop = null;
 
@@ -50,7 +45,6 @@ function GamePage(props) {
 
   let gameAddOrDel = () => {
     if (!isAuth) return history.push("/Login");
-
     dispatch(setGamesForUser(user.id, props[0].game_id));
   };
 
@@ -58,7 +52,7 @@ function GamePage(props) {
     setIsDropDownSetting((prev) => !prev);
   };
 
-  gameShop = props.oneGameShop.map((s) => (
+  gameShop = oneGameShop.map((s) => (
     <ShopCart
       key={s.id}
       price={s.price}
@@ -69,7 +63,20 @@ function GamePage(props) {
     />
   ));
 
-  if (!props[0] && props.oneGameShop !== null) {
+  if (oneGame[0]) {
+    date = oneGame[0].year_release;
+    gameid = oneGame[0].game_id;
+  }
+
+  useEffect(() => {
+    dispatch(getGame(props.match.params.id));
+    window.scrollTo(0, 0);
+    return () => {
+      dispatch(ClearOneGameReduser());
+    };
+  }, []);
+
+  if (!oneGame[0] && oneGameShop !== null) {
     return (
       <div className="container loading">
         <Preloader />
@@ -83,52 +90,61 @@ function GamePage(props) {
         <section className="game">
           <div className="game__wrapper">
             <div className="game__left">
-              <img src={props[0].img_url} alt="Изображение игры" className="game__gameImg" />
+              <img src={oneGame[0].img_url} alt="Изображение игры" className="game__gameImg" />
               <div className="game__dateWrapper">
                 <h2 className="game__dateTittle">Дата выхода:</h2>
                 <span className="game__dateText">{formatDate(new Date(date))}</span>
               </div>
-              <SystemRec {...props} />
+              <SystemRec {...oneGame} />
             </div>
             <div className="game__right">
               <h1 className="game__tittle">
-                {props[0].title}
+                {oneGame[0].title}
                 {!isAuth ? (
-                  <svg
-                    width="22"
-                    height="22"
-                    onClick={gameAddOrDel}
-                    viewBox="0 0 18 18"
-                    className="game__addGameIcon"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect y="10" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
-                    <rect x="7" width="3" height="17" rx="1" />
-                  </svg>
+                  <div className="game__addIconWrapper">
+                    <svg
+                      width="22"
+                      height="22"
+                      onClick={gameAddOrDel}
+                      viewBox="0 0 18 18"
+                      className="game__addGameIcon"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect y="10" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
+                      <rect x="7" width="3" height="17" rx="1" />
+                    </svg>
+                    <span className="game__toolTip">Добавить игру?</span>
+                  </div>
                 ) : isMyGame ? (
-                  <svg
-                    width="22"
-                    height="22"
-                    onClick={gameAddOrDel}
-                    viewBox="0 0 18 18"
-                    className="game__addGameIcon"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect y="10" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
-                    <rect x="0" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
-                  </svg>
+                  <div className="game__addIconWrapper">
+                    <svg
+                      width="22"
+                      height="22"
+                      onClick={gameAddOrDel}
+                      viewBox="0 0 18 18"
+                      className="game__addGameIcon"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect y="10" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
+                      <rect x="0" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
+                    </svg>
+                    <span className="game__toolTip">Убрать игру?</span>
+                  </div>
                 ) : (
-                  <svg
-                    width="22"
-                    height="22"
-                    onClick={gameAddOrDel}
-                    viewBox="0 0 18 18"
-                    className="game__addGameIcon"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect y="10" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
-                    <rect x="7" width="3" height="17" rx="1" />
-                  </svg>
+                  <div className="game__addIconWrapper">
+                    <svg
+                      width="22"
+                      height="22"
+                      onClick={gameAddOrDel}
+                      viewBox="0 0 18 18"
+                      className="game__addGameIcon"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect y="10" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
+                      <rect x="7" width="3" height="17" rx="1" />
+                    </svg>
+                    <span className="game__toolTip">Добавить игру?</span>
+                  </div>
                 )}
               </h1>
               {user.admin && (
@@ -138,23 +154,23 @@ function GamePage(props) {
                   </svg>
                 </button>
               )}
-              <img src={props[0].img_url} alt="Изображение игры" className="game__gameImgTwo" />
+              <img src={oneGame[0].img_url} alt="Изображение игры" className="game__gameImgTwo" />
               <div className="game__wrapperShop">{gameShop}</div>
               <div className="game__textWrapper">
                 <h3 className="game__descTittle">Описание</h3>
-                <p className="game__descText">{props[0].description}</p>
+                <p className="game__descText">{oneGame[0].description}</p>
               </div>
             </div>
           </div>
           <div className={`game__modalChange ${isDropDownSetting ? "game__modalChange--active" : ""}`}>
             <Formik
               initialValues={{
-                name: props[0].title,
+                name: oneGame[0].title,
                 date: formatDate(new Date(date)),
-                description: props[0].description,
+                description: oneGame[0].description,
               }}
               onSubmit={(values, { setSubmitting }) => {
-                dispatch(updGame(props[0].game_id, values.name, values.description, values.date));
+                dispatch(updGame(oneGame[0].game_id, values.name, values.description, values.date));
                 setSubmitting(false);
               }}
             >

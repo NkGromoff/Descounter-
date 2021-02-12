@@ -1,16 +1,21 @@
 import { useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Login from "../component/Main/Login/Login";
-import Profile from "../component/Main/profile/Profile";
 import Registration from "../component/Main/Registration/Registration";
+import TopGames from "../component/Main/TopGames/TopGames";
 
 function LoginOrRegRoutes() {
+  const isAuth = useSelector((state) => state.UserReduser.isAuth);
   return (
     <>
-      <Switch>
-        <Route path="/Login" component={Login} />
-        <Route path="/Registration" component={Registration} />)
-      </Switch>
+      {!isAuth ? (
+        <Switch>
+          <Route path="/Login" component={Login} />
+          <Route path="/Registration" component={Registration} />)
+        </Switch>
+      ) : (
+        <Redirect to="/" />
+      )}
     </>
   );
 }

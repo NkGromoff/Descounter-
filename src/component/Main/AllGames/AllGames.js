@@ -1,16 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetGamesReduserCreator, toggleFetching } from "../../../redux/AllGamesReduser";
+import { getGames, getGamesMoreList } from "../../../redux/AllGamesReduser";
 
 import GamesDisplay from "../../shared/gamesDisplay";
 
 function AllGames(props) {
-  const games = useSelector((state) => state.AllGamesReduser.games);
-
   const dispatch = useDispatch();
 
+  const games = useSelector((state) => state.AllGamesReduser.games);
+
+  const filter = useSelector((state) => state.AllGamesReduser.filter);
+
   const [state, setState] = useState({
-    years: "",
+    years: 0,
     prices: "",
     filterPrice: "",
     filterNewDate: "",
@@ -19,7 +21,6 @@ function AllGames(props) {
     isGamesMore: false,
     term: null,
   });
-
   const childProps = (years, prices, filterPrice, filterNewDate, isDesc, genre, isGamesMore, term) => {
     setState({
       years: years,
@@ -34,35 +35,40 @@ function AllGames(props) {
   };
 
   useEffect(() => {
-    props.getGames(
-      state.filterPrice,
-      state.filterNewDate,
-      state.prices,
-      state.years,
-      state.genre,
-      state.isDesc,
-      null,
-      state.term
-    );
+    if (state.years !== 0)
+      dispatch(
+        getGames(
+          state.filterPrice,
+          state.filterNewDate,
+          state.prices,
+          state.years,
+          state.genre,
+          state.isDesc,
+          null,
+          state.term
+        )
+      );
   }, [state.filterPrice, state.filterNewDate, state.genre, state.isDesc, state.years, state.prices, state.term]);
 
   useEffect(() => {
-    let gameslength = props.games.length;
-    let count = props.filter.count;
+    let gameslength = games.length;
+    let count = filter.count;
     if (state.isGamesMore == true && count && gameslength && gameslength < +count) {
-      props.getGamesMore(
-        state.filterPrice,
-        state.filterNewDate,
-        state.prices,
-        state.years,
-        state.genre,
-        state.isDesc,
-        gameslength,
-        count,
-        state.term
+      dispatch(
+        getGamesMoreList(
+          state.filterPrice,
+          state.filterNewDate,
+          state.prices,
+          state.years,
+          state.genre,
+          state.isDesc,
+          gameslength,
+          count,
+          state.term
+        )
       );
     }
-  }, [state.isGamesMore, props.filter.count]);
+  }, [state.isGamesMore, filter.count]);
 
   return <GamesDisplay childProps={childProps} games={games} />;
 }

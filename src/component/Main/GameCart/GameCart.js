@@ -54,6 +54,7 @@ function GameCart(props) {
               <rect y="10" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
               <rect x="7" width="3" height="17" rx="1" />
             </svg>
+            <span className="gameItem__toolTip">Добавить игру?</span>
           </div>
         ) : isMyGame ? (
           <div className="gameItem__addGameIconWraaper">
@@ -68,6 +69,7 @@ function GameCart(props) {
               <rect y="10" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
               <rect x="0" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
             </svg>
+            <span className="gameItem__toolTip">Убрать игру?</span>
           </div>
         ) : (
           <div className="gameItem__addGameIconWraaper">
@@ -82,6 +84,7 @@ function GameCart(props) {
               <rect y="10" width="3" height="17" rx="1" transform="rotate(-90 0 10)" />
               <rect x="7" width="3" height="17" rx="1" />
             </svg>
+            <span className="gameItem__toolTip">Добавить игру?</span>
           </div>
         )}
         <div className="gameItem__imgWrapper">
