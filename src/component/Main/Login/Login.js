@@ -10,7 +10,7 @@ import { Redirect } from "react-router-dom";
 
 function Login() {
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.UserReduser.isAuth);
+
   let error = useSelector((state) => state.UserReduser.errorLogLogin);
   const [errorLog, setErrorLog] = useState(null);
 

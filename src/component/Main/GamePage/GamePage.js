@@ -35,17 +35,9 @@ function GamePage(props) {
 
   let gameShop = null;
 
-  useEffect(() => {
-    if (findGame(gameid, userGames)) {
-      setIsMyGame(true);
-    } else {
-      setIsMyGame(false);
-    }
-  }, [userGames, gameid]);
-
   let gameAddOrDel = () => {
     if (!isAuth) return history.push("/Login");
-    dispatch(setGamesForUser(user.id, props[0].game_id));
+    dispatch(setGamesForUser(user.id, oneGame[0].game_id));
   };
 
   const dropDownSettingChange = () => {
@@ -60,6 +52,7 @@ function GamePage(props) {
       name={s.name}
       amountDisc={s.amount_discount}
       url={s.url}
+      available={s.available}
     />
   ));
 
@@ -67,6 +60,13 @@ function GamePage(props) {
     date = oneGame[0].year_release;
     gameid = oneGame[0].game_id;
   }
+  useEffect(() => {
+    if (findGame(gameid, userGames)) {
+      setIsMyGame(true);
+    } else {
+      setIsMyGame(false);
+    }
+  }, [userGames, gameid]);
 
   useEffect(() => {
     dispatch(getGame(props.match.params.id));

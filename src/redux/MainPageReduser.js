@@ -1,4 +1,4 @@
-import { mainPageAPI } from "../api/api";
+import { mainPageAPI } from "../api/mainPageAPI";
 
 const Set_Main_Page_Games_Reduser_Creator = "Set_Main_Page_Games_Reduser_Creator";
 
@@ -57,26 +57,26 @@ export const SetMainPageGamesGenreReduserCreator = (data) => ({
 
 export const getGames = () => async (dispatch) => {
   try {
-    let response = await mainPageAPI.getGames();
+    let data = await mainPageAPI.getGames();
     let arr = [];
 
-    let games = response.data;
+    let games = data;
     if (games) {
       games.map((a, key) => {
         if (key % 2 == 0) arr.push(a.id);
       });
     }
     dispatch(SetMainPageGamesIdReduserCreator(arr));
-    dispatch(SetMainPageGamesReduserCreator(response.data));
+    dispatch(SetMainPageGamesReduserCreator(data));
   } catch (err) {}
 };
 
 export const getGamesGenre = (genre) => async (dispatch) => {
   try {
-    let response = await mainPageAPI.getGamesGenre(genre);
+    let data = await mainPageAPI.getGamesGenre(genre);
     let arr = [];
     let obj = [];
-    let games = response.data;
+    let games = data;
     if (games) {
       games.map((i) => {
         i.gamesForMainPage.map((a, key) => {
@@ -85,7 +85,7 @@ export const getGamesGenre = (genre) => async (dispatch) => {
       });
     }
     dispatch(SetMainPageGamesGenreIdReduserCreator(arr));
-    dispatch(SetMainPageGamesGenreReduserCreator(response.data));
+    dispatch(SetMainPageGamesGenreReduserCreator(data));
   } catch (err) {
     console.log(err);
   }

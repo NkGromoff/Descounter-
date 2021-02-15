@@ -114,7 +114,7 @@ p {
 }
 .hiddeOpacity {
   visibility: none;
-  opacity: 0
+  opacity: 0;
 }
 
 .checkBox {
@@ -502,7 +502,7 @@ p {
 .profile__imgWraper {
   max-width: 256px;
   max-height: 256px;
-  height: 100%;
+  height: 256px;
   width: 100%;
   position: relative;
 }
@@ -546,6 +546,9 @@ p {
 
 .profile__image {
   width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 .profile__textInfoAllWrapper {
@@ -1079,10 +1082,14 @@ p {
   text-shadow: 0px 0px 2px #ffffff;
   display: block;
 }
-
+.game__priceInnerUnDesc {
+  text-align: center;
+}
 .game__priceWrapper {
   display: flex;
-  margin-left: 50px;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
   align-items: center;
 }
 .game__pricePrev {
@@ -1093,6 +1100,7 @@ p {
   margin-bottom: 5px;
   text-shadow: 0px 0px 1px #978f8f;
   position: relative;
+  text-align: center;
 }
 .game__pricePrev::after {
   content: "";

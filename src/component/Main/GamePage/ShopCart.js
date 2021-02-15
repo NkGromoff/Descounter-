@@ -11,7 +11,7 @@ function ShopCart(props) {
     switch (name) {
       case "steam":
         return (logoImg = steamImg);
-      case "steamBuy":
+      case "steambuy":
         return (logoImg = steamBuyImg);
       case "zakazaka":
         return (logoImg = zakazakaImg);
@@ -27,10 +27,12 @@ function ShopCart(props) {
       <a className="game__shopCart" href={props.url}>
         <img src={logoImg} alt="Изображение магазина" className="game__shopImg" />
         <div className="game__priceWrapper">
-          {props.price != 0 ? (
+          {props.price !== 0 && props.available ? (
             <span className="game__priceNow">{props.price} ₽</span>
+          ) : !props.available ? (
+            <span className="game__priceNow">Нет в наличии</span>
           ) : (
-            <span className="game__priceNow">Беслпатно</span>
+            <span className="game__priceNow">Бесплатно</span>
           )}
         </div>
       </a>

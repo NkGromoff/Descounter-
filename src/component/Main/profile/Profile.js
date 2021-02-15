@@ -4,8 +4,9 @@ import photoImg from "../../../image/profileImg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getGames, getGamesUserMore, SetUsersMainGenre, uploadAvatar } from "../../../redux/UserReduser";
+import { formatDate } from "../../shared/generalDataForGame";
 
-const Profile = (props) => {
+const Profile = React.memo((props) => {
   const dispatch = useDispatch();
 
   const isAuth = useSelector((state) => state.UserReduser.isAuth);
@@ -20,8 +21,9 @@ const Profile = (props) => {
 
   const games = useSelector((state) => state.UserReduser.games);
 
-  const avatarImg = user.avatar ? "http://localhost:4000/" + user.avatar : photoImg;
+  const allGames = useSelector((state) => state.UserReduser.gamesWithoutFilter);
 
+  const avatarImg = user.avatar ? "http://localhost:4000/" + user.avatar : photoImg;
   const [state, setState] = useState({
     years: 0,
     prices: "",
@@ -55,8 +57,8 @@ const Profile = (props) => {
     let genreObj = {};
     let mainGnere;
     let max = 0;
-    if (games.length !== 0) {
-      games.map((e) => {
+    if (allGames.length !== 0) {
+      allGames.map((e) => {
         if (e.tag_game in genreObj) {
           genreObj[e.tag_game]++;
         } else {
@@ -64,14 +66,11 @@ const Profile = (props) => {
         }
       });
       for (let key in genreObj) {
-        console.log(key);
-        console.log(genreObj);
         max = Math.max(genreObj[key], max);
-        console.log(max);
         mainGnere = Object.keys(genreObj).filter((v) => genreObj[v] === max);
       }
       dispatch(SetUsersMainGenre(mainGnere));
-    } else if (games.length === 0) {
+    } else if (allGames.length === 0) {
       dispatch(SetUsersMainGenre("Отсутствует"));
     }
   };
@@ -124,7 +123,7 @@ const Profile = (props) => {
   }, [state.isGamesMore, filter.count]);
   useEffect(() => {
     favGenre();
-  }, []);
+  }, [allGames]);
 
   if (!isAuth) return <Redirect to="/Login" />;
   return (
@@ -150,13 +149,15 @@ const Profile = (props) => {
                 </div>
                 <div className="profile__textInfoWrapper">
                   <span className="profile__textInfoSpan">Любимый жанр:</span>
-                  <span className="profile__textInfoSpanDark">{mainGenre}</span>
+                  <span className="profile__textInfoSpanDark">
+                    {Array.isArray(mainGenre) ? mainGenre.join(", ") : mainGenre}
+                  </span>
                 </div>
               </div>
             </div>
             <div className="profile__dateRegWrapper">
               <span className="profile__dateRegSpan">Дата регистрации:</span>
-              <span className="profile__dateReg">12.05.2021</span>
+              <span className="profile__dateReg">{formatDate(new Date(user.data_created))}</span>
             </div>
           </div>
         </section>
@@ -164,6 +165,6 @@ const Profile = (props) => {
       <GamesDisplay childProps={childProps} games={games} />
     </>
   );
-};
+});
 
 export default Profile;

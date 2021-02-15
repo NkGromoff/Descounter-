@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import MainRoutes from "./routes/mainRoutes";
 import LoginOrRegRoutes from "./routes/loginOrRegRoutes";
 import { useDispatch, useSelector } from "react-redux";
-import { auth, getGames, SetUsersMainGenre } from "./redux/UserReduser";
+import { getGames } from "./redux/UserReduser";
 import { setInitialazed } from "./redux/AppReduser";
 import { Preloader } from "./component/shared/Preloader";
 
@@ -12,7 +12,6 @@ function App() {
   const isAuth = useSelector((state) => state.UserReduser.isAuth);
   const user = useSelector((state) => state.UserReduser.user);
   const init = useSelector((state) => state.AppReduser.init);
-  const games = useSelector((state) => state.UserReduser.games);
 
   useEffect(() => {
     dispatch(setInitialazed());

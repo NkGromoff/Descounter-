@@ -20,26 +20,35 @@ function Genre(props) {
       return () => clearInterval(interval);
     }
   }, [arr]);
-  props.gamesArray.forEach((value, key) => {
-    if (key % 2 == 0 && key < props.gamesArray.length) {
-      mainCartEl.push(
-        <MainCarts
-          key={value.id}
-          id={value.id}
-          img={value.img_url}
-          price={value.price}
-          platform_id={value.platform_id}
-          amountDesc={value.amount_discount}
-          imgBack={props.gamesArray[key + 1].img_url}
-          amountDescBack={props.gamesArray[key + 1].amount_discount}
-          priceBack={props.gamesArray[key + 1].price}
-          idBack={props.gamesArray[key + 1].id}
-          gamesArray={props.gamesArray}
-          idForFlip={idForFlip}
-        />
-      );
+
+  if (props.gamesArray.length % 2 == 0) {
+    props.gamesArray.forEach((value, key) => {
+      if (key % 2 == 0 && key < props.gamesArray.length) {
+        mainCartEl.push(
+          <MainCarts
+            key={value.id}
+            id={value.id}
+            img={value.img_url}
+            price={value.price}
+            platform_id={value.platform_id}
+            amountDesc={value.amount_discount}
+            imgBack={props.gamesArray[key + 1].img_url}
+            amountDescBack={props.gamesArray[key + 1].amount_discount}
+            priceBack={props.gamesArray[key + 1].price}
+            idBack={props.gamesArray[key + 1].id}
+            gamesArray={props.gamesArray}
+            idForFlip={idForFlip}
+          />
+        );
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (props.gamesArray.length % 2 !== 0) {
+      props.gamesArray.pop();
     }
-  });
+  }, [props.gamesArray]);
 
   return (
     <>

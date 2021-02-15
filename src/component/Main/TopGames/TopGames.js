@@ -13,7 +13,7 @@ function TopGames() {
 
   useEffect(() => {
     dispatch(getGamesGenre(["Экшен", "Инди", "Гонки", "Хоррор"]));
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => setLoading(false), 700);
   }, []);
   if (gamesGenre)
     games = gamesGenre.map((g, key) => <Genre key={key} gamesArray={g.gamesForMainPage} title={g.genre} />);

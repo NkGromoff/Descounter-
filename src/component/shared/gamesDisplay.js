@@ -3,18 +3,18 @@ import icon from "../../image/search-icon.svg";
 import GameCart from "../Main/GameCart/GameCart";
 import Nouislider from "nouislider-react";
 import { debounce } from "lodash";
-import { Field, FieldArray, Form, Formik } from "formik";
-
+import { Field, Form, Formik, useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { getGameGenre } from "../../redux/AllGamesReduser";
-import { useQueryParams, StringParam, NumberParam, ArrayParam, withDefault, BooleanParam } from "use-query-params";
+import { useQueryParams, StringParam, ArrayParam, withDefault, BooleanParam } from "use-query-params";
 import { Preloader } from "./Preloader";
 
-const GamesDisplay = (props) => {
+const GamesDisplay = React.memo((props) => {
   const secRef = useRef(null);
 
   const dispatch = useDispatch();
-
+  const callback = useCallback();
+  //console.log("object");
   let gameEl = null;
 
   let genreItem = null;
@@ -82,16 +82,18 @@ const GamesDisplay = (props) => {
     []
   );
 
-  const termChange = (value) => {
-    trottleTerm(value);
-  };
-
-  let priceSlider = (values, handle) => {
+  let priceSlider = (values) => {
     trottlePriceOne(Math.round(values[0]));
     trottlePriceTwo(Math.round(values[1]));
     setPricesForInp((oldArray) => [Math.round(values[0]), oldArray[1]]);
     setPricesForInp((oldArray) => [oldArray[0], Math.round(values[1])]);
   };
+
+  let termChange = (values) => {
+    console.log(values);
+    trottleTerm(values);
+  };
+
   let changePrice = (e) => {
     let target = e.currentTarget.value;
     trottlePriceOne(target);
@@ -104,7 +106,7 @@ const GamesDisplay = (props) => {
     setPricesForInp((oldArray) => [oldArray[0], target]);
   };
 
-  let yearSlider = (values, handle) => {
+  let yearSlider = (values) => {
     trottleDateOne(Math.round(values[0]));
     trottleDateTwo(Math.round(values[1]));
     setYearsForInp((oldArray) => [Math.round(values[0]), oldArray[1]]);
@@ -163,7 +165,6 @@ const GamesDisplay = (props) => {
     if (secRef.current !== null) {
       scrollBottom = secRef.current.clientHeight <= window.pageYOffset + window.innerHeight;
     }
-
     if (scrollBottom) {
       trottleGames();
     }
@@ -213,6 +214,7 @@ const GamesDisplay = (props) => {
   }
   useEffect(() => {
     dispatch(getGameGenre());
+
     return () => {
       window.removeEventListener("scroll", onScrollList);
     };
@@ -349,21 +351,25 @@ const GamesDisplay = (props) => {
                 enableReinitialize
                 initialValues={{ term: query.term }}
                 onSubmit={(values, { setSubmitting }) => {
-                  if (values.term === "") setQuery({ term: undefined });
-                  else setQuery({ term: values.term });
+                  trottleTerm(values.term);
+
                   setSubmitting(false);
                 }}
               >
-                {({ isSubmitting, values }) => (
+                {({ isSubmitting, values, handleChange, submitForm }) => (
                   <Form>
                     <div className="gamesDisplay__search-Wrapper">
                       <Field
-                        onKeyDown={termChange(values.term)}
+                        onChange={(e) => {
+                          handleChange(e);
+                          submitForm();
+                        }}
                         type="text"
                         name="term"
                         className="gamesDisplay__search"
                         placeholder="Поиск"
                       />
+
                       <button className="gamesDisplay__search-button" type="submit" disabled={isSubmitting}>
                         <img src={icon} alt="Кнопка" />
                       </button>
@@ -476,7 +482,7 @@ const GamesDisplay = (props) => {
       </section>
     </>
   );
-};
+});
 
 function ItemGenre(props) {
   const [check, setCheck] = useState(false);

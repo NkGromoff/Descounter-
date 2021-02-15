@@ -7,8 +7,8 @@ import AllGames from "../component/Main/AllGames/AllGames";
 import GamePage from "../component/Main/GamePage/GamePage";
 import Profile from "../component/Main/profile/Profile";
 import TopGames from "../component/Main/TopGames/TopGames";
-import NotFound from "../component/NotFound/NotFound";
 import Congratulations from "../component/shared/Congratulations";
+import NotFound from "../component/shared/NotFound";
 
 function MainRoutes() {
   return (

@@ -1,4 +1,4 @@
-import { gamesAPI } from "../api/api";
+import { gamesAPI } from "../api/gamesAPI";
 const Get_One_Game_Reduser = "Get_One_Game_Reduser";
 const Clear_One_Game_Reduser = "Clear_One_Game_Reduser";
 const Get_One_Game_Shop_Reduser = "Get_One_Game_Shop_Reduser";
@@ -38,17 +38,17 @@ export const ClearOneGameReduser = () => ({
 
 export const getGame = (id) => async (dispatch) => {
   try {
-    let response = await gamesAPI.getGame(id);
-    dispatch(GetOneGameReduserCreator(response.data));
-    response = await gamesAPI.getGameShop(id);
-    dispatch(GetOneGameShopReduserCreator(response.data));
+    let data = await gamesAPI.getGame(id);
+    dispatch(GetOneGameReduserCreator(data));
+    data = await gamesAPI.getGameShop(id);
+    dispatch(GetOneGameShopReduserCreator(data));
   } catch (err) {}
 };
 
 export const updGame = (id, name, desc, date) => async (dispatch) => {
   try {
-    let response = await gamesAPI.updateGame(id, name, desc, date);
-    dispatch(GetOneGameReduserCreator(response.data));
+    let data = await gamesAPI.updateGame(id, name, desc, date);
+    dispatch(GetOneGameReduserCreator(data));
   } catch (err) {}
 };
 
