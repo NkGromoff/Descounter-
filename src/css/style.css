@@ -786,13 +786,14 @@ p {
   margin: auto;
 }
 .about__tittle {
-  color: #ffffff;
+  color: #4c4c96;
   font-size: 36px;
   margin-left: 100px;
   line-height: 30px;
 }
 .about__text {
   margin: auto;
+  color: #2c2c6c;
   max-width: 1200px;
   line-height: 30px;
   margin-top: 40px;

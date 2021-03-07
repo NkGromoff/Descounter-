@@ -2,8 +2,10 @@ import React from "react";
 
 import zakazakaImg from "../../../image/zakazaka.png";
 import steamImg from "../../../image/Steam.jpg";
-import steamBuyImg from "../../../image/steamBuy.png";
-import steamPayImg from "../../../image/steampay.jpg";
+import steamBuyImg from "../../../image/steamBuy.svg";
+import steamPayImg from "../../../image/steampay.svg";
+import steamAccImg from "../../../image/steam-account.svg";
+import noneImg from "../../../image/notImg.jpg";
 
 function ShopCart(props) {
   let logoImg = null;
@@ -15,10 +17,12 @@ function ShopCart(props) {
         return (logoImg = steamBuyImg);
       case "zakazaka":
         return (logoImg = zakazakaImg);
-      case "steamPay":
+      case "steampay":
         return (logoImg = steamPayImg);
+      case "steam-account":
+        return (logoImg = steamAccImg);
       default:
-        return (logoImg = null);
+        return (logoImg = noneImg);
     }
   };
   ShopCartImg(props.name);

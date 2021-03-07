@@ -3,7 +3,7 @@ import icon from "../../image/search-icon.svg";
 import GameCart from "../Main/GameCart/GameCart";
 import Nouislider from "nouislider-react";
 import { debounce } from "lodash";
-import { Field, Form, Formik, useFormik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { getGameGenre } from "../../redux/AllGamesReduser";
 import { useQueryParams, StringParam, ArrayParam, withDefault, BooleanParam } from "use-query-params";
@@ -13,8 +13,6 @@ const GamesDisplay = React.memo((props) => {
   const secRef = useRef(null);
 
   const dispatch = useDispatch();
-  const callback = useCallback();
-  //console.log("object");
   let gameEl = null;
 
   let genreItem = null;
@@ -352,7 +350,6 @@ const GamesDisplay = React.memo((props) => {
                 initialValues={{ term: query.term }}
                 onSubmit={(values, { setSubmitting }) => {
                   trottleTerm(values.term);
-
                   setSubmitting(false);
                 }}
               >

@@ -130,7 +130,7 @@ export const GetGamesMoreAC = (data) => ({
 export const setUser = (login, email, password, passwordTwo) => async (dispatch) => {
   try {
     let response = await userAPI.setUser(login, email, password, passwordTwo);
-    if (response.status == 200) window.location.href = "http://localhost:3000/Congratulations";
+    if (response.status == 200) window.location.href = "http://localhost:3000";
   } catch (err) {
     if (err.response.status !== 200) {
       dispatch(SetRegErrorReduserCreator(err.response.data.message));
