@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e3b7d56b.chunk.css",
+    "main.js": "/static/js/main.9b1c7d3f.chunk.js",
+    "main.js.map": "/static/js/main.9b1c7d3f.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4d25ba2e.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4d25ba2e.js.map",
+    "static/js/2.3a50c9a5.chunk.js": "/static/js/2.3a50c9a5.chunk.js",
+    "static/js/2.3a50c9a5.chunk.js.map": "/static/js/2.3a50c9a5.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.e3b7d56b.chunk.css.map": "/static/css/main.e3b7d56b.chunk.css.map",
+    "static/js/2.3a50c9a5.chunk.js.LICENSE.txt": "/static/js/2.3a50c9a5.chunk.js.LICENSE.txt",
+    "static/media/Steam.59ca9d32.jpg": "/static/media/Steam.59ca9d32.jpg",
+    "static/media/faceBook.41c00a87.png": "/static/media/faceBook.41c00a87.png",
+    "static/media/google.4555ff74.png": "/static/media/google.4555ff74.png",
+    "static/media/style.css": "/static/media/noize.aadca514.png",
+    "static/media/search-icon.59ec4d59.svg": "/static/media/search-icon.59ec4d59.svg",
+    "static/media/steam-account.61f101ab.svg": "/static/media/steam-account.61f101ab.svg",
+    "static/media/steamBuy.8a1a1d3b.svg": "/static/media/steamBuy.8a1a1d3b.svg",
+    "static/media/steampay.1ce0d7c4.svg": "/static/media/steampay.1ce0d7c4.svg",
+    "static/media/zakazaka.60596890.png": "/static/media/zakazaka.60596890.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4d25ba2e.js",
+    "static/js/2.3a50c9a5.chunk.js",
+    "static/css/main.e3b7d56b.chunk.css",
+    "static/js/main.9b1c7d3f.chunk.js"
+  ]
+}
