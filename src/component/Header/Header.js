@@ -16,7 +16,7 @@ const Header = (props) => {
 
   const user = useSelector((state) => state.UserReduser.user);
 
-  const avatarImg = user.avatar ? "http://localhost:4000/" + user.avatar : photoImg;
+  const avatarImg = user.avatar ? "http://descounter.ru/" + user.avatar : photoImg;
 
   const dispatch = useDispatch();
 

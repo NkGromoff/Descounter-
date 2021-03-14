@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Footer = (props) => {
+const Footer = () => {
   return (
     <>
       <footer className="footer">
@@ -14,8 +14,8 @@ const Footer = (props) => {
               <NavLink to="/Agree" className="footer__text">
                 Соглашение
               </NavLink>
-              <a href="mailto:GmailForQuit@gmail.com" className="footer__text">
-                GmailForQuit@gmail.com
+              <a href="mailto:suppot@descounter.ru" className="footer__text">
+                suppot@descounter.ru
               </a>
             </div>
           </div>

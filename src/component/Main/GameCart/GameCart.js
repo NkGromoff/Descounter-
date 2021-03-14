@@ -88,7 +88,7 @@ function GameCart(props) {
           </div>
         )}
         <div className="gameItem__imgWrapper">
-          {props.img != "None" ? (
+          {props.img != 0 ? (
             <img src={props.img} alt="Изображение игры" className="gameItem__img" />
           ) : (
             <img src={notImg} alt="Изображение игры" className="gameItem__img" />

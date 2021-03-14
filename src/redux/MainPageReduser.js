@@ -86,9 +86,7 @@ export const getGamesGenre = (genre) => async (dispatch) => {
     }
     dispatch(SetMainPageGamesGenreIdReduserCreator(arr));
     dispatch(SetMainPageGamesGenreReduserCreator(data));
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
 export default MainPageReduser;

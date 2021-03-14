@@ -130,7 +130,7 @@ export const GetGamesMoreAC = (data) => ({
 export const setUser = (login, email, password, passwordTwo) => async (dispatch) => {
   try {
     let response = await userAPI.setUser(login, email, password, passwordTwo);
-    if (response.status == 200) window.location.href = "http://localhost:3000";
+    if (response.status == 200) window.location.href = "http://descounter.ru";
   } catch (err) {
     if (err.response.status !== 200) {
       dispatch(SetRegErrorReduserCreator(err.response.data.message));
@@ -161,9 +161,7 @@ export const auth = () => async (dispatch) => {
     } else {
       localStorage.removeItem("token");
     }
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
 export const getGames = (price, date, prices, dateRange, genre, isDesc, games, term, id) => async (dispatch) => {

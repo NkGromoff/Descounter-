@@ -105,8 +105,8 @@ function Registration() {
                   <div className={`loginOrReg__error ${!errorLog ? `displayNone` : ""}`}>
                     {errorLog ? errorLog : ""}
                   </div>
-                  <h2 className="loginOrReg__title loginOrReg__margin">Быстрый Вход</h2>
-                  <div className="loginOrReg__quickWrapper">
+                  {/* <h2 className="loginOrReg__title loginOrReg__margin">Быстрый Вход</h2> */}
+                  {/* <div className="loginOrReg__quickWrapper">
                     <a href="#" className="loginOrReg__quickLink">
                       <img src={google} alt="Иконка" className="loginOrReg__quickImg" />
                     </a>
@@ -116,7 +116,7 @@ function Registration() {
                     <a href="#" className="loginOrReg__quickLink">
                       <img src={faceBook} alt="Иконка" className="loginOrReg__quickImg" />
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               </section>
             </div>
