@@ -30,7 +30,7 @@ export const loginRegValid = (value) => {
   let error;
   if (!value) {
     error = "Введите логин";
-  } else if (value.length < 4 || value.length > 10) {
+  } else if (value.length < 4 || value.length >= 10) {
     error = "Ник должен иметь не мнее 4 символов и не более 10";
   }
   return error;

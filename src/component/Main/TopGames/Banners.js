@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { getGames, SetMainPageGamesIdNullReduserCreator } from "../../../redux/MainPageReduser";
+import { SetMainPageGamesIdNullReduserCreator } from "../../../redux/MainPageReduser";
 import MainCarts from "./mainCarts";
 
 function Banners(props) {
@@ -10,10 +10,8 @@ function Banners(props) {
   let arr = useSelector((state) => state.MainPageReduser.idArray);
   const dispatch = useDispatch();
   const [idForFlip, setIdForFlip] = useState([]);
-  const [idForDontFlip, setIdForDontFlip] = useState();
 
   useEffect(() => {
-    dispatch(getGames());
     return () => {
       dispatch(SetMainPageGamesIdNullReduserCreator());
     };
@@ -28,7 +26,7 @@ function Banners(props) {
           let newState = arr[Math.floor(Math.random() * arr.length)];
           setIdForFlip([...idForFlip, newState]);
         }
-      }, 4000);
+      }, 3000);
       return () => clearInterval(interval);
     }
   }, [arr]);

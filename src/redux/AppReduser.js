@@ -15,7 +15,7 @@ const AppReduser = (state = initialState, action) => {
   }
 };
 
-export const initialazedAction = (data) => ({
+export const initialazedAction = () => ({
   type: Set_Initialazed_App,
 });
 

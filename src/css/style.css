@@ -23,7 +23,9 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
-
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 a {
   text-decoration: none;
 }
@@ -618,7 +620,6 @@ p {
 
 .gameItem__link {
   display: flex;
-  max-width: 900px;
   align-items: center;
   width: 100%;
   overflow: hidden;
@@ -1146,7 +1147,6 @@ p {
 }
 .gamesDisplay__emptyAlert {
   display: block;
-  max-width: 900px;
   font-size: 22px;
   color: #2c2c6c;
   text-align: center;
@@ -1155,7 +1155,9 @@ p {
 .gamesDisplay__filterWrapper {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex-grow: 2;
+  max-width: 325px;
+  z-index: 5;
 }
 .game__dateWrapper {
   display: flex;
@@ -1174,13 +1176,17 @@ p {
 }
 .gamesDisplay__genre {
   cursor: pointer;
-  max-width: 297px;
+  max-width: 325px;
   background-color: #05051d;
   box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.3);
   position: relative;
-
   z-index: 2;
 }
+.gamesDisplay__genre--disabled,
+.gamesDisplay__genre--disabled + .gamesDisplay__genreBody > .gamesDisplay__genreItem {
+  opacity: 0.5;
+}
+
 .gamesDisplay__genreHeader {
   display: flex;
   justify-content: space-between;
@@ -1206,7 +1212,7 @@ p {
   left: 0;
   width: 100%;
   height: 500px;
-  z-index: -999;
+  z-index: 2;
   border-radius: 5px;
   padding: 0px 20px;
   transition: 0.3s;
@@ -1215,11 +1221,15 @@ p {
   opacity: 0;
 }
 
+.gamesDisplay__sortItem {
+  z-index: 1;
+}
 .gamesDisplay__genreCheck {
   position: absolute;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  opacity: 0;
   cursor: pointer;
 }
 
@@ -1292,7 +1302,9 @@ p {
   padding: 5px 10px;
   font-size: 18px;
 }
-
+.gamesDisplay__input:disabled {
+  opacity: 0.5;
+}
 .gamesDisplay__inputWrapper {
   margin-top: 20px;
   display: flex;
@@ -1320,13 +1332,16 @@ p {
   padding: 15px 20px;
   color: #4c4c96;
 }
+.gamesDisplay__search:disabled {
+  opacity: 0.5;
+}
 
 .gamesDisplay__search-Wrapper {
   position: relative;
-  max-width: 900px;
   text-align: left;
   width: 100%;
   margin-bottom: 40px;
+  z-index: 1;
 }
 
 .gamesDisplay__search-button {
@@ -1340,12 +1355,16 @@ p {
   cursor: pointer;
   border-radius: 5px;
 }
+.gamesDisplay__search-button:disabled {
+  opacity: 0.5;
+}
 .gamesDisplay__search-button img {
   margin-top: calc(50% - 20px);
 }
 .gamesDisplay__wrapperRight {
   margin-left: 50px;
   flex-grow: 6;
+  z-index: 0;
 }
 
 .gamesDisplay__filterWrapperTwo {
@@ -1366,6 +1385,10 @@ p {
   margin-left: 20px;
   align-items: center;
   cursor: pointer;
+}
+.gamesDisplay__button:disabled,
+.gamesDisplay__genreCheck:disabled + .gamesDisplay__descSpan {
+  opacity: 0.5;
 }
 
 .gamesDisplay__buttonFilterMobile {
@@ -1389,13 +1412,20 @@ p {
   background-color: #05051d;
   box-shadow: 0px 0px 5px 1px #4c4c96;
   border: none;
-  border-radius: 50%;
 }
-
 .noUi-connect {
   background-color: #4c4c96;
 }
 
+[disabled] .noUi-connect {
+  background-color: #4c4c96;
+  opacity: 0.5;
+}
+
+[disabled] .noUi-handle {
+  border: 2px solid #2c2c6c;
+  box-shadow: 0px 0px 5px #2c2c6c;
+}
 .noUi-handle {
   border-radius: 50%;
   background-color: #05051d;
@@ -1421,10 +1451,7 @@ p {
   margin-top: 25vh;
   height: 100vh;
 }
-/* .noUi-base {
-  width: 90%;
-  margin: auto;
-} */
+
 .animate {
   stroke-dasharray: 2000;
   stroke-dashoffset: 2000;
@@ -1465,7 +1492,8 @@ p {
 
 .preloader .wBall {
   position: absolute;
-  margin-top: 15px;
+  left: 23px;
+  top: 15px;
   width: 30px;
   height: 30px;
   opacity: 0;
@@ -1711,6 +1739,7 @@ p {
     max-width: 100%;
     max-width: inherit;
   }
+
   .gamesDisplay__buttonFilterMobile {
     display: block;
     width: 100%;
@@ -1725,6 +1754,7 @@ p {
   }
   .gamesDisplay__filterWrapper {
     transform: translateY(-100%);
+    max-width: initial;
     visibility: hidden;
     opacity: 0;
     height: 0;
@@ -1735,10 +1765,6 @@ p {
     visibility: visible;
     transform: translateY(0%);
     opacity: 1;
-  }
-  .gamesDisplay__buttonFilterMobile:hover,
-  :focus {
-    box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.5);
   }
 }
 
@@ -1773,6 +1799,7 @@ p {
     width: 50px;
     height: 40px;
     background-color: transparent;
+    font-size: 20%;
     border: none;
     outline: none;
   }
@@ -2019,11 +2046,7 @@ p {
   .header__leftMenu {
     width: 100vw;
   }
-  .header__burgerMenuBtn--active {
-    position: fixed;
-    top: 12vh;
-    right: 9vw;
-  }
+
   .genreTittle {
     font-size: 30px;
   }
@@ -2079,7 +2102,33 @@ p {
   .game__systemTittle {
     line-height: 30px;
   }
-
+  .header__profile-wrapper {
+    max-width: 122px;
+    justify-content: center;
+    width: 100%;
+    padding: 15px;
+  }
+  .profile__wrapperTop {
+    flex-direction: column;
+    align-items: center;
+  }
+  .profile__dateRegWrapper {
+    max-width: initial;
+    margin-top: 10px;
+  }
+  .profile__textInfoAllWrapper {
+    margin-left: 0px;
+  }
+  .profile__textInfoWrapper {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .profile__imgWraper {
+    max-width: 250px;
+    max-height: 250px;
+  }
   .gamesDisplay__filterItem {
     text-align: center;
   }

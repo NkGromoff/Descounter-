@@ -5,6 +5,7 @@ const Set_Main_Page_Games_Reduser_Creator = "Set_Main_Page_Games_Reduser_Creator
 const Set_Main_Page_Games_Id_Reduser_Creator = "Set_Main_Page_Games_Id_Reduser_Creator";
 const Set_Main_Page_Games_Id_Null_Reduser_Creator = "Set_Main_Page_Games_Id_Null_Reduser_Creator";
 const Set_Main_Page_Games_Genre_Reduser_Creator = "Set_Main_Page_Games_Genre_Reduser_Creator";
+const Set_Main_Page_Initialazed = "Set_Main_Page_Initialazed";
 const Set_Main_Page_Games_Genre_Id_Reduser_Creator = "Set_Main_Page_Games_Genre_Id_Reduser_Creator";
 
 let initialState = {
@@ -12,6 +13,7 @@ let initialState = {
   idArray: null,
   genreGames: null,
   idArrayOfGenreGames: null,
+  initManPage: false,
 };
 
 const MainPageReduser = (state = initialState, action) => {
@@ -26,6 +28,8 @@ const MainPageReduser = (state = initialState, action) => {
       return { ...state, idArray: null, idArrayOfGenreGames: null };
     case Set_Main_Page_Games_Genre_Reduser_Creator:
       return { ...state, genreGames: action.data };
+    case Set_Main_Page_Initialazed:
+      return { ...state, initManPage: true };
     default:
       return state;
   }
@@ -55,6 +59,10 @@ export const SetMainPageGamesGenreReduserCreator = (data) => ({
   data: data,
 });
 
+export const SetMainInitialazed = () => ({
+  type: Set_Main_Page_Initialazed,
+});
+
 export const getGames = () => async (dispatch) => {
   try {
     let data = await mainPageAPI.getGames();
@@ -75,7 +83,6 @@ export const getGamesGenre = (genre) => async (dispatch) => {
   try {
     let data = await mainPageAPI.getGamesGenre(genre);
     let arr = [];
-    let obj = [];
     let games = data;
     if (games) {
       games.map((i) => {
@@ -87,6 +94,12 @@ export const getGamesGenre = (genre) => async (dispatch) => {
     dispatch(SetMainPageGamesGenreIdReduserCreator(arr));
     dispatch(SetMainPageGamesGenreReduserCreator(data));
   } catch (err) {}
+};
+
+export const setMainPageInitialazed = (genre) => async (dispatch) => {
+  let responseGames = await dispatch(getGames());
+  let responseGamesGenre = await dispatch(getGamesGenre(genre));
+  Promise.all([responseGames, responseGamesGenre]).then(() => dispatch(SetMainInitialazed()));
 };
 
 export default MainPageReduser;

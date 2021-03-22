@@ -194,9 +194,7 @@ export const uploadAvatar = (file) => async (dispatch) => {
     formData.append("file", file);
     let data = await userAPI.setAvatarForUser(formData);
     dispatch(setIsAuthAndUser(data[0], true));
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
 export const setGamesForUser = (userId, gameId) => async (dispatch) => {

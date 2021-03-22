@@ -16,7 +16,7 @@ const Header = (props) => {
 
   const user = useSelector((state) => state.UserReduser.user);
 
-  const avatarImg = user.avatar ? "http://descounter.ru/" + user.avatar : photoImg;
+  const avatarImg = user.avatar ? "https://descounter.ru:8000/" + user.avatar : photoImg;
 
   const dispatch = useDispatch();
 
@@ -35,7 +35,8 @@ const Header = (props) => {
   };
 
   let handleClickOutside = (event) => {
-    if (!event.path.includes(wrapperRef.current)) {
+    const path = event.path || (event.composedPath && event.composedPath());
+    if (!path.includes(wrapperRef.current)) {
       setIsDown(false);
     }
   };
@@ -126,13 +127,13 @@ const Header = (props) => {
                 </button>
               </>
             )}
+            <div className={`header__leftMenu ${burgerMenu ? "header__leftMenu--active" : ""}`}>
+              <Login />
+              <NavLink to="/Registration" className="header__reg leftRegLink">
+                Регистрация
+              </NavLink>
+            </div>
           </div>
-        </div>
-        <div className={`header__leftMenu ${burgerMenu ? "header__leftMenu--active" : ""}`}>
-          <Login />
-          <NavLink to="/Registration" className="header__reg leftRegLink">
-            Регистрация
-          </NavLink>
         </div>
       </header>
     </>

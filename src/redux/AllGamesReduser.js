@@ -77,6 +77,7 @@ export const SetGamesFilter = (price, date, prices, dateRange, genre, isDesc, co
 export const getGames = (price, date, prices, dateRange, genre, isDesc, games, term) => async (dispatch) => {
   try {
     await dispatch(toggleFetching(true));
+    dispatch(GetGamesReduserCreator([]));
     let data = await gamesAPI.getGames(price, date, prices, dateRange, genre, isDesc, games, term);
     dispatch(GetGamesReduserCreator(data.games));
     dispatch(SetGamesFilter(price, date, prices, dateRange, genre, isDesc, data.gamesCount, term));

@@ -23,7 +23,7 @@ const Profile = React.memo((props) => {
 
   const allGames = useSelector((state) => state.UserReduser.gamesWithoutFilter);
 
-  const avatarImg = user.avatar ? "http://descounter.ru/" + user.avatar : photoImg;
+  const avatarImg = user.avatar ? "https://descounter.ru:8000/" + user.avatar : photoImg;
   const [state, setState] = useState({
     years: 0,
     prices: "",

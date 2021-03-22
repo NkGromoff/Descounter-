@@ -1,7 +1,7 @@
 import * as axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "http://descounter.ru:8000/api/",
+  baseURL: "https://descounter.ru:8000/api",
 });
 
 export let gamesReqCreator = (urlReq, id = 0) => (price, date, priceRange, dateRange, genre, isDesc, games, term) => {

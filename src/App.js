@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import MainRoutes from "./routes/mainRoutes";
 import LoginOrRegRoutes from "./routes/loginOrRegRoutes";
 import { useDispatch, useSelector } from "react-redux";
 import { getGames } from "./redux/UserReduser";
 import { setInitialazed } from "./redux/AppReduser";
 import { Preloader } from "./component/shared/Preloader";
+import ReactGA from "react-ga";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ function App() {
   const init = useSelector((state) => state.AppReduser.init);
 
   useEffect(() => {
+    ReactGA.initialize("UA-192339483-1");
+    ReactGA.pageview(window.location.pathname + window.location.search);
     dispatch(setInitialazed());
   }, []);
 
