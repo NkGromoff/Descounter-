@@ -7,6 +7,7 @@ import { getGames } from "./redux/UserReduser";
 import { setInitialazed } from "./redux/AppReduser";
 import { Preloader } from "./component/shared/Preloader";
 import ReactGA from "react-ga";
+import { Helmet } from "react-helmet";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +34,9 @@ function App() {
     );
   return (
     <>
+      <Helmet>
+        <title>Descounter - лучшие скидки на игры</title>
+      </Helmet>
       <Switch>
         <Route path="/Login" component={LoginOrRegRoutes} />
         <Route path="/Registration" component={LoginOrRegRoutes} />

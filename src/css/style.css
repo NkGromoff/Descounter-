@@ -258,13 +258,117 @@ p {
 .gameGallery {
   padding: 50px 0;
 }
+.gameGallery__headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  max-width: 1410px;
+  align-items: center;
+}
+.gameGallery__searchWrapper {
+  display: flex;
+  position: relative;
+}
+.gameGallery__serchInp {
+  height: 40px;
+  padding: 10px 35px 10px 10px;
+  border-radius: 5px 5px 0 0;
+}
+.gameGallery__searchInner {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+.gameGallery__searchInner--active {
+  opacity: 1;
+  transform: scaleX(1);
+}
+.gameGallery__serchItemWrapper {
+  transform-origin: top center;
+  transform: scaleY(0);
+  opacity: 0;
+  width: 100%;
+  max-height: 370px;
+  padding-bottom: 54px;
+  overflow: hidden;
+  background-color: #05051d;
+}
+.gameGallery__serchItemWrapper--active {
+  opacity: 1;
+  transform: scaleY(1);
+}
 
+.gameGallery__searchText {
+  display: block;
+  color: #2c2c6c;
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 18px;
+}
+.gameGallery__serchItem {
+  display: flex;
+  align-items: center;
+  padding: 20px 10px;
+  justify-content: space-between;
+}
+.gameGallery__serchItem:hover .gameGallery__searchTitle {
+  text-shadow: 0px 0px 10px rgb(76 76 150 / 80%);
+}
+.gameGallery__serchLink {
+  position: absolute;
+  display: block;
+  color: #4c4c96;
+  background-color: #05051d;
+  width: 100%;
+  font-size: 20px;
+  padding: 20px 10px;
+  bottom: 0px;
+  left: 0;
+  border-radius: 0px 0px 5px 5px;
+}
+.gameGallery__serchLink:hover {
+  text-shadow: 0px 0px 10px rgb(76 76 150 / 80%);
+}
+.gameGallery__searchTitle {
+  font-size: 20px;
+  color: #4c4c96;
+  line-height: 21px;
+  width: 203px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gameGallery__searchPrice {
+  font-size: 18px;
+  color: #ffffff;
+}
+.gameGallery__findButton {
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  z-index: 10;
+}
+.gameGallery__findButton img {
+  width: 100%;
+  vertical-align: middle;
+}
 .gameGallery__wrapper {
   max-width: 1200px;
   margin: auto;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+.gameGallery:first-child .gameGallery__tittle {
+  margin-bottom: 0;
 }
 .gameGallery__tittle {
   margin-bottom: 50px;
@@ -780,7 +884,7 @@ p {
 }
 
 .about {
-  padding: 140px 0;
+  padding: 60px 0;
 }
 .about__wrapper {
   max-width: 1500px;
@@ -792,6 +896,7 @@ p {
   margin-left: 100px;
   line-height: 30px;
 }
+
 .about__text {
   margin: auto;
   color: #2c2c6c;
@@ -799,7 +904,24 @@ p {
   line-height: 30px;
   margin-top: 40px;
 }
-
+.about__wrapperShops {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  max-width: 1200px;
+  margin-top: 40px;
+}
+.about__subTitle {
+  margin-top: 60px;
+  font-size: 32px;
+}
+.about__shops {
+  flex-basis: 23%;
+  text-align: center;
+}
+.about__shopsImg {
+  width: 100%;
+}
 .footer {
   padding: 50px 0;
   width: 100%;
@@ -1687,6 +1809,9 @@ p {
   .about__text {
     max-width: 900px;
   }
+  .about__wrapperShops {
+    max-width: 900px;
+  }
   .game__shopCart {
     max-width: 350px;
   }
@@ -1835,18 +1960,10 @@ p {
     padding: 30px 0;
   }
   .gameGallery__link {
-    font-size: 24px;
     float: right;
-    color: #4c4c96;
-    text-shadow: 0px 0px 10px rgba(76, 76, 150, 0);
-    float: none;
   }
   .gameGallery__linkWrapper {
     text-align: center;
-  }
-
-  .about {
-    padding: 70px 0;
   }
   .about__tittle {
     margin-left: 0;
@@ -1856,9 +1973,21 @@ p {
     max-width: 900px;
     font-size: 20px;
   }
-  .genreTittle {
-    margin: auto;
+  .about__wrapperShops {
+    flex-direction: column;
+  }
+  .about__shops {
+    margin-bottom: 20px;
     text-align: center;
+  }
+
+  .about__shops:last-child {
+    margin-bottom: 0;
+  }
+  .about__shopsImg {
+    width: 50%;
+  }
+  .genreTittle {
     margin-bottom: 50px;
   }
   .gameItem__link {
@@ -1929,7 +2058,7 @@ p {
   }
 
   .gameGallery__linkWrapper {
-    width: 100%;
+    width: 85%;
   }
 
   .footer__wrapper {
@@ -2062,7 +2191,13 @@ p {
   .loginOrReg__inp {
     padding: 5px 10px;
   }
+  .about {
+    padding: 30px 0;
+  }
 
+  .about__text {
+    margin-top: 20px;
+  }
   .swiper-slide-active {
     height: 525px;
   }
@@ -2201,6 +2336,29 @@ p {
   .gameGallery__frontBackText {
     transform: translateY(0%);
   }
+  .gameGallery__searchInner {
+    max-width: 288px;
+  }
+  .gameGallery__searchTitle {
+    font-size: 16px;
+    width: 174px;
+  }
+  .gameGallery__searchPrice {
+    font-size: 16px;
+  }
+  .gameGallery__serchInp {
+    font-size: 20px;
+  }
+  .gameGallery__serchInp {
+    max-width: 288px;
+  }
+  .about__subTitle {
+    font-size: 26px;
+    margin-top: 40px;
+  }
+  .about__shopsImg {
+    width: 65%;
+  }
 }
 @media (max-width: 320px) {
   .container {
@@ -2208,5 +2366,8 @@ p {
   }
   .gameItem__link {
     max-width: 100%;
+  }
+  .gameGallery__linkWrapper {
+    width: 100%;
   }
 }

@@ -1,4 +1,6 @@
+import { gamesAPI } from "../api/gamesAPI";
 import { mainPageAPI } from "../api/mainPageAPI";
+import { toggleFetching } from "./AllGamesReduser";
 
 const Set_Main_Page_Games_Reduser_Creator = "Set_Main_Page_Games_Reduser_Creator";
 
@@ -7,6 +9,7 @@ const Set_Main_Page_Games_Id_Null_Reduser_Creator = "Set_Main_Page_Games_Id_Null
 const Set_Main_Page_Games_Genre_Reduser_Creator = "Set_Main_Page_Games_Genre_Reduser_Creator";
 const Set_Main_Page_Initialazed = "Set_Main_Page_Initialazed";
 const Set_Main_Page_Games_Genre_Id_Reduser_Creator = "Set_Main_Page_Games_Genre_Id_Reduser_Creator";
+const Set_Main_Page_Search_Games = "Set_Main_Page_Search_Games";
 
 let initialState = {
   games: null,
@@ -14,6 +17,7 @@ let initialState = {
   genreGames: null,
   idArrayOfGenreGames: null,
   initManPage: false,
+  gamesSearch: [],
 };
 
 const MainPageReduser = (state = initialState, action) => {
@@ -30,6 +34,8 @@ const MainPageReduser = (state = initialState, action) => {
       return { ...state, genreGames: action.data };
     case Set_Main_Page_Initialazed:
       return { ...state, initManPage: true };
+    case Set_Main_Page_Search_Games:
+      return { ...state, gamesSearch: action.data };
     default:
       return state;
   }
@@ -59,6 +65,11 @@ export const SetMainPageGamesGenreReduserCreator = (data) => ({
   data: data,
 });
 
+export const SetMainPageSearchGames = (data) => ({
+  type: Set_Main_Page_Search_Games,
+  data: data,
+});
+
 export const SetMainInitialazed = () => ({
   type: Set_Main_Page_Initialazed,
 });
@@ -76,6 +87,15 @@ export const getGames = () => async (dispatch) => {
     }
     dispatch(SetMainPageGamesIdReduserCreator(arr));
     dispatch(SetMainPageGamesReduserCreator(data));
+  } catch (err) {}
+};
+
+export const searchGames = (term) => async (dispatch) => {
+  try {
+    await dispatch(toggleFetching(true));
+    let data = await gamesAPI.getGames("none", "none", [0, 9999], [1997, 2021], [], null, null, term);
+    dispatch(SetMainPageSearchGames(data.games));
+    await dispatch(toggleFetching(false));
   } catch (err) {}
 };
 

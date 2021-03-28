@@ -1,4 +1,8 @@
 import React from "react";
+import steamBuyImg from "../../../image/steamBuy.svg";
+import steamPayImg from "../../../image/steampay.svg";
+import steamAccImg from "../../../image/steam-account.svg";
+import zakazakaImg from "../../../image/zakazaka.svg";
 
 function About(props) {
   return (
@@ -20,6 +24,21 @@ function About(props) {
                   найти самое выгодное предложение. Покупка осуществляется на сайте магазина. Всегда будьте внимательны
                   и уточняйте условия покупки, цену и комплектацию у выбранного вами продавца
                 </p>
+                <h2 className="about__tittle about__subTitle">Мы сотрудничаем</h2>
+                <div className="about__wrapperShops">
+                  <a href="https://steam-account.ru/about.php" className="about__shops">
+                    <img src={steamAccImg} alt="Изображение магазина" className="about__shopsImg" />
+                  </a>
+                  <a href="https://steambuy.com/about_us.php" className="about__shops">
+                    <img src={steamBuyImg} alt="Изображение магазина" className="about__shopsImg" />
+                  </a>
+                  <a href="https://steampay.com/about" className="about__shops">
+                    <img src={steamPayImg} alt="Изображение магазина" className="about__shopsImg" />
+                  </a>
+                  <a href="https://zaka-zaka.com/faq/warranty/" className="about__shops">
+                    <img src={zakazakaImg} alt="Изображение магазина" className="about__shopsImg" />
+                  </a>
+                </div>
               </>
             ) : (
               <>
@@ -29,6 +48,8 @@ function About(props) {
                   предоставляет информацию об играх и ценах в своем каталоге. Интернет-магазин может изменить
                   комплектацию, цену или другие характеристики товара без предупреждения сервиса. Всегда уточняйте
                   условия покупки на сайте выбранного вами продавца. Читайте информацию о магазине и его гарантии.
+                </p>
+                <p className="about__text">
                   Будьте внимательны: многие товары имеют территориальные ограничения (активировать их можно только на
                   территориях ограниченного списка стран), требуют подключение к интернету, установку или покупку
                   дополнительного ПО (Steam, OS Windows и т.д.), а также оборудования (игровые приставки, компьютерное

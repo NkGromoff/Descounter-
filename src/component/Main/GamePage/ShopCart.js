@@ -1,7 +1,7 @@
 import React from "react";
 
-import zakazakaImg from "../../../image/zakazaka.png";
-import steamImg from "../../../image/Steam.jpg";
+import zakazakaImg from "../../../image/zakazaka.svg";
+import steamImg from "../../../image/steam.svg";
 import steamBuyImg from "../../../image/steamBuy.svg";
 import steamPayImg from "../../../image/steampay.svg";
 import steamAccImg from "../../../image/steam-account.svg";

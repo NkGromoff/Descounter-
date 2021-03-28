@@ -6,6 +6,7 @@ import { ClearOneGameReduser, getGame, updGame } from "../../../redux/GamePageRe
 import { setGamesForUser } from "../../../redux/UserReduser";
 import { findGame, formatDate } from "../../shared/generalDataForGame";
 import { Preloader } from "../../shared/Preloader";
+import { Helmet } from "react-helmet";
 
 import ShopCart from "./ShopCart";
 import { SystemRec } from "./SystemRec";
@@ -32,6 +33,8 @@ function GamePage(props) {
   const [isMyGame, setIsMyGame] = useState(true);
 
   const [isDropDownSetting, setIsDropDownSetting] = useState(false);
+
+  let minPrice = 0;
 
   let gameShop = null;
 
@@ -76,16 +79,19 @@ function GamePage(props) {
     };
   }, []);
 
-  if (!oneGame[0] && oneGameShop !== null) {
+  if (!oneGame[0] && !oneGameShop.length > 0) {
     return (
       <div className="container loading">
         <Preloader />
       </div>
     );
   }
-
+  if (oneGameShop.length > 0) minPrice = oneGameShop[0].price;
   return (
     <>
+      <Helmet>
+        <title>{oneGame[0].title + " купить от " + minPrice + " ₽"}</title>
+      </Helmet>
       <div className="container">
         <section className="game">
           <div className="game__wrapper">

@@ -80,7 +80,7 @@ const GamesDisplay = React.memo((props) => {
     debounce((values) => {
       if (values === "") setQuery({ term: undefined });
       else setQuery({ term: values });
-    }, 500),
+    }, 1000),
     []
   );
 
