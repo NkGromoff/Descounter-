@@ -47,4 +47,17 @@ export const userAPI = {
       })
       .then((res) => res.data);
   },
+
+  async updateMenuSettings(genre) {
+    genre = genre.join(", ");
+    return instance
+      .put(
+        "auth/userSettings/Menu",
+        { genre: genre },
+        {
+          headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      )
+      .then((res) => res.data);
+  },
 };

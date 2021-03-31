@@ -3,13 +3,11 @@ import { gamesAPI } from "../api/gamesAPI";
 const Get_Games_Reduser = "All_Games_Reduser_Get_Games";
 const Get_Games_Filter = "Get_Games_Filter";
 const Get_Games_More_Reduser = "Get_Games_More_Reduser";
-const Set_Genre_Games = "Set_Genre_Games";
 const Toggle_Is_Fetching = "Toggle_Is_Fetching";
 
 let initialState = {
   isFetching: false,
   games: [],
-  genre: [],
   filter: {
     price: null,
     date: null,
@@ -30,8 +28,6 @@ const AllGamesReduser = (state = initialState, action) => {
       return { ...state, games: [...state.games, ...action.data] };
     case Get_Games_Filter:
       return { ...state, filter: action.filter };
-    case Set_Genre_Games:
-      return { ...state, genre: action.data };
     case Toggle_Is_Fetching:
       return { ...state, isFetching: action.isFetching };
 
@@ -47,11 +43,6 @@ export const GetGamesReduserCreator = (data) => ({
 
 export const GetGamesMoreReduserCreator = (data) => ({
   type: Get_Games_More_Reduser,
-  data: data,
-});
-
-export const SetGenreGames = (data) => ({
-  type: Set_Genre_Games,
   data: data,
 });
 
@@ -94,13 +85,6 @@ export const getGamesMoreList = (price, date, prices, dateRange, genre, isDesc, 
     let data = await gamesAPI.getGames(price, date, prices, dateRange, genre, isDesc, games, term);
     dispatch(GetGamesMoreReduserCreator(data.games));
     dispatch(toggleFetching(false));
-  } catch (err) {}
-};
-
-export const getGameGenre = () => async (dispatch) => {
-  try {
-    let data = await gamesAPI.getAllGenre();
-    dispatch(SetGenreGames(data));
   } catch (err) {}
 };
 

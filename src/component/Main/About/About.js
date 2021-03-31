@@ -3,6 +3,7 @@ import steamBuyImg from "../../../image/steamBuy.svg";
 import steamPayImg from "../../../image/steampay.svg";
 import steamAccImg from "../../../image/steam-account.svg";
 import zakazakaImg from "../../../image/zakazaka.svg";
+import { Helmet } from "react-helmet";
 
 function About(props) {
   return (
@@ -13,6 +14,9 @@ function About(props) {
             <h1 className="about__tittle">{props.title}</h1>
             {props.title === "О нас" ? (
               <>
+                <Helmet>
+                  <title>Descounter - О нас</title>
+                </Helmet>
                 <p className="about__text">
                   Descounter – является агрегатором цен и скидок на игры представленные в магазинах. Цены обновляются в
                   несколько раз в сутки Каждая игра снабжена подробным описанием, системными требованиями и лучшими
@@ -42,6 +46,9 @@ function About(props) {
               </>
             ) : (
               <>
+                <Helmet>
+                  <title>Descounter - Соглашение</title>
+                </Helmet>
                 <p className="about__text">
                   Descounter — является агрегатором цен и скидок на игры. Он не является интернет-магазином и не
                   участвует в процессе купли-продажи товаров. Сервис не выступает гарантом в сделках, а лишь

@@ -91,6 +91,7 @@ function GamePage(props) {
     <>
       <Helmet>
         <title>{oneGame[0].title + " купить от " + minPrice + " ₽"}</title>
+        <meta name="description" content={oneGame[0].description} />
       </Helmet>
       <div className="container">
         <section className="game">

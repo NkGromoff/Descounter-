@@ -5,7 +5,6 @@ import Nouislider from "nouislider-react";
 import { debounce } from "lodash";
 import { Field, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { getGameGenre } from "../../redux/AllGamesReduser";
 import { useQueryParams, StringParam, ArrayParam, withDefault, BooleanParam } from "use-query-params";
 import { Preloader } from "./Preloader";
 
@@ -29,7 +28,7 @@ const GamesDisplay = React.memo((props) => {
 
   const userGames = useSelector((state) => state.UserReduser.games);
 
-  const allGamesGenre = useSelector((state) => state.AllGamesReduser.genre);
+  const allGamesGenre = useSelector((state) => state.AppReduser.genre);
 
   const [pricesForInp, setPricesForInp] = useState([0, 9999]);
 
@@ -226,7 +225,6 @@ const GamesDisplay = React.memo((props) => {
     ));
   }
   useEffect(() => {
-    dispatch(getGameGenre());
     window.addEventListener("scroll", onScrollList);
     return () => {
       window.removeEventListener("scroll", onScrollList);
@@ -397,7 +395,7 @@ const GamesDisplay = React.memo((props) => {
                 )}
               </Formik>
               <div className="gamesDisplay__filterWrapperTwo">
-                <span className="gamesDisplay__sort">Сортировать по:</span>
+                <span className="gamesDisplay__sort">Сортировать:</span>
                 <div className="gamesDisplay__sortItem gamesDisplay__sortPrice">
                   <button
                     disabled={isFetching}
@@ -411,7 +409,7 @@ const GamesDisplay = React.memo((props) => {
                           : ""
                       }`}
                     >
-                      Цене
+                      По цене
                     </span>
                     {query.filterPrice == "priceUp" ? (
                       <svg
@@ -455,7 +453,7 @@ const GamesDisplay = React.memo((props) => {
                           : ""
                       }`}
                     >
-                      Новизне
+                      По новизне
                     </span>
                     {query.newGamesDate == "dateUp" ? (
                       <svg

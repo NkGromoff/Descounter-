@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getGames, getGamesUserMore, SetUsersMainGenre, uploadAvatar } from "../../../redux/UserReduser";
 import { formatDate } from "../../shared/generalDataForGame";
+import { Helmet } from "react-helmet";
+import { Genre } from "../../shared/Genre";
 
 const Profile = React.memo((props) => {
   const dispatch = useDispatch();
@@ -22,6 +24,12 @@ const Profile = React.memo((props) => {
   const games = useSelector((state) => state.UserReduser.games);
 
   const allGames = useSelector((state) => state.UserReduser.gamesWithoutFilter);
+
+  const genre = useSelector((state) => state.AppReduser.genre);
+
+  const userSettings = useSelector((state) => state.UserReduser.userSettings);
+
+  let genreItem = null;
 
   const avatarImg = user.avatar ? "https://descounter.ru:8000/" + user.avatar : photoImg;
   const [state, setState] = useState({
@@ -125,39 +133,56 @@ const Profile = React.memo((props) => {
     favGenre();
   }, [allGames]);
 
+  if (genre) {
+    genreItem = genre.map((i) => (
+      <Genre key={i.id} id={i.id} name={i.name} genre={genre} userGenre={userSettings.userMenu} />
+    ));
+  }
   if (!isAuth) return <Redirect to="/Login" />;
   return (
     <>
+      <Helmet>
+        <title>Descounter - профиль</title>
+      </Helmet>
       <div className="container">
         <section className="profile">
           <div className="profile__wrapper">
             <div className="profile__wrapperTop">
-              <div className="profile__imgWraper">
-                <img src={avatarImg} alt="Изображение профиля" className="profile__image" />
-                <label onChange={uploadAvatarEvent} className="profile__fileuploadWrapper">
-                  <input accept="image/*" className="profile__fileupload" type="file" name="file" id="" />
-                  <span className="profile__fileText">Изменить</span>
-                </label>
+              <div className="profile__leftSide">
+                <div className="profile__imgWraper">
+                  <img src={avatarImg} alt="Изображение профиля" className="profile__image" />
+                  <label onChange={uploadAvatarEvent} className="profile__fileuploadWrapper">
+                    <input accept="image/*" className="profile__fileupload" type="file" name="file" id="" />
+                    <span className="profile__fileText">Изменить</span>
+                  </label>
+                  <div className="profile__dateRegWrapper">
+                    <span className="profile__dateRegSpan">Дата регистрации:</span>
+                    <span className="profile__dateReg">{formatDate(new Date(user.data_created))}</span>
+                  </div>
+                </div>
+                <div className="profile__textInfoAllWrapper">
+                  <div className="profile__textInfoWrapper">
+                    <h2 className="profile__tittle">{user.username}</h2>
+                  </div>
+                  <div className="profile__textInfoWrapper">
+                    <span className="profile__textInfoSpan">Всего игр:</span>
+                    <span className="profile__textInfoSpanDark">{allCount}</span>
+                  </div>
+                  <div className="profile__textInfoWrapper">
+                    <span className="profile__textInfoSpan">Любимый жанр:</span>
+                    <span className="profile__textInfoSpanDark">
+                      {Array.isArray(mainGenre) ? mainGenre.join(", ") : mainGenre}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="profile__textInfoAllWrapper">
-                <div className="profile__textInfoWrapper">
-                  <h2 className="profile__tittle">{user.username}</h2>
-                </div>
-                <div className="profile__textInfoWrapper">
-                  <span className="profile__textInfoSpan">Всего игр:</span>
-                  <span className="profile__textInfoSpanDark">{allCount}</span>
-                </div>
-                <div className="profile__textInfoWrapper">
-                  <span className="profile__textInfoSpan">Любимый жанр:</span>
-                  <span className="profile__textInfoSpanDark">
-                    {Array.isArray(mainGenre) ? mainGenre.join(", ") : mainGenre}
-                  </span>
+              <div className="profile__rightSide">
+                <h2 className="profile__settingTitle">Настройки главного меню</h2>
+                <div className="profile__menuSetting">
+                  <h3 className="profile__settingTitleSub">Выберете жанры</h3>
+                  <div className="profile__menuItemWrapper">{genreItem}</div>
                 </div>
               </div>
-            </div>
-            <div className="profile__dateRegWrapper">
-              <span className="profile__dateRegSpan">Дата регистрации:</span>
-              <span className="profile__dateReg">{formatDate(new Date(user.data_created))}</span>
             </div>
           </div>
         </section>

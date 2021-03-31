@@ -14,7 +14,8 @@ function Genre(props) {
         const isTwoNumber = Math.floor(Math.random() * (200 - 100) + 100);
         if (isTwoNumber >= 170) {
           let newState = arr[Math.floor(Math.random() * arr.length)];
-          setIdForFlip([...idForFlip, newState]);
+
+          if (idForFlip.length > 0) setIdForFlip([...idForFlip, newState]);
         }
       }, 5000);
       return () => clearInterval(interval);
@@ -55,11 +56,15 @@ function Genre(props) {
       <section className="gameGallery">
         <h2 className="gameGallery__tittle genreTittle">{props.title}</h2>
         <div className="gameGallery__wrapper">{mainCartEl}</div>
-        <div className="gameGallery__linkWrapper">
-          <NavLink to={`/allGames?genre=${props.title}`} className="gameGallery__link">
-            Больше
-          </NavLink>
-        </div>
+        {!props.title ? (
+          ``
+        ) : (
+          <div className="gameGallery__linkWrapper">
+            <NavLink to={`/allGames?genre=${props.title}`} className="gameGallery__link">
+              Больше
+            </NavLink>
+          </div>
+        )}
       </section>
     </>
   );

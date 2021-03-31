@@ -56,7 +56,7 @@ const Banners = React.memo((props) => {
         const isTwoNumber = Math.floor(Math.random() * (200 - 100) + 100);
         if (isTwoNumber >= 170) {
           let newState = arr[Math.floor(Math.random() * arr.length)];
-          setIdForFlip([...idForFlip, newState]);
+          if (idForFlip.length > 0) setIdForFlip([...idForFlip, newState]);
         }
       }, 3000);
       return () => clearInterval(interval);
