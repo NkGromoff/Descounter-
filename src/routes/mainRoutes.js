@@ -6,6 +6,7 @@ import AllGames from "../component/Main/AllGames/AllGames";
 import GamePage from "../component/Main/GamePage/GamePage";
 import Profile from "../component/Main/profile/Profile";
 import TopGames from "../component/Main/TopGames/TopGames";
+import Congratulations from "../component/shared/Congratulations";
 import NotFound from "../component/shared/NotFound";
 
 function MainRoutes() {
@@ -19,6 +20,8 @@ function MainRoutes() {
         <Route path="/Agree" render={() => <About title="Соглашение" />} />
         <Route path="/About" render={() => <About title="О нас" />} />
         <Route path="/profile" component={Profile} />
+        <Route exact path="/Registration/confirm" component={Congratulations} />
+        <Route path="/Registration/confirm/:code" component={Congratulations} />
         <Route path="*" component={NotFound} />
       </Switch>
       <Footer />

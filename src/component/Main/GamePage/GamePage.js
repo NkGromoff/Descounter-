@@ -7,6 +7,7 @@ import { setGamesForUser } from "../../../redux/UserReduser";
 import { findGame, formatDate } from "../../shared/generalDataForGame";
 import { Preloader } from "../../shared/Preloader";
 import { Helmet } from "react-helmet";
+import notImg from "../../../image/noImg.svg";
 
 import ShopCart from "./ShopCart";
 import { SystemRec } from "./SystemRec";
@@ -97,7 +98,11 @@ function GamePage(props) {
         <section className="game">
           <div className="game__wrapper">
             <div className="game__left">
-              <img src={oneGame[0].img_url} alt="Изображение игры" className="game__gameImg" />
+              <img
+                src={oneGame[0].img_url != 0 ? oneGame[0].img_url : notImg}
+                alt="Изображение игры"
+                className="game__gameImg"
+              />
               <div className="game__dateWrapper">
                 <h2 className="game__dateTittle">Дата выхода:</h2>
                 <span className="game__dateText">{formatDate(new Date(date))}</span>
@@ -161,7 +166,11 @@ function GamePage(props) {
                   </svg>
                 </button>
               )}
-              <img src={oneGame[0].img_url} alt="Изображение игры" className="game__gameImgTwo" />
+              <img
+                src={oneGame[0].img_url != 0 ? oneGame[0].img_url : notImg}
+                alt="Изображение игры"
+                className="game__gameImgTwo"
+              />
               <div className="game__wrapperShop">{gameShop}</div>
               <div className="game__textWrapper">
                 <h3 className="game__descTittle">Описание</h3>

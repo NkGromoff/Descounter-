@@ -18,6 +18,11 @@ body {
   background-size: 100%;
   background-repeat: repeat-y;
 }
+form {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -37,6 +42,9 @@ ul {
 }
 
 input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   outline: none;
   color: #4c4c96;
   border-radius: 5px;
@@ -118,7 +126,14 @@ p {
   visibility: none;
   opacity: 0;
 }
-
+.congratulations {
+  min-height: 60vh;
+  font-size: 28px;
+  margin-top: 50px;
+}
+.congratulations__link {
+  color: #4c4c96;
+}
 .checkBox {
   position: absolute;
   width: 13px;
@@ -268,6 +283,7 @@ p {
 .gameGallery__changeGenre {
   display: block;
   outline: none;
+  position: relative;
   background-color: transparent;
   font-size: 35px;
   color: #4c4c96;
@@ -281,6 +297,26 @@ p {
   box-shadow: 0px 0px 25px rgba(76, 76, 150, 0.5);
   margin-top: 20px;
 }
+.gameGallery__changeGenre::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 10px);
+  top: calc(50% - 1px);
+  border-radius: 5px;
+  width: 20px;
+  height: 3px;
+  background-color: #4c4c96;
+}
+.gameGallery__changeGenre::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - 2px);
+  top: calc(50% - 10px);
+  border-radius: 5px;
+  width: 3px;
+  height: 20px;
+  background-color: #4c4c96;
+}
 .gameGallery__closeButon {
   position: relative;
   background-color: transparent;
@@ -292,6 +328,7 @@ p {
   right: 50px;
   top: 42px;
   width: 25px;
+  padding: 0;
   height: 25px;
   outline: none;
 }
@@ -435,9 +472,11 @@ p {
   outline: none;
   cursor: pointer;
   z-index: 9;
+  padding: 0;
 }
 .gameGallery__findButton img {
-  width: 100%;
+  width: 70%;
+
   vertical-align: middle;
 }
 .gameGallery__wrapper {
@@ -584,6 +623,9 @@ p {
 }
 
 .loginOrReg__inp {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   background-color: #05051d;
   border-radius: 10px;
   outline: none;
@@ -633,6 +675,7 @@ p {
 .loginOrReg__rememberInner {
   position: relative;
   display: block;
+  text-align: left;
   margin-bottom: 25px;
 }
 .loginOrReg__rememberCheck {
@@ -640,6 +683,7 @@ p {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  opacity: 0;
   cursor: pointer;
 }
 .loginOrReg__rememberText {
@@ -694,11 +738,10 @@ p {
   max-width: 450px;
   display: flex;
   flex-wrap: wrap;
-
-  row-gap: 20px;
 }
 .profile__genreSpan {
   flex-basis: 49%;
+  margin-bottom: 10px;
   font-size: 20px;
   position: relative;
   display: block;
@@ -1025,6 +1068,7 @@ p {
 }
 .about__wrapperShops {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin: auto;
   max-width: 1200px;
@@ -1035,8 +1079,9 @@ p {
   font-size: 32px;
 }
 .about__shops {
-  flex-basis: 23%;
+  flex-basis: 19%;
   text-align: center;
+  margin-bottom: 13px;
 }
 .about__shopsImg {
   width: 100%;
@@ -1464,6 +1509,12 @@ p {
 
 .gamesDisplay__sortItem {
   z-index: 1;
+  position: relative;
+  margin-left: 35px;
+}
+
+.gamesDisplay__sortPrice {
+  margin-left: 20px;
 }
 .gamesDisplay__genreCheck {
   position: absolute;
@@ -1617,16 +1668,17 @@ p {
 .gamesDisplay__button {
   display: flex;
   max-width: 200px;
+  padding: 0;
   width: 100%;
   background-color: transparent;
   border-radius: 5px;
   border: none;
   outline: none;
   color: #4c4c96;
-  margin-left: 20px;
   align-items: center;
   cursor: pointer;
 }
+
 .gamesDisplay__button:disabled,
 .gamesDisplay__genreCheck:disabled + .gamesDisplay__descSpan {
   opacity: 0.5;
@@ -1636,7 +1688,8 @@ p {
   display: none;
 }
 .gamesDisplay__button svg {
-  margin-left: 5px;
+  position: absolute;
+  right: -16px;
 }
 
 .gamesDisplay__itemWrapper {
@@ -2127,6 +2180,8 @@ p {
   }
   .about__wrapperShops {
     flex-direction: column;
+    flex-wrap: initial;
+    row-gap: initial;
   }
   .about__shops {
     margin-bottom: 20px;
@@ -2440,8 +2495,8 @@ p {
 
 .cls-1 {
   font-size: 36px;
-  font-family: Tahoma;
-  letter-spacing: 0.01em;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.06em;
 }
 .cls-1,
 .cls-3 {

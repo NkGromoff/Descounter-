@@ -29,7 +29,7 @@ const Banners = React.memo((props) => {
     debounce((values) => {
       if (values.length >= 2) dispatch(searchGames(values));
       else if (gamesSearch) dispatch(SetMainPageSearchGames([]));
-    }, 1000),
+    }, 0),
     []
   );
 

@@ -46,9 +46,7 @@ function TopGames() {
         <Banners />
         {games}
 
-        <button onClick={openMenu} className="gameGallery__changeGenre">
-          +
-        </button>
+        <button onClick={openMenu} className="gameGallery__changeGenre"></button>
         <div className="gameGallery__changeMenu">
           <div className={`gameGallery__mainWrapper ${isShow ? "gameGallery__mainWrapper--active" : ""}`}>
             <h2 className="gameGallery__title">Выберете жанры</h2>

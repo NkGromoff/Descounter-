@@ -13,6 +13,7 @@ const Set_Users_Main_Genre = "Set_Users_Main_Genre";
 const Set_Users_All_Count = "Set_Users_All_Count";
 const Set_Proflile_GamesWithoutFilte_Reduser = "Set_Proflile_GamesWithoutFilte_Reduser";
 const Set_Users_Settings = "Set_Users_Settings";
+const Set_Users_Code = "Set_Users_Code";
 
 let initialState = {
   user: {},
@@ -24,6 +25,7 @@ let initialState = {
   allCount: null,
   errorLogReg: null,
   errorLogLogin: null,
+  userCode: null,
   filter: {
     price: null,
     date: null,
@@ -46,6 +48,8 @@ const UserReduser = (state = initialState, action) => {
       return { ...state, user: {}, isAuth: false };
     case Get_Proflile_Games_Reduser:
       return { ...state, games: action.data };
+    case Set_Users_Code:
+      return { ...state, userCode: action.data };
     case Set_Proflile_GamesWithoutFilte_Reduser:
       return { ...state, gamesWithoutFilter: action.data };
     case Set_Profile_Games_Filter:
@@ -106,6 +110,10 @@ export const SetUsersMainGenre = (data) => ({
   type: Set_Users_Main_Genre,
   data: data,
 });
+export const SetUserCode = (data) => ({
+  type: Set_Users_Code,
+  data: data,
+});
 
 export const SetUsersAllCount = (data) => ({
   type: Set_Users_All_Count,
@@ -139,7 +147,7 @@ export const GetGamesMoreAC = (data) => ({
 export const setUser = (login, email, password, passwordTwo) => async (dispatch) => {
   try {
     let response = await userAPI.setUser(login, email, password, passwordTwo);
-    if (response.status == 200) window.location.href = "http://descounter.ru";
+    if (response.status == 200) window.location.href = "/Registration/confirm";
   } catch (err) {
     if (err.response.status !== 200) {
       dispatch(SetRegErrorReduserCreator(err.response.data.message));
@@ -218,6 +226,15 @@ export const updateMenu = (genre) => async (dispatch) => {
     await dispatch(toggleFetching(true));
     let response = await userAPI.updateMenuSettings(genre);
     dispatch(SetUsersSettings(response));
+    await dispatch(toggleFetching(false));
+  } catch (err) {}
+};
+
+export const confirm = (code) => async (dispatch) => {
+  try {
+    await dispatch(toggleFetching(true));
+    let response = await userAPI.confirmUser(code);
+    dispatch(SetUserCode(response.code));
     await dispatch(toggleFetching(false));
   } catch (err) {}
 };

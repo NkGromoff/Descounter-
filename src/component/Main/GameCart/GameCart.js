@@ -11,12 +11,10 @@ function GameCart(props) {
 
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.UserReduser.user);
-
   const history = useHistory();
 
   const trottleAddGame = useCallback(
-    debounce(() => dispatch(setGamesForUser(props.user.id, props.id)), 100),
+    debounce(() => dispatch(setGamesForUser(props.user.id, props.id)), 0),
     []
   );
 

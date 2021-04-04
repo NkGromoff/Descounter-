@@ -3,6 +3,8 @@ import steamBuyImg from "../../../image/steamBuy.svg";
 import steamPayImg from "../../../image/steampay.svg";
 import steamAccImg from "../../../image/steam-account.svg";
 import zakazakaImg from "../../../image/zakazaka.svg";
+import gamerayImg from "../../../image/gameray.svg";
+import gamazavrImg from "../../../image/gamazavr.svg";
 import { Helmet } from "react-helmet";
 
 function About(props) {
@@ -18,7 +20,7 @@ function About(props) {
                   <title>Descounter - О нас</title>
                 </Helmet>
                 <p className="about__text">
-                  Descounter – является агрегатором цен и скидок на игры представленные в магазинах. Цены обновляются в
+                  Descounter – является агрегатором цен и скидок на игры представленные в магазинах. Цены обновляются
                   несколько раз в сутки Каждая игра снабжена подробным описанием, системными требованиями и лучшими
                   ценами.
                 </p>
@@ -41,6 +43,12 @@ function About(props) {
                   </a>
                   <a href="https://zaka-zaka.com/faq/warranty/" className="about__shops">
                     <img src={zakazakaImg} alt="Изображение магазина" className="about__shopsImg" />
+                  </a>
+                  <a href="https://www.gameray.ru/about/" className="about__shops">
+                    <img src={gamerayImg} alt="Изображение магазина" className="about__shopsImg" />
+                  </a>
+                  <a href="https://gamazavr.ru/about/" className="about__shops">
+                    <img src={gamazavrImg} alt="Изображение магазина" className="about__shopsImg" />
                   </a>
                 </div>
               </>

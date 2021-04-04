@@ -5,6 +5,8 @@ import steamImg from "../../../image/steam.svg";
 import steamBuyImg from "../../../image/steamBuy.svg";
 import steamPayImg from "../../../image/steampay.svg";
 import steamAccImg from "../../../image/steam-account.svg";
+import gamerayImg from "../../../image/gameray.svg";
+import gamazavrImg from "../../../image/gamazavr.svg";
 import noneImg from "../../../image/notImg.jpg";
 
 function ShopCart(props) {
@@ -21,6 +23,10 @@ function ShopCart(props) {
         return (logoImg = steamPayImg);
       case "steam-account":
         return (logoImg = steamAccImg);
+      case "gameray":
+        return (logoImg = gamerayImg);
+      case "gamazavr":
+        return (logoImg = gamazavrImg);
       default:
         return (logoImg = noneImg);
     }

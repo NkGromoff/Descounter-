@@ -60,4 +60,8 @@ export const userAPI = {
       )
       .then((res) => res.data);
   },
+
+  async confirmUser(code) {
+    return instance.put("auth/confirm", { code: code }).then((res) => res.data);
+  },
 };

@@ -39,7 +39,8 @@ function App() {
       </Helmet>
       <Switch>
         <Route path="/Login" component={LoginOrRegRoutes} />
-        <Route path="/Registration" component={LoginOrRegRoutes} />
+        <Route exact path="/Registration" component={LoginOrRegRoutes} />
+
         <Route component={MainRoutes} />
       </Switch>
     </>
