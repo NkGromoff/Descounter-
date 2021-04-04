@@ -30,7 +30,6 @@ const Profile = React.memo((props) => {
   const userSettings = useSelector((state) => state.UserReduser.userSettings);
 
   let genreItem = null;
-
   const avatarImg = user.avatar ? "https://descounter.ru:8000/" + user.avatar : photoImg;
   const [state, setState] = useState({
     years: 0,

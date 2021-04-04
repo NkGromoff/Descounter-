@@ -210,7 +210,8 @@ export const uploadAvatar = (file) => async (dispatch) => {
     const formData = new FormData();
     formData.append("file", file);
     let data = await userAPI.setAvatarForUser(formData);
-    dispatch(setIsAuthAndUser(data[0], true));
+    console.log(data);
+    dispatch(setIsAuthAndUser(data.user, data.userSettings, true));
   } catch (err) {}
 };
 

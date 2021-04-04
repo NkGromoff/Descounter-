@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.c2a31b49.chunk.css",
-    "main.js": "/static/js/main.640d4887.chunk.js",
-    "main.js.map": "/static/js/main.640d4887.chunk.js.map",
+    "main.css": "/static/css/main.860bf09d.chunk.css",
+    "main.js": "/static/js/main.19cc0808.chunk.js",
+    "main.js.map": "/static/js/main.19cc0808.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.4d25ba2e.js",
     "runtime-main.js.map": "/static/js/runtime-main.4d25ba2e.js.map",
     "static/js/2.bf3b1497.chunk.js": "/static/js/2.bf3b1497.chunk.js",
     "static/js/2.bf3b1497.chunk.js.map": "/static/js/2.bf3b1497.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.c2a31b49.chunk.css.map": "/static/css/main.c2a31b49.chunk.css.map",
+    "static/css/main.860bf09d.chunk.css.map": "/static/css/main.860bf09d.chunk.css.map",
     "static/js/2.bf3b1497.chunk.js.LICENSE.txt": "/static/js/2.bf3b1497.chunk.js.LICENSE.txt",
     "static/media/faceBook.41c00a87.png": "/static/media/faceBook.41c00a87.png",
+    "static/media/gamazavr.c6e7e89a.svg": "/static/media/gamazavr.c6e7e89a.svg",
     "static/media/gameray.bb735c17.svg": "/static/media/gameray.bb735c17.svg",
     "static/media/google.4555ff74.png": "/static/media/google.4555ff74.png",
     "static/media/noImg.73ac1cbb.svg": "/static/media/noImg.73ac1cbb.svg",
@@ -25,7 +26,7 @@
   "entrypoints": [
     "static/js/runtime-main.4d25ba2e.js",
     "static/js/2.bf3b1497.chunk.js",
-    "static/css/main.c2a31b49.chunk.css",
-    "static/js/main.640d4887.chunk.js"
+    "static/css/main.860bf09d.chunk.css",
+    "static/js/main.19cc0808.chunk.js"
   ]
 }
