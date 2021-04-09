@@ -36,6 +36,10 @@ function App() {
     <>
       <Helmet>
         <title>Descounter - лучшие скидки на игры</title>
+        <meta name="description" content={`Descounter – является агрегатором цен и скидок на игры представленные в магазинах. Цены обновляются в
+    несколько раз в сутки Каждая игра снабжена подробным описанием, системными требованиями и лучшими
+    ценами."`} />
+        <meta name="keywords" content={`Сравнение цен, каталог игр, цены на игры, стоимость игр, купить игру, игры`} />
       </Helmet>
       <Switch>
         <Route path="/Login" component={LoginOrRegRoutes} />
