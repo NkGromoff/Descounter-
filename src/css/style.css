@@ -283,6 +283,33 @@ p {
 .gameGallery {
   padding: 50px 0;
 }
+.gameGallery__refresh{
+  position: absolute;
+  right: 0;
+  top: 2px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  transform: translateX(100%);
+  -webkit-filter: drop-shadow(0 0 10px rgba(76,76,150,1));
+  filter: drop-shadow(0 0 5px rgba(76,76,150,1));
+}
+.gameGallery__refresh:hover svg{
+  transform: rotate(-45deg);
+}
+.gameGallery__itemWrapper:hover .gameGallery__refresh{
+  transform: translateX(0);
+}
+/* .gameGallery__itemWrapper:hover img{
+  filter: brightness(40%);
+} */
+.gameGallery__refresh svg{
+  fill: #4c4c96;
+  width: 20px;
+  -webkit-filter: drop-shadow( 0px 0px 25px rgba(76, 76, 150, 1));
+  filter: drop-shadow( 0px 0px 25px rgba(76, 76, 150, 1));
+}
 .gameGallery__headerWrapper {
   display: flex;
   justify-content: space-between;
@@ -519,6 +546,7 @@ p {
   transform: translateY(0);
 }
 
+
 .gameGallery__backGame:hover .gameGallery__backText {
   transform: translateY(0);
 }
@@ -554,6 +582,7 @@ p {
   left: 0;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  z-index: 10;
 }
 
 .gameGallery__imageItem {
@@ -785,12 +814,10 @@ p {
   height: 256px;
   width: 100%;
   position: relative;
+  margin: auto;
 }
-.profile__imgWraper:hover .profile__fileuploadWrapper {
-  opacity: 1;
-  -webkit-backdrop-filter: blur(1px);
-  backdrop-filter: blur(1px);
-  visibility: visible;
+.profile__avtarWrapper{
+  width: 100%;
 }
 .profile__fileuploadWrapper {
   background-color: rgba(5, 5, 29, 0.8);
@@ -805,6 +832,12 @@ p {
   visibility: hidden;
   cursor: pointer;
   transition: 0.3s;
+}
+.profile__imgWraper:hover .profile__fileuploadWrapper {
+  opacity: 1;
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  visibility: visible;
 }
 .profile__fileupload {
   position: absolute;
@@ -2122,7 +2155,7 @@ p {
   }
   .profile__textInfoAllWrapper {
     margin-left: 0px;
-    margin-top: 69px;
+    margin-top: 20px;
   }
   .profile__textInfoWrapper {
     display: block;
@@ -2545,6 +2578,12 @@ p {
   }
   .gameGallery__frontBackText {
     transform: translateY(0%);
+  }
+  .gameGallery__refresh{
+    transform: translateX(0%);
+  }
+  .gameGallery__itemWrapper:hover img{
+    filter: brightness(100%)
   }
   .gameGallery__searchInner {
     max-width: 288px;

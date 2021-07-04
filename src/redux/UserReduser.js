@@ -200,7 +200,7 @@ export const getGamesUserMore = (price, date, prices, dateRange, genre, isDesc, 
     dispatch(toggleFetching(true));
     let data = await userAPI.getGames(price, date, prices, dateRange, genre, isDesc, games, term, id);
     dispatch(GetGamesMoreAC(data.games));
-    dispatch(SetLoginProfileGamesFilter(price, date, prices, dateRange, genre, isDesc, count, term));
+    dispatch(SetLoginProfileGamesFilter(price, date, prices, dateRange, genre, isDesc, data.allGamesCount, term));
     dispatch(toggleFetching(false));
   } catch (err) {}
 };

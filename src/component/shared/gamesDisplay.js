@@ -14,6 +14,7 @@ const GamesDisplay = React.memo((props) => {
   const isFetchScroll = useRef(null);
 
   const dispatch = useDispatch();
+  
   let gameEl = null;
 
   let genreItem = null;
