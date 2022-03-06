@@ -6,6 +6,8 @@ import { ClearOneGameReduser, getGame, updGame } from "../../../redux/GamePageRe
 import { setGamesForUser } from "../../../redux/UserReduser";
 import { findGame, formatDate } from "../../shared/generalDataForGame";
 import { Preloader } from "../../shared/Preloader";
+import { Helmet } from "react-helmet";
+import notImg from "../../../image/noImg.svg";
 
 import ShopCart from "./ShopCart";
 import { SystemRec } from "./SystemRec";
@@ -32,6 +34,8 @@ function GamePage(props) {
   const [isMyGame, setIsMyGame] = useState(true);
 
   const [isDropDownSetting, setIsDropDownSetting] = useState(false);
+
+  let minPrice = 0;
 
   let gameShop = null;
 
@@ -76,21 +80,30 @@ function GamePage(props) {
     };
   }, []);
 
-  if (!oneGame[0] && oneGameShop !== null) {
+  if (!oneGame[0] && !oneGameShop.length > 0) {
     return (
       <div className="container loading">
         <Preloader />
       </div>
     );
   }
-
+  if (oneGameShop.length > 0) minPrice = oneGameShop[0].price;
   return (
     <>
+      <Helmet>
+        <title>{oneGame[0].title + " купить от " + minPrice + " ₽"}</title>
+        <meta name="description" content={oneGame[0].description} />
+        <meta name="keywords" content={`купить ${oneGame[0].title} дешево, купить ${oneGame[0].title} со скидкой, купить ${oneGame[0].title}`} />
+      </Helmet>
       <div className="container">
         <section className="game">
           <div className="game__wrapper">
             <div className="game__left">
-              <img src={oneGame[0].img_url} alt="Изображение игры" className="game__gameImg" />
+              <img
+                src={oneGame[0].img_url != 0 ? oneGame[0].img_url : notImg}
+                alt="Изображение игры"
+                className="game__gameImg"
+              />
               <div className="game__dateWrapper">
                 <h2 className="game__dateTittle">Дата выхода:</h2>
                 <span className="game__dateText">{formatDate(new Date(date))}</span>
@@ -154,7 +167,11 @@ function GamePage(props) {
                   </svg>
                 </button>
               )}
-              <img src={oneGame[0].img_url} alt="Изображение игры" className="game__gameImgTwo" />
+              <img
+                src={oneGame[0].img_url != 0 ? oneGame[0].img_url : notImg}
+                alt="Изображение игры"
+                className="game__gameImgTwo"
+              />
               <div className="game__wrapperShop">{gameShop}</div>
               <div className="game__textWrapper">
                 <h3 className="game__descTittle">Описание</h3>

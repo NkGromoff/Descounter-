@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import { userAPI } from "../api/userAPI";
 import { toggleFetching } from "./AllGamesReduser";
 
@@ -13,9 +12,12 @@ const Get_Users_Games_More = "Get_Users_Games_More";
 const Set_Users_Main_Genre = "Set_Users_Main_Genre";
 const Set_Users_All_Count = "Set_Users_All_Count";
 const Set_Proflile_GamesWithoutFilte_Reduser = "Set_Proflile_GamesWithoutFilte_Reduser";
+const Set_Users_Settings = "Set_Users_Settings";
+const Set_Users_Code = "Set_Users_Code";
 
 let initialState = {
   user: {},
+  userSettings: {},
   games: [],
   gamesWithoutFilter: [],
   isAuth: false,
@@ -23,6 +25,7 @@ let initialState = {
   allCount: null,
   errorLogReg: null,
   errorLogLogin: null,
+  userCode: null,
   filter: {
     price: null,
     date: null,
@@ -38,11 +41,15 @@ let initialState = {
 const UserReduser = (state = initialState, action) => {
   switch (action.type) {
     case Set_Is_Auth_And_User:
-      return { ...state, user: action.data, isAuth: action.isAuth };
+      return { ...state, user: action.data, isAuth: action.isAuth, userSettings: action.settings };
+    case Set_Users_Settings:
+      return { ...state, userSettings: action.data };
     case Set_Logout:
       return { ...state, user: {}, isAuth: false };
     case Get_Proflile_Games_Reduser:
       return { ...state, games: action.data };
+    case Set_Users_Code:
+      return { ...state, userCode: action.data };
     case Set_Proflile_GamesWithoutFilte_Reduser:
       return { ...state, gamesWithoutFilter: action.data };
     case Set_Profile_Games_Filter:
@@ -64,10 +71,11 @@ const UserReduser = (state = initialState, action) => {
   }
 };
 
-export const setIsAuthAndUser = (data, isAuth) => ({
+export const setIsAuthAndUser = (data, settings, isAuth) => ({
   type: Set_Is_Auth_And_User,
   isAuth: isAuth,
   data: data,
+  settings: settings,
 });
 
 export const setLogout = () => ({
@@ -102,9 +110,18 @@ export const SetUsersMainGenre = (data) => ({
   type: Set_Users_Main_Genre,
   data: data,
 });
+export const SetUserCode = (data) => ({
+  type: Set_Users_Code,
+  data: data,
+});
 
 export const SetUsersAllCount = (data) => ({
   type: Set_Users_All_Count,
+  data: data,
+});
+
+export const SetUsersSettings = (data) => ({
+  type: Set_Users_Settings,
   data: data,
 });
 
@@ -130,7 +147,7 @@ export const GetGamesMoreAC = (data) => ({
 export const setUser = (login, email, password, passwordTwo) => async (dispatch) => {
   try {
     let response = await userAPI.setUser(login, email, password, passwordTwo);
-    if (response.status == 200) window.location.href = "http://localhost:3000";
+    if (response.status == 200) window.location.href = "/Registration/confirm";
   } catch (err) {
     if (err.response.status !== 200) {
       dispatch(SetRegErrorReduserCreator(err.response.data.message));
@@ -143,7 +160,7 @@ export const login = (login, password, isRemember) => async (dispatch) => {
     let response = await userAPI.login(login, password, isRemember);
     if (response.status == 200) {
       localStorage.setItem("token", response.data.token);
-      dispatch(setIsAuthAndUser(response.data.user, true));
+      dispatch(setIsAuthAndUser(response.data.user, response.data.userSettings, true));
     }
   } catch (err) {
     if (err.response.status != 200) {
@@ -156,14 +173,12 @@ export const auth = () => async (dispatch) => {
   try {
     let response = await userAPI.auth();
     if (response.status == 200) {
-      dispatch(setIsAuthAndUser(response.data.user, true));
+      dispatch(setIsAuthAndUser(response.data.user, response.data.userSettings, true));
       localStorage.setItem("token", response.data.token);
     } else {
       localStorage.removeItem("token");
     }
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
 export const getGames = (price, date, prices, dateRange, genre, isDesc, games, term, id) => async (dispatch) => {
@@ -185,7 +200,7 @@ export const getGamesUserMore = (price, date, prices, dateRange, genre, isDesc, 
     dispatch(toggleFetching(true));
     let data = await userAPI.getGames(price, date, prices, dateRange, genre, isDesc, games, term, id);
     dispatch(GetGamesMoreAC(data.games));
-    dispatch(SetLoginProfileGamesFilter(price, date, prices, dateRange, genre, isDesc, count, term));
+    dispatch(SetLoginProfileGamesFilter(price, date, prices, dateRange, genre, isDesc, data.allGamesCount, term));
     dispatch(toggleFetching(false));
   } catch (err) {}
 };
@@ -195,16 +210,33 @@ export const uploadAvatar = (file) => async (dispatch) => {
     const formData = new FormData();
     formData.append("file", file);
     let data = await userAPI.setAvatarForUser(formData);
-    dispatch(setIsAuthAndUser(data[0], true));
-  } catch (err) {
-    console.log(err);
-  }
+    console.log(data);
+    dispatch(setIsAuthAndUser(data.user, data.userSettings, true));
+  } catch (err) {}
 };
 
 export const setGamesForUser = (userId, gameId) => async (dispatch) => {
   try {
     let response = await userAPI.setGameForUser(userId, gameId);
     dispatch(GetProfileGamesReduserCreator(response.data));
+  } catch (err) {}
+};
+
+export const updateMenu = (genre) => async (dispatch) => {
+  try {
+    await dispatch(toggleFetching(true));
+    let response = await userAPI.updateMenuSettings(genre);
+    dispatch(SetUsersSettings(response));
+    await dispatch(toggleFetching(false));
+  } catch (err) {}
+};
+
+export const confirm = (code) => async (dispatch) => {
+  try {
+    await dispatch(toggleFetching(true));
+    let response = await userAPI.confirmUser(code);
+    dispatch(SetUserCode(response.code));
+    await dispatch(toggleFetching(false));
   } catch (err) {}
 };
 
